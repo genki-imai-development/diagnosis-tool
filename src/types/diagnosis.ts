@@ -12,3 +12,6 @@ export interface Answer {
   questionId: number;
   text: string;
 }
+
+// 診断ステップの型定義
+export type DiagnosisStep = 'start' | 'questions';
