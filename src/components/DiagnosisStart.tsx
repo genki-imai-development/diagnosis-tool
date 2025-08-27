@@ -33,7 +33,8 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
         
         <p className="text-lg text-gray-600 mb-8">
           いくつかの質問にお答えいただくことで、あなたの性格傾向を分析します。<br />
-          所要時間は約5-10分です。
+          基本質問の後に、人生で大切にしたい項目の選択と詳細な質問があります。<br />
+          所要時間は約10-15分です。
         </p>
       </div>
 

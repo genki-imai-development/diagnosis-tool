@@ -13,8 +13,23 @@ export interface Answer {
   text: string;
 }
 
+// 価値選択項目の型定義
+export interface ValueItem {
+  id: string;
+  name: string;
+  description: string;
+}
+
+// 詳細回答の型定義
+export interface SelectedValueItem {
+  id: string;
+  name: string;
+  currentStatus: string;
+  idealFuture: string;
+}
+
 // 診断ステップの型定義
-export type DiagnosisStep = 'start' | 'questions' | 'result';
+export type DiagnosisStep = 'start' | 'questions' | 'valueSelection' | 'valueDetails' | 'result';
 
 // 5特性スコアの型定義
 export interface PersonalityScores {

@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { DiagnosisLayout } from '@/components/layout/DiagnosisLayout';
 import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
+import { ValueSelectionForm } from '@/components/forms/ValueSelectionForm';
+import { ValueDetailsForm } from '@/components/forms/ValueDetailsForm';
 import { useQuestions } from '@/hooks/useApi';
-import { Answer, DiagnosisStep, DiagnosisResult } from '@/types/diagnosis';
+import { Answer, DiagnosisStep, DiagnosisResult, ValueItem, SelectedValueItem } from '@/types/diagnosis';
 import { runPersonalityDiagnosis } from '@/lib/api';
 import { RadarChart } from '@/components/ui/RadarChart';
 
@@ -18,6 +20,10 @@ export default function HomePage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   // 回答データ
   const [answers, setAnswers] = useState<Answer[]>([]);
+  // 選択された価値項目
+  const [selectedValues, setSelectedValues] = useState<ValueItem[]>([]);
+  // 価値項目の詳細回答
+  const [valueDetails, setValueDetails] = useState<SelectedValueItem[]>([]);
   // 診断実行ローディング制御用
   const [isRunning, setIsRunning] = useState(false);
   // 診断実行エラー
@@ -25,17 +31,28 @@ export default function HomePage() {
   // 診断結果データ
   const [result, setResult] = useState<DiagnosisResult | null>(null);
 
+  // 基本質問数（5問）
+  const baseQuestionsCount = 5;
+  // 価値選択（1問）
+  const valueSelectionCount = 1;
+  // 価値詳細（3項目 × 2質問 = 6問）
+  const valueDetailsCount = 6;
+  // 総質問数
+  const totalQuestionsCount = baseQuestionsCount + valueSelectionCount + valueDetailsCount;
+
   // 診断開始処理
   const handleDiagnosisStart = () => {
     setStep('questions');
     setCurrentQuestionIndex(0);
     setAnswers([]);
+    setSelectedValues([]);
+    setValueDetails([]);
     setIsRunning(false);
     setApiError(null);
     setResult(null);
   };
 
-  // 次の質問へ or 診断を実行ボタン押下時
+  // 基本質問の次の質問へ or 価値選択へ
   const handleAnswerNext = (answer: Answer) => {
     // 最新の回答リストに更新
     const updatedAnswers = (() => {
@@ -50,26 +67,43 @@ export default function HomePage() {
     })();
     setAnswers(updatedAnswers);
 
-    // 最後の質問かチェック
-    if (currentQuestionIndex < questions.length - 1) {
+    // 最後の基本質問かチェック
+    if (currentQuestionIndex < baseQuestionsCount - 1) {
       // 次の質問表示
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
-      // 最後の質問の場合 → 診断を実行
-      (async () => {
-        try {
-          setIsRunning(true);
-          setApiError(null);
-          const res = await runPersonalityDiagnosis(updatedAnswers);
-          setResult(res);
-          setStep('result');
-        } catch (e: any) {
-          setApiError(e?.message || '診断に失敗しました');
-        } finally {
-          setIsRunning(false);
-        }
-      })();
+      // 基本質問完了 → 価値選択へ
+      setStep('valueSelection');
     }
+  };
+
+  // 価値選択完了 → 価値詳細へ
+  const handleValueSelectionNext = (values: ValueItem[]) => {
+    setSelectedValues(values);
+    setStep('valueDetails');
+  };
+
+  // 価値詳細完了 → 診断実行
+  const handleValueDetailsNext = (details: SelectedValueItem[]) => {
+    setValueDetails(details);
+    
+    // 診断を実行
+    (async () => {
+      try {
+        setIsRunning(true);
+        setApiError(null);
+        
+        // 基本質問の回答のみを診断APIに送信
+        // 価値詳細の回答は別途管理（将来的に診断ロジックに組み込む場合の拡張性を考慮）
+        const res = await runPersonalityDiagnosis(answers);
+        setResult(res);
+        setStep('result');
+      } catch (e: any) {
+        setApiError(e?.message || '診断に失敗しました');
+      } finally {
+        setIsRunning(false);
+      }
+    })();
   };
 
   // 前の質問に戻る処理
@@ -79,12 +113,21 @@ export default function HomePage() {
     }
   };
 
+  // 価値選択から基本質問に戻る
+  const handleValueSelectionPrevious = () => {
+    setStep('questions');
+    setCurrentQuestionIndex(baseQuestionsCount - 1);
+  };
+
+  // 価値詳細から価値選択に戻る
+  const handleValueDetailsPrevious = () => {
+    setStep('valueSelection');
+  };
+
   // 現在の質問を取得
   const currentQuestion = questions[currentQuestionIndex];
   // 現在の回答を取得
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id);
-  // 最後の質問かどうか
-  const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
   return (
     <DiagnosisLayout>
@@ -93,17 +136,43 @@ export default function HomePage() {
         <DiagnosisStart onStart={handleDiagnosisStart} />
       )}
 
-      {/* 質問回答画面 */}
+      {/* 基本質問回答画面 */}
       {step === 'questions' && currentQuestion && (
         <div className="animate-fade-in">
           <QuestionForm
             question={currentQuestion}
             currentIndex={currentQuestionIndex}
-            totalQuestions={questions.length}
+            totalQuestions={totalQuestionsCount}
             onNext={handleAnswerNext}
             onPrevious={currentQuestionIndex > 0 ? handleAnswerPrevious : undefined}
             initialValue={currentAnswer?.text || ''}
-            isLastQuestion={isLastQuestion}
+            isLastQuestion={false}
+          />
+        </div>
+      )}
+
+      {/* 価値選択画面 */}
+      {step === 'valueSelection' && (
+        <div className="animate-fade-in">
+          <ValueSelectionForm
+            onNext={handleValueSelectionNext}
+            onPrevious={handleValueSelectionPrevious}
+            currentIndex={baseQuestionsCount}
+            totalQuestions={totalQuestionsCount}
+          />
+        </div>
+      )}
+
+      {/* 価値詳細質問画面 */}
+      {step === 'valueDetails' && selectedValues.length > 0 && (
+        <div className="animate-fade-in">
+          <ValueDetailsForm
+            selectedValues={selectedValues}
+            onNext={handleValueDetailsNext}
+            onPrevious={handleValueDetailsPrevious}
+            currentIndex={baseQuestionsCount + valueSelectionCount}
+            totalQuestions={totalQuestionsCount}
+            initialValues={valueDetails}
           />
 
           {/* 診断実行ローディング */}
