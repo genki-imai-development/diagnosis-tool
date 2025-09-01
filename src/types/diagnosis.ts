@@ -28,8 +28,8 @@ export interface SelectedValueItem {
   idealFuture: string;
 }
 
-// 診断ステップの型定義
-export type DiagnosisStep = 'start' | 'questions' | 'valueSelection' | 'valueDetails' | 'result';
+// 診断ステップの型定義 TODO: 未来予想機能を中心に全体的に命名を修正する
+export type DiagnosisStep = 'start' | 'questions' | 'valueSelection' | 'valueDetails' | 'result' | 'futurePrediction';
 
 // 5特性スコアの型定義
 export interface PersonalityScores {
@@ -48,10 +48,20 @@ export interface DiagnosisPattern {
   combination: string; // 5特性スコアの組み合わせ
 }
 
+// 診断結果の型定義 TODO: patternは、生成後に連結して表示する（生成する必要なし）
 export interface DiagnosisResult {
   scores: PersonalityScores;
   pattern: DiagnosisPattern;
   characteristics: string;  // あなたの特性
   suitableEnvironments: string; // 特性が活かされる環境・仕事
   unsuitableEnvironments: string; // 特性が活かされない環境・仕事
+}
+
+// 未来予測の型定義 TODO: valueId と valueNameは、生成後に連結して表示する（生成する必要なし）
+export interface FuturePrediction {
+  valueId: string;
+  valueName: string;
+  realisticPrediction: string; // 実現可能性の高い未来
+  idealPrediction: string; // 理想の未来
+  idealRealizationProbability: number; // 理想の未来の実現可能性（0-100%）
 }

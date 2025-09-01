@@ -6,6 +6,7 @@ import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
 import { ValueSelectionForm } from '@/components/forms/ValueSelectionForm';
 import { ValueDetailsForm } from '@/components/forms/ValueDetailsForm';
+import { FuturePredictionComponent } from '@/components/FuturePrediction'; // TODO: 命名の修正
 import { useQuestions } from '@/hooks/useApi';
 import { Answer, DiagnosisStep, DiagnosisResult, ValueItem, SelectedValueItem } from '@/types/diagnosis';
 import { runPersonalityDiagnosis } from '@/lib/api';
@@ -124,6 +125,16 @@ export default function HomePage() {
     setStep('valueSelection');
   };
 
+  // 未来予測画面に進む
+  const handleGoToFuturePrediction = () => {
+    setStep('futurePrediction');
+  };
+
+  // 未来予測完了後の処理
+  const handleFuturePredictionComplete = () => {
+    setStep('start');
+  };
+
   // 現在の質問を取得
   const currentQuestion = questions[currentQuestionIndex];
   // 現在の回答を取得
@@ -231,14 +242,30 @@ export default function HomePage() {
           </div>
 
           {/* アクションボタン */}
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-4">
             <button
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+              onClick={handleGoToFuturePrediction}
+            >
+              現実と理想の未来のギャップを見る →
+            </button>
+            <button
+              className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
               onClick={() => setStep('start')}
             >
               TOPに戻る
             </button>
           </div>
+        </div>
+      )}
+
+      {/* 未来予測画面 */}
+      {step === 'futurePrediction' && valueDetails.length > 0 && (
+        <div className="animate-fade-in">
+          <FuturePredictionComponent
+            valueDetails={valueDetails}
+            onComplete={handleFuturePredictionComplete}
+          />
         </div>
       )}
     </DiagnosisLayout>
