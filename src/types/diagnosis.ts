@@ -64,4 +64,5 @@ export interface FuturePrediction {
   realisticPrediction: string; // 実現可能性の高い未来
   idealPrediction: string; // 理想の未来
   idealRealizationProbability: number; // 理想の未来の実現可能性（0-100%）
+  onePointAdvice: string; // 理想の未来を実現するためのワンポイントアドバイス
 }

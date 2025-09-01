@@ -260,10 +260,11 @@ export default function HomePage() {
       )}
 
       {/* 未来予測画面 */}
-      {step === 'futurePrediction' && valueDetails.length > 0 && (
+      {step === 'futurePrediction' && result && valueDetails.length > 0 && (
         <div className="animate-fade-in">
           <FuturePredictionComponent
             valueDetails={valueDetails}
+            diagnosisResult={result}
             onComplete={handleFuturePredictionComplete}
           />
         </div>
