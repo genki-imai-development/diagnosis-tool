@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { SelectedValueItem, FuturePrediction, DiagnosisResult } from '@/types/diagnosis';
+import React, { useEffect } from 'react';
+import { SelectedValueItem, DiagnosisResult } from '@/types/diagnosis';
+import type { FuturePrediction as FuturePredictionType } from '@/types/diagnosis';
+import { useFuturePrediction } from '@/hooks/useApi';
 
 interface FuturePredictionProps {
   valueDetails: SelectedValueItem[];
@@ -7,56 +9,23 @@ interface FuturePredictionProps {
   onComplete?: () => void;
 }
 
-export const FuturePredictionComponent: React.FC<FuturePredictionProps> = ({
+export const FuturePrediction: React.FC<FuturePredictionProps> = ({
   valueDetails,
   diagnosisResult,
   onComplete,
 }) => {
-  const [predictions, setPredictions] = useState<FuturePrediction[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, loading, error, execute, reset } = useFuturePrediction();
 
   useEffect(() => {
-    const fetchPredictions = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch('/api/future-prediction', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            valueDetails,
-            diagnosisResult,
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || '未来予測の生成に失敗しました');
-        }
-
-        const data: { predictions: FuturePrediction[] } = await response.json();
-        setPredictions(data.predictions);
-      } catch (err) {
-        console.error('Future prediction error:', err);
-        setError(err instanceof Error ? err.message : '未知のエラーが発生しました');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPredictions();
-  }, [valueDetails, diagnosisResult]);
+    execute(valueDetails, diagnosisResult);
+  }, [execute, valueDetails, diagnosisResult]);
 
   const handleRetry = () => {
-    setError(null);
-    setLoading(true);
-    // useEffectが再実行される
-    window.location.reload();
+    reset();
+    execute(valueDetails, diagnosisResult);
   };
+
+  const predictions = data?.predictions || [];
 
   if (loading) {
     return (

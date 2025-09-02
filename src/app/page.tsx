@@ -1,268 +1,224 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { DiagnosisLayout } from '@/components/layout/DiagnosisLayout';
 import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
 import { ValueSelectionForm } from '@/components/forms/ValueSelectionForm';
 import { ValueDetailsForm } from '@/components/forms/ValueDetailsForm';
-import { FuturePredictionComponent } from '@/components/FuturePrediction'; // TODO: 命名の修正
-import { useQuestions } from '@/hooks/useApi';
-import { Answer, DiagnosisStep, DiagnosisResult, ValueItem, SelectedValueItem } from '@/types/diagnosis';
-import { runPersonalityDiagnosis } from '@/lib/api';
+import { FuturePrediction } from '@/components/FuturePrediction';
 import { RadarChart } from '@/components/ui/RadarChart';
+import { useQuestions } from '@/hooks/useApi';
+import { useDiagnosis } from '@/hooks/useDiagnosis';
 
+/**
+ * メインページコンポーネント
+ * 診断フロー全体を管理し、各ステップのコンポーネントを表示
+ */
 export default function HomePage() {
-  // 質問データ
+  // 質問データを取得
   const { questions } = useQuestions();
-  // 開始画面 or 質問回答画面 判別用
-  const [step, setStep] = useState<DiagnosisStep>('start');
-  // 表示中の質問番号 ボタン表示を制御
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  // 回答データ
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  // 選択された価値項目
-  const [selectedValues, setSelectedValues] = useState<ValueItem[]>([]);
-  // 価値項目の詳細回答
-  const [valueDetails, setValueDetails] = useState<SelectedValueItem[]>([]);
-  // 診断実行ローディング制御用
-  const [isRunning, setIsRunning] = useState(false);
-  // 診断実行エラー
-  const [apiError, setApiError] = useState<string | null>(null);
-  // 診断結果データ
-  const [result, setResult] = useState<DiagnosisResult | null>(null);
-
-  // 基本質問数（5問）
-  const baseQuestionsCount = 5;
-  // 価値選択（1問）
-  const valueSelectionCount = 1;
-  // 価値詳細（3項目 × 2質問 = 6問）
-  const valueDetailsCount = 6;
-  // 総質問数
-  const totalQuestionsCount = baseQuestionsCount + valueSelectionCount + valueDetailsCount;
-
-  // 診断開始処理
-  const handleDiagnosisStart = () => {
-    setStep('questions');
-    setCurrentQuestionIndex(0);
-    setAnswers([]);
-    setSelectedValues([]);
-    setValueDetails([]);
-    setIsRunning(false);
-    setApiError(null);
-    setResult(null);
-  };
-
-  // 基本質問の次の質問へ or 価値選択へ
-  const handleAnswerNext = (answer: Answer) => {
-    // 最新の回答リストに更新
-    const updatedAnswers = (() => {
-      const copied = [...answers];
-      const existingIndex = copied.findIndex(a => a.questionId === answer.questionId);
-      if (existingIndex >= 0) {
-        copied[existingIndex] = answer;
-      } else {
-        copied.push(answer);
-      }
-      return copied;
-    })();
-    setAnswers(updatedAnswers);
-
-    // 最後の基本質問かチェック
-    if (currentQuestionIndex < baseQuestionsCount - 1) {
-      // 次の質問表示
-      setCurrentQuestionIndex(prev => prev + 1);
-    } else {
-      // 基本質問完了 → 価値選択へ
-      setStep('valueSelection');
-    }
-  };
-
-  // 価値選択完了 → 価値詳細へ
-  const handleValueSelectionNext = (values: ValueItem[]) => {
-    setSelectedValues(values);
-    setStep('valueDetails');
-  };
-
-  // 価値詳細完了 → 診断実行
-  const handleValueDetailsNext = (details: SelectedValueItem[]) => {
-    setValueDetails(details);
+  
+  // 診断フローの状態とアクションを取得
+  const {
+    // 現在の状態
+    step,
+    currentQuestionIndex,
+    answers,
+    selectedValues,
+    valueDetails,
+    result,
+    isRunning,
+    apiError,
+    totalQuestionsCount,
+    QUESTION_COUNTS,
     
-    // 診断を実行
-    (async () => {
-      try {
-        setIsRunning(true);
-        setApiError(null);
-        
-        // 基本質問の回答のみを診断APIに送信
-        // 価値詳細の回答は別途管理（将来的に診断ロジックに組み込む場合の拡張性を考慮）
-        const res = await runPersonalityDiagnosis(answers);
-        setResult(res);
-        setStep('result');
-      } catch (e: any) {
-        setApiError(e?.message || '診断に失敗しました');
-      } finally {
-        setIsRunning(false);
-      }
-    })();
-  };
-
-  // 前の質問に戻る処理
-  const handleAnswerPrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
-    }
-  };
-
-  // 価値選択から基本質問に戻る
-  const handleValueSelectionPrevious = () => {
-    setStep('questions');
-    setCurrentQuestionIndex(baseQuestionsCount - 1);
-  };
-
-  // 価値詳細から価値選択に戻る
-  const handleValueDetailsPrevious = () => {
-    setStep('valueSelection');
-  };
-
-  // 未来予測画面に進む
-  const handleGoToFuturePrediction = () => {
-    setStep('futurePrediction');
-  };
-
-  // 未来予測完了後の処理
-  const handleFuturePredictionComplete = () => {
-    setStep('start');
-  };
+    // アクション関数
+    startDiagnosis,
+    handleAnswerNext,
+    handleAnswerPrevious,
+    handleValueSelectionNext,
+    handleValueDetailsNext,
+    goToFuturePrediction,
+    handleFuturePredictionComplete,
+    goToPreviousStep,
+  } = useDiagnosis();
 
   // 現在の質問を取得
   const currentQuestion = questions[currentQuestionIndex];
-  // 現在の回答を取得
+  
+  // 現在の回答を取得（編集時の初期値として使用）
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id);
 
   return (
     <DiagnosisLayout>
-      {/* 開始画面 */}
+      {/* ステップ1: 診断開始画面 */}
       {step === 'start' && (
-        <DiagnosisStart onStart={handleDiagnosisStart} />
+        <div className="animate-fade-in">
+          <DiagnosisStart onStart={startDiagnosis} />
+        </div>
       )}
 
-      {/* 基本質問回答画面 */}
+      {/* ステップ2: 基本質問（5問） */}
       {step === 'questions' && currentQuestion && (
         <div className="animate-fade-in">
           <QuestionForm
             question={currentQuestion}
             currentIndex={currentQuestionIndex}
-            totalQuestions={totalQuestionsCount}
+            totalQuestions={QUESTION_COUNTS.BASE_QUESTIONS}
             onNext={handleAnswerNext}
             onPrevious={currentQuestionIndex > 0 ? handleAnswerPrevious : undefined}
             initialValue={currentAnswer?.text || ''}
-            isLastQuestion={false}
+            isLastQuestion={currentQuestionIndex === QUESTION_COUNTS.BASE_QUESTIONS - 1}
           />
         </div>
       )}
 
-      {/* 価値選択画面 */}
+      {/* ステップ3: 価値選択 */}
       {step === 'valueSelection' && (
         <div className="animate-fade-in">
           <ValueSelectionForm
             onNext={handleValueSelectionNext}
-            onPrevious={handleValueSelectionPrevious}
-            currentIndex={baseQuestionsCount}
+            onPrevious={goToPreviousStep}
+            currentIndex={QUESTION_COUNTS.BASE_QUESTIONS}
             totalQuestions={totalQuestionsCount}
           />
         </div>
       )}
 
-      {/* 価値詳細質問画面 */}
+      {/* ステップ4: 価値詳細入力 */}
       {step === 'valueDetails' && selectedValues.length > 0 && (
         <div className="animate-fade-in">
           <ValueDetailsForm
             selectedValues={selectedValues}
             onNext={handleValueDetailsNext}
-            onPrevious={handleValueDetailsPrevious}
-            currentIndex={baseQuestionsCount + valueSelectionCount}
+            onPrevious={goToPreviousStep}
+            currentIndex={QUESTION_COUNTS.BASE_QUESTIONS + QUESTION_COUNTS.VALUE_SELECTION}
             totalQuestions={totalQuestionsCount}
             initialValues={valueDetails}
           />
-
-          {/* 診断実行ローディング */}
-          {isRunning && (
-            <div className="mt-6 text-center">
-              <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-                <span className="text-blue-700">診断を実行中です...</span>
-              </div>
-            </div>
-          )}
-          {/* 診断実行エラー表示 */}
-          {apiError && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-center">{apiError}</p>
-            </div>
-          )}
         </div>
       )}
 
-      {/* 結果表示画面 */}
+      {/* ローディング画面（AI診断実行中） */}
+      {isRunning && (
+        <div className="animate-fade-in">
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              AIが診断を実行中です...
+            </h2>
+            <p className="text-gray-600">
+              あなたの回答を分析し、性格傾向を診断しています
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* エラー表示 */}
+      {apiError && (
+        <div className="animate-fade-in">
+          <div className="text-center py-12">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-red-900 mb-2">
+                エラーが発生しました
+              </h2>
+              <p className="text-red-700 mb-4">{apiError}</p>
+              <button
+                onClick={startDiagnosis}
+                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                最初からやり直す
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ステップ5: 診断結果表示 */}
       {step === 'result' && result && (
-        <div className="space-y-6 animate-fade-in">
-          {/* パターン情報 */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">診断結果</h2>
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold text-blue-600 mb-2">{result.pattern.name}</h3>
-              <p className="text-gray-700 leading-relaxed">{result.pattern.description}</p>
+        <div className="animate-fade-in">
+          <div className="space-y-8">
+            {/* 結果ヘッダー */}
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                診断結果
+              </h1>
+              <p className="text-lg text-gray-600">
+                あなたの性格傾向が分析されました
+              </p>
             </div>
-          </div>
 
-          {/* 5特性スコア */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">5特性スコア</h3>
-            <RadarChart scores={result.scores} />
-          </div>
-
-          {/* その他の特性情報 */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">あなたの特性と適性</h3>
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-gray-800 mb-2">あなたの特性</h4>
-                <p className="text-gray-700 leading-relaxed">{result.characteristics}</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-green-700 mb-2">特性が活かされる環境・仕事</h4>
-                <p className="text-gray-700 leading-relaxed">{result.suitableEnvironments}</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-orange-600 mb-2">特性が活かされない環境・仕事</h4>
-                <p className="text-gray-700 leading-relaxed">{result.unsuitableEnvironments}</p>
+            {/* 性格パターン表示 */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                あなたのタイプ
+              </h2>
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+                <h3 className="text-xl font-bold text-blue-900 mb-2">
+                  {result.pattern.name}
+                </h3>
+                <p className="text-gray-700">
+                  {result.pattern.description}
+                </p>
               </div>
             </div>
-          </div>
 
-          {/* アクションボタン */}
-          <div className="flex justify-center space-x-4">
-            <button
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-              onClick={handleGoToFuturePrediction}
-            >
-              現実と理想の未来のギャップを見る →
-            </button>
-            <button
-              className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
-              onClick={() => setStep('start')}
-            >
-              TOPに戻る
-            </button>
+            {/* レーダーチャート */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                性格特性のバランス
+              </h2>
+              <RadarChart scores={result.scores} />
+            </div>
+
+            {/* 詳細特性 */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                あなたの特性
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                {result.characteristics}
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                  <h3 className="font-semibold text-green-900 mb-2">
+                    活かされる環境・仕事
+                  </h3>
+                  <p className="text-green-800 text-sm">
+                    {result.suitableEnvironments}
+                  </p>
+                </div>
+
+                <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                  <h3 className="font-semibold text-yellow-900 mb-2">
+                    注意が必要な環境・仕事
+                  </h3>
+                  <p className="text-yellow-800 text-sm">
+                    {result.unsuitableEnvironments}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 次のステップボタン */}
+            <div className="text-center">
+              <button
+                onClick={goToFuturePrediction}
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+              >
+                未来予測を見る →
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* 未来予測画面 */}
+      {/* ステップ6: 将来予測 */}
       {step === 'futurePrediction' && result && valueDetails.length > 0 && (
         <div className="animate-fade-in">
-          <FuturePredictionComponent
+          <FuturePrediction
             valueDetails={valueDetails}
             diagnosisResult={result}
             onComplete={handleFuturePredictionComplete}
