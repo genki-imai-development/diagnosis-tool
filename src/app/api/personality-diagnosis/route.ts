@@ -1,69 +1,122 @@
 import { NextResponse } from 'next/server';
-import { DiagnosisPattern, DiagnosisResult, Answer } from '@/types/diagnosis';
+import { DiagnosisPattern, DiagnosisResult, Answer, PersonalityScores } from '@/types/diagnosis';
 
-// 診断結果パターンの定義
+// 診断結果パターンの定義（数値ベース）
 const PATTERNS: DiagnosisPattern[] = [
   {
     id: "salaryman",
     name: "空を飛びたいサラリーマン",
     description: "創造性が高く、現実的な環境にいながらも理想を追い求める。協調性と勤勉性に優れ、組織内で信頼される存在。",
-    combination: "高低高中高"
+    scores: { creativity: 4, extraversion: 2, agreeableness: 4, emotionality: 3, conscientiousness: 4 }
   },
   {
     id: "firefighter",
     name: "注目されたい消防員",
     description: "外向性が高く、人々の注目を集めることを好む。情動性も高く、感情豊かでドラマチックな行動を取る傾向。",
-    combination: "中高低高中"
+    scores: { creativity: 3, extraversion: 4, agreeableness: 2, emotionality: 4, conscientiousness: 3 }
   },
   {
     id: "revolutionary",
     name: "革命を起こしたい事務員",
     description: "創造性が高く、現状打破を目指す。協調性も高く、人々をまとめて変革を起こそうとする。情動性は低く冷静。",
-    combination: "高低高低高"
+    scores: { creativity: 4, extraversion: 2, agreeableness: 4, emotionality: 2, conscientiousness: 4 }
   },
   {
     id: "rapper",
     name: "真面目なラッパー",
     description: "創造性と外向性が高く、表現力豊か。協調性は低く、独自のスタイルを貫く。勤勉性が高く、技術向上に励む。",
-    combination: "高高低低高"
+    scores: { creativity: 4, extraversion: 4, agreeableness: 2, emotionality: 2, conscientiousness: 4 }
   },
   {
     id: "mc",
     name: "人前が苦手なMC",
     description: "創造性が高く、表現力に優れる。外向性は低く、人前での活動は苦手。情動性が高く、感情表現が豊か。",
-    combination: "高低低高中"
+    scores: { creativity: 4, extraversion: 2, agreeableness: 2, emotionality: 4, conscientiousness: 3 }
   },
   {
     id: "teamleader",
     name: "一人になりたいチームリーダー",
     description: "外向性と協調性が高く、チームをまとめる能力に長ける。情動性も高く、メンバーの感情に敏感。",
-    combination: "中高高高中"
+    scores: { creativity: 3, extraversion: 4, agreeableness: 4, emotionality: 4, conscientiousness: 3 }
   },
   {
-    id: "teachereacher",
+    id: "teacher",
     name: "暴れたい茶道の先生",
     description: "創造性は低く、伝統を重んじる。外向性も低く、内向的。情動性が高く、感情の起伏が激しい。",
-    combination: "低低低高高"
+    scores: { creativity: 2, extraversion: 2, agreeableness: 2, emotionality: 4, conscientiousness: 4 }
   },
   {
     id: "pharmacist",
     name: "スリルを求める薬剤師",
     description: "創造性と外向性が高く、新しい体験を求める。勤勉性が高く、責任感が強い。",
-    combination: "高高中中高"
+    scores: { creativity: 4, extraversion: 4, agreeableness: 3, emotionality: 3, conscientiousness: 4 }
   },
   {
     id: "archaeologist",
     name: "孤独を嫌う考古学者",
     description: "創造性は中程度で、研究に情熱を注ぐ。外向性は低いが、協調性が高く、チームワークを重視。",
-    combination: "中低高高低"
+    scores: { creativity: 3, extraversion: 2, agreeableness: 4, emotionality: 4, conscientiousness: 2 }
   },
   {
     id: "comedian",
     name: "完璧主義な笑い芸人",
     description: "創造性は低く、既存のパターンを重視。外向性が高く、人を楽しませることが好き。完璧主義で自己要求が厳しい。",
-    combination: "低高中低低"
+    scores: { creativity: 2, extraversion: 4, agreeableness: 3, emotionality: 2, conscientiousness: 2 }
   }
 ];
+
+// 高精度マッチング関数
+function selectPatternFromScores(userScores: PersonalityScores): DiagnosisPattern {
+  let bestMatch = PATTERNS[0];
+  let bestSimilarity = -Infinity;
+  
+  for (const pattern of PATTERNS) {
+    const similarity = calculateSimilarity(userScores, pattern.scores);
+    
+    if (similarity > bestSimilarity) {
+      bestSimilarity = similarity;
+      bestMatch = pattern;
+    }
+  }
+  
+  return bestMatch;
+}
+
+// 類似度計算関数（高精度版）
+function calculateSimilarity(userScores: PersonalityScores, patternScores: PersonalityScores): number {
+  const traits = ['creativity', 'extraversion', 'agreeableness', 'emotionality', 'conscientiousness'] as const;
+  let totalSimilarity = 0;
+  
+  for (const trait of traits) {
+    const difference = Math.abs(userScores[trait] - patternScores[trait]);
+    
+    // 差分に基づくスコアリング
+    let traitSimilarity: number;
+    switch (difference) {
+      case 0:
+        traitSimilarity = 10;  // 完全一致: 最高スコア
+        break;
+      case 1:
+        traitSimilarity = 5;   // 1差: 良いマッチ
+        break;
+      case 2:
+        traitSimilarity = 0;   // 2差: ニュートラル
+        break;
+      case 3:
+        traitSimilarity = -5;  // 3差: マイナス評価
+        break;
+      case 4:
+        traitSimilarity = -10; // 4差: 大きなマイナス評価
+        break;
+      default:
+        traitSimilarity = -15; // 5差以上: 最大マイナス評価
+    }
+    
+    totalSimilarity += traitSimilarity;
+  }
+  
+  return totalSimilarity;
+}
 
 export async function POST(req: Request) {
   try {
@@ -123,13 +176,7 @@ export async function POST(req: Request) {
 - 4点: 高い
 - 5点: 非常に高い
 
-【10パターンから最適な1つを選択】
-以下の「組み合わせ」は特性の順序（創造性→外向性→協調性→情動性→勤勉性）で並びます。
-略記の意味: 「高」=スコア4-5, 「中」=3, 「低」=1-2。
-
-${PATTERNS.map((p, i) => `${i + 1}. ${p.name} (${p.combination}): ${p.description}`).join('\n')}
-
-ユーザーの回答を分析し、最も合致するパターンを選び、5特性のスコアと該当パターンの情報を返してください。
+ユーザーの回答を分析し、5特性のスコアを評価してください。
 
 さらに、以下の追加情報も生成してください：
 - あなたの特性: ユーザーの性格の特徴を簡潔に説明
@@ -145,12 +192,6 @@ ${PATTERNS.map((p, i) => `${i + 1}. ${p.name} (${p.combination}): ${p.descriptio
     "agreeableness": 1,
     "emotionality": 1,
     "conscientiousness": 1
-  },
-  "pattern": {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "combination": "string"
   },
   "characteristics": "string",
   "suitableEnvironments": "string",
@@ -237,13 +278,6 @@ ${PATTERNS.map((p, i) => `${i + 1}. ${p.name} (${p.combination}): ${p.descriptio
       );
     }
 
-    if (!result.pattern || !result.pattern.id || !result.pattern.name || !result.pattern.description) {
-      return NextResponse.json(
-        { error: 'validation_failed', message: 'パターン情報が不正です' },
-        { status: 502 }
-      );
-    }
-
     // 追加フィールドの検証
     if (!result.characteristics || !result.suitableEnvironments || !result.unsuitableEnvironments) {
       return NextResponse.json(
@@ -252,8 +286,20 @@ ${PATTERNS.map((p, i) => `${i + 1}. ${p.name} (${p.combination}): ${p.descriptio
       );
     }
 
+    // スコアからパターンを選択
+    const selectedPattern = selectPatternFromScores(s);
+
+    // 最終的な診断結果を構築
+    const finalResult: DiagnosisResult = {
+      scores: s,
+      pattern: selectedPattern,
+      characteristics: result.characteristics,
+      suitableEnvironments: result.suitableEnvironments,
+      unsuitableEnvironments: result.unsuitableEnvironments
+    };
+
     // 診断結果を返却
-    return NextResponse.json(result);
+    return NextResponse.json(finalResult);
     
   } catch (e) {
     console.error('Internal server error:', e);

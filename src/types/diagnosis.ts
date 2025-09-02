@@ -45,7 +45,7 @@ export interface DiagnosisPattern {
   id: string;
   name: string;
   description: string;
-  combination: string; // 5特性スコアの組み合わせ
+  scores: PersonalityScores;
 }
 
 // 診断結果の型定義 TODO: patternは、生成後に連結して表示する（生成する必要なし）
