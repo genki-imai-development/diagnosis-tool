@@ -50,6 +50,20 @@ export const useDiagnosis = () => {
   };
 
   /**
+   * 診断を完全にリセットして最初の画面に戻る
+   */
+  const resetToStart = () => {
+    setStep('start');
+    setCurrentQuestionIndex(0);
+    setAnswers([]);
+    setSelectedValues([]);
+    setValueDetails([]);
+    setIsRunning(false);
+    setApiError(null);
+    setResult(null);
+  };
+
+  /**
    * 基本質問の回答を処理し、次のステップに進む
    */
   const handleAnswerNext = (answer: Answer) => {
@@ -118,11 +132,10 @@ export const useDiagnosis = () => {
   };
 
   /**
-   * 将来予測完了後の処理
+   * 将来予測完了後の処理（最初の画面に戻る）
    */
   const handleFuturePredictionComplete = () => {
-    // 必要に応じて追加の処理を実装
-    console.log('将来予測が完了しました');
+    resetToStart();
   };
 
   /**
@@ -159,6 +172,7 @@ export const useDiagnosis = () => {
     
     // アクション
     startDiagnosis,
+    resetToStart,
     handleAnswerNext,
     handleAnswerPrevious,
     handleValueSelectionNext,

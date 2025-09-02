@@ -28,6 +28,8 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const [text, setText] = useState('');
   // エラーメッセージ
   const [error, setError] = useState<string | null>(null);
+  // 診断実行中フラグ（インジケーターを100%にするため）
+  const [isExecutingDiagnosis, setIsExecutingDiagnosis] = useState(false);
 
   // 表示中の価値項目
   const currentValue = selectedValues[currentValueIndex];
@@ -87,7 +89,8 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
         setCurrentQuestionType('current');
         setText(updatedDetails[detailIndex + 1]?.currentStatus || '');
       } else {
-        // 全項目完了
+        // 全項目完了 - 診断実行
+        setIsExecutingDiagnosis(true); // インジケーターを100%に
         onNext(updatedDetails);
       }
     }
@@ -137,17 +140,25 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const currentLength = text.trim().length;
   const isValid = currentLength >= getMinLength();
 
-  // 現在の質問番号を計算（基本質問5問 + 価値選択1問 + 価値詳細の進捗）
-  const valueDetailsProgress = (currentValueIndex * 2) + (currentQuestionType === 'current' ? 0 : 1);
-  const currentQuestionNumber = currentIndex + valueDetailsProgress;
-  const progressPercentage = ((currentQuestionNumber + 1) / totalQuestions) * 100;
+  // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
+  const totalSteps = 12; // 5 + 1 + 6
+  const valueDetailsStepIndex = (currentValueIndex * 2) + (currentQuestionType === 'current' ? 0 : 1);
+  const currentStepNumber = 6 + valueDetailsStepIndex; // 基本質問5 + 価値選択1 = 6ステップ後から開始
+  
+  // 診断実行中は100%、それ以外は通常の進捗計算
+  const progressPercentage = isExecutingDiagnosis 
+    ? 100 
+    : (currentStepNumber / totalSteps) * 100;
+
+  // 最終質問かどうかを判定
+  const isLastQuestion = currentValueIndex === selectedValues.length - 1 && currentQuestionType === 'ideal';
 
   return (
     <div className="max-w-2xl mx-auto p-6">
       {/* 進捗インジケーター */}
       <div className="mb-8">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
-          <span>質問 {currentQuestionNumber + 1} / {totalQuestions}</span>
+          <span>質問 {currentStepNumber + 1} / {totalSteps}</span>
           <span>{Math.round(progressPercentage)}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
@@ -243,7 +254,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
                 : 'bg-gray-300 cursor-not-allowed text-gray-500'
             }`}
           >
-            {currentValueIndex === selectedValues.length - 1 && currentQuestionType === 'ideal'
+            {isLastQuestion
               ? '診断を実行 →'
               : '次へ →'
             }

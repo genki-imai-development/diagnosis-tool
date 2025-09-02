@@ -57,7 +57,10 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
     onNext(selectedValues);
   };
 
-  const progressPercentage = ((currentIndex + 1) / totalQuestions) * 100;
+  // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
+  // 価値選択は5ステップ完了後の状態（5/12 = 約41.67%）
+  const totalSteps = 12; // 5 + 1 + 6
+  const progressPercentage = (5 / totalSteps) * 100; // 基本質問5問完了後
 
   return (
     <div className="max-w-2xl mx-auto p-6">

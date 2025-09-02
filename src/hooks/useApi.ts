@@ -1,18 +1,4 @@
 import { useState, useCallback } from 'react';
-import type { Question, Answer, DiagnosisResult, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
-import { getQuestions, runPersonalityDiagnosis, runFuturePrediction } from '@/lib/api';
-
-/**
- * 質問データを取得するフック
- * @returns 質問データ
- */
-export const useQuestions = () => {
-  const [questions] = useState<Question[]>(getQuestions());
-
-  return {
-    questions,
-  };
-};
 
 /**
  * 汎用APIフック
@@ -65,20 +51,4 @@ export const useApi = <T>(apiFunction: (...args: any[]) => Promise<T>) => {
     /** 状態リセット関数 */
     reset,
   };
-};
-
-/**
- * 性格診断用フック
- * @returns 性格診断API実行用のフック
- */
-export const usePersonalityDiagnosis = () => {
-  return useApi<DiagnosisResult>(runPersonalityDiagnosis);
-};
-
-/**
- * 将来予測用フック
- * @returns 将来予測API実行用のフック
- */
-export const useFuturePrediction = () => {
-  return useApi<{ predictions: FuturePrediction[] }>(runFuturePrediction);
 };

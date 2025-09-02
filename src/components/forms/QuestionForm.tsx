@@ -59,18 +59,23 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   const currentLength = text.trim().length;
   const isValid = currentLength >= question.minLength;
 
+  // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
+  // 基本質問は0%から開始し、1問目完了時に約8.33%（100/12）
+  const totalSteps = 12; // 5 + 1 + 6
+  const progressPercentage = (currentIndex / totalSteps) * 100; // 0%からスタート
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       {/* 進捗インジケーター */}
       <div className="mb-8">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
           <span>質問 {currentIndex + 1} / {totalQuestions}</span>
-          <span>{Math.round(((currentIndex + 1) / totalQuestions) * 100)}%</span>
+          <span>{Math.round(progressPercentage)}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / totalQuestions) * 100}%` }}
+            style={{ width: `${progressPercentage}%` }}
           />
         </div>
       </div>

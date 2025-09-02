@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { SelectedValueItem, DiagnosisResult } from '@/types/diagnosis';
 import type { FuturePrediction as FuturePredictionType } from '@/types/diagnosis';
-import { useFuturePrediction } from '@/hooks/useApi';
+import { useApi } from '@/hooks/useApi';
+import { runFuturePrediction } from '@/lib/api';
+import { EXTERNAL_LINKS } from '@/lib/constants';
 
 interface FuturePredictionProps {
   valueDetails: SelectedValueItem[];
@@ -14,7 +16,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
   diagnosisResult,
   onComplete,
 }) => {
-  const { data, loading, error, execute, reset } = useFuturePrediction();
+  const { data, loading, error, execute, reset } = useApi<{ predictions: FuturePredictionType[] }>(runFuturePrediction);
 
   useEffect(() => {
     execute(valueDetails, diagnosisResult);
@@ -23,6 +25,10 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
   const handleRetry = () => {
     reset();
     execute(valueDetails, diagnosisResult);
+  };
+
+  const handleLinkClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const predictions = data?.predictions || [];
@@ -163,23 +169,102 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
         ))}
       </div>
 
-      {/* アクションボタン */}
-      <div className="mt-12 text-center">
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            未来のギャップ分析が完了しました！
-          </h3>
-          <p className="text-gray-600 mb-4">
-            現実と理想のギャップを把握できました。このギャップを埋めるための具体的な行動計画を立ててみませんか？
-          </p>
-          {onComplete && (
+      {/* コーチング誘導エリア */}
+      <div className="mt-12">
+        <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              理想の未来を実現しませんか？
+            </h3>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              診断結果から見えてきた「現実と理想のギャップ」。<br />
+              そのギャップを埋めるための具体的な行動計画を、<br />
+              プロのコーチがあなたと一緒に作成します。
+            </p>
+          </div>
+
+          {/* 特徴リスト */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">個別カスタマイズ</h4>
+                <p className="text-gray-600 text-sm">あなたの診断結果に基づいた完全オーダーメイドのコーチングプラン</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">実践的アプローチ</h4>
+                <p className="text-gray-600 text-sm">今日から始められる具体的な行動ステップを提案</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">継続サポート</h4>
+                <p className="text-gray-600 text-sm">目標達成まで寄り添う長期的なサポート体制</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">柔軟な相談</h4>
+                <p className="text-gray-600 text-sm">LINEでいつでも気軽に相談・質問が可能</p>
+              </div>
+            </div>
+          </div>
+
+          {/* アクションボタンエリア */}
+          <div className="text-center">
             <button
-              onClick={onComplete}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              onClick={() => handleLinkClick(EXTERNAL_LINKS.LINE_OFFICIAL)}
+              className="inline-flex items-center px-8 py-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 mb-4"
             >
-              診断を終了
+              <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.070 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+              </svg>
+              無料コーチング相談をLINEで始める
             </button>
-          )}
+
+            <p className="text-gray-500 text-sm mb-6">
+              ※ 初回相談は無料です。外部サイトが新しいタブで開きます
+            </p>
+
+            {/* 診断終了ボタン */}
+            {onComplete && (
+              <button
+                onClick={onComplete}
+                className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
+              >
+                診断を終了して最初に戻る
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
