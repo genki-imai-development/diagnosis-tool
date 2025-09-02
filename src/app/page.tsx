@@ -153,12 +153,35 @@ export default function HomePage() {
                 あなたのタイプ
               </h2>
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
-                <h3 className="text-xl font-bold text-blue-900 mb-2">
-                  {result.pattern.name}
-                </h3>
-                <p className="text-gray-700">
-                  {result.pattern.description}
-                </p>
+                {/* パターン画像 */}
+                <div className="flex flex-col md:flex-row items-center gap-6 mb-4">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={result.pattern.image}
+                      alt={result.pattern.name}
+                      className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-blue-200 shadow-lg"
+                      onError={(e) => {
+                        // 画像が見つからない場合のフォールバック
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                    {/* フォールバック用のアイコン */}
+                    <div className="hidden w-24 h-24 md:w-32 md:h-32 rounded-full bg-blue-200 flex items-center justify-center border-4 border-blue-300 shadow-lg">
+                      <svg className="w-12 h-12 md:w-16 md:h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <h3 className="text-xl font-bold text-blue-900 mb-2">
+                      {result.pattern.name}
+                    </h3>
+                    <p className="text-gray-700">
+                      {result.pattern.description}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 

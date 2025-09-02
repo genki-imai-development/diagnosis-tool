@@ -57,6 +57,7 @@ export interface DiagnosisPattern {
   name: string;
   description: string;
   scores: PersonalityScores;
+  image: string; // 画像ファイルのパス
 }
 
 // 診断結果の型定義
