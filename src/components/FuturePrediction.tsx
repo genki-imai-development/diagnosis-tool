@@ -1,37 +1,25 @@
-import React, { useEffect } from 'react';
-import { SelectedValueItem, DiagnosisResult } from '@/types/diagnosis';
+import React from 'react';
 import type { FuturePrediction as FuturePredictionType } from '@/types/diagnosis';
-import { useApi } from '@/hooks/useApi';
-import { runFuturePrediction } from '@/lib/api';
 import { EXTERNAL_LINKS } from '@/lib/constants';
 
 interface FuturePredictionProps {
-  valueDetails: SelectedValueItem[];
-  diagnosisResult: DiagnosisResult;
+  predictions: FuturePredictionType[] | null;
+  loading: boolean;
+  error: string | null;
   onComplete?: () => void;
+  onRetry?: () => void;
 }
 
 export const FuturePrediction: React.FC<FuturePredictionProps> = ({
-  valueDetails,
-  diagnosisResult,
+  predictions,
+  loading,
+  error,
   onComplete,
+  onRetry,
 }) => {
-  const { data, loading, error, execute, reset } = useApi<{ predictions: FuturePredictionType[] }>(runFuturePrediction);
-
-  useEffect(() => {
-    execute(valueDetails, diagnosisResult);
-  }, [execute, valueDetails, diagnosisResult]);
-
-  const handleRetry = () => {
-    reset();
-    execute(valueDetails, diagnosisResult);
-  };
-
   const handleLinkClick = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
-
-  const predictions = data?.predictions || [];
 
   if (loading) {
     return (
@@ -64,12 +52,27 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
             </h2>
             <p className="text-red-700 mb-4">{error}</p>
             <button
-              onClick={handleRetry}
+              onClick={onRetry}
               className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
               再試行
             </button>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!predictions || predictions.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="text-center py-12">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            未来予測データがありません
+          </h2>
+          <p className="text-gray-600">
+            予測データの生成に問題があったようです。
+          </p>
         </div>
       </div>
     );
@@ -89,7 +92,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
 
       {/* 予測結果 */}
       <div className="space-y-8">
-        {predictions.map((prediction, index) => (
+        {predictions?.map((prediction, index) => (
           <div
             key={prediction.valueId}
             className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6"

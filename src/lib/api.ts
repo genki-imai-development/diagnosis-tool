@@ -75,15 +75,6 @@ export async function callOpenAiApi(
 }
 
 /**
- * API実行前のバリデーション（共通化）
- */
-export function validateApiKey(): void {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OPENAI_API_KEYが未設定です');
-  }
-}
-
-/**
  * エラーレスポンスの作成（API Routes用）
  */
 export function createErrorResponse(

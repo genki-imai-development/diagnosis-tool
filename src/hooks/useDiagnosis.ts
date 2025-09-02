@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Answer, DiagnosisStep, DiagnosisResult, ValueItem, SelectedValueItem } from '@/types/diagnosis';
-import { runPersonalityDiagnosis } from '@/lib/api';
+import { Answer, DiagnosisStep, DiagnosisResult, ValueItem, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
+import { runPersonalityDiagnosis, runFuturePrediction } from '@/lib/api';
 
 /**
  * 診断フロー全体の状態管理を行うカスタムフック
@@ -16,9 +16,11 @@ export const useDiagnosis = () => {
   const [selectedValues, setSelectedValues] = useState<ValueItem[]>([]);
   const [valueDetails, setValueDetails] = useState<SelectedValueItem[]>([]);
   const [result, setResult] = useState<DiagnosisResult | null>(null);
+  const [futurePredictions, setFuturePredictions] = useState<FuturePrediction[] | null>(null);
   
   // === ローディング・エラー状態 ===
-  const [isRunning, setIsRunning] = useState(false);
+  const [isDiagnosisRunning, setIsDiagnosisRunning] = useState(false); // 診断実行中
+  const [isFuturePredictionRunning, setIsFuturePredictionRunning] = useState(false); // 未来予測実行中
   const [apiError, setApiError] = useState<string | null>(null);
 
   // === 定数（設定値） ===
@@ -37,6 +39,7 @@ export const useDiagnosis = () => {
   
   /**
    * 診断を最初から開始する
+   * ・「診断を開始する」ボタン押下時
    */
   const startDiagnosis = () => {
     setStep('questions');
@@ -44,33 +47,21 @@ export const useDiagnosis = () => {
     setAnswers([]);
     setSelectedValues([]);
     setValueDetails([]);
-    setIsRunning(false);
+    setIsDiagnosisRunning(false);
+    setIsFuturePredictionRunning(false);
     setApiError(null);
     setResult(null);
   };
 
   /**
-   * 診断を完全にリセットして最初の画面に戻る
-   */
-  const resetToStart = () => {
-    setStep('start');
-    setCurrentQuestionIndex(0);
-    setAnswers([]);
-    setSelectedValues([]);
-    setValueDetails([]);
-    setIsRunning(false);
-    setApiError(null);
-    setResult(null);
-  };
-
-  /**
-   * 基本質問の回答を処理し、次のステップに進む
+   * 基本質問（前半5問）の回答を処理し、次のステップに進む
+   * ・「　次の質問へ」ボタン押下時
    */
   const handleAnswerNext = (answer: Answer) => {
-    // 回答を更新（既存の回答があれば上書き）
+    // 回答を格納（既存の回答があれば上書き）
     const updatedAnswers = [...answers];
     const existingIndex = updatedAnswers.findIndex(a => a.questionId === answer.questionId);
-    
+
     if (existingIndex >= 0) {
       updatedAnswers[existingIndex] = answer;
     } else {
@@ -87,16 +78,8 @@ export const useDiagnosis = () => {
   };
 
   /**
-   * 前の質問に戻る
-   */
-  const handleAnswerPrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
-    }
-  };
-
-  /**
    * 価値選択を完了し、価値詳細ステップに進む
+   * ・「選択を確定」ボタン押下時
    */
   const handleValueSelectionNext = (values: ValueItem[]) => {
     setSelectedValues(values);
@@ -104,15 +87,19 @@ export const useDiagnosis = () => {
   };
 
   /**
-   * 価値詳細を完了し、AI診断を実行する
+   * 価値詳細を完了し、API呼び出しを実行する
+   * ・「診断を実行」ボタン押下時
    */
   const handleValueDetailsNext = async (details: SelectedValueItem[]) => {
     setValueDetails(details);
-    
+
     try {
-      setIsRunning(true);
+      setIsDiagnosisRunning(true);
       setApiError(null);
-      
+
+      if (!answers.length) {
+        throw new Error('回答データが不足しています');
+      }
       const diagnosisResult = await runPersonalityDiagnosis(answers);
       setResult(diagnosisResult);
       setStep('result');
@@ -120,26 +107,54 @@ export const useDiagnosis = () => {
       const errorMessage = error instanceof Error ? error.message : '診断の実行に失敗しました';
       setApiError(errorMessage);
     } finally {
-      setIsRunning(false);
+      setIsDiagnosisRunning(false);
     }
   };
 
   /**
-   * 診断結果から将来予測ステップに進む
+   * 診断結果から将来予測ステップに進み、API呼び出しを実行する
+   * ・「未来予想を見る」ボタン押下時
    */
-  const goToFuturePrediction = () => {
+  const goToFuturePrediction = async () => {
     setStep('futurePrediction');
+
+    try {
+      setIsFuturePredictionRunning(true);
+      setApiError(null);
+
+      if (!result || !valueDetails.length) {
+        throw new Error('診断結果または価値詳細データが不足しています');
+      }
+      const predictionResult = await runFuturePrediction(valueDetails, result);
+      setFuturePredictions(predictionResult.predictions);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '未来予測の生成に失敗しました';
+      setApiError(errorMessage);
+    } finally {
+      setIsFuturePredictionRunning(false);
+    }
   };
 
   /**
-   * 将来予測完了後の処理（最初の画面に戻る）
+   * 診断を完全にリセットして最初の画面に戻る
+   * ・「診断を終了して最初に戻る」ボタン押下時
    */
-  const handleFuturePredictionComplete = () => {
-    resetToStart();
+  const resetToStart = () => {
+    setStep('start');
+    setCurrentQuestionIndex(0);
+    setAnswers([]);
+    setSelectedValues([]);
+    setValueDetails([]);
+    setIsDiagnosisRunning(false);
+    setIsFuturePredictionRunning(false);
+    setApiError(null);
+    setResult(null);
+    setFuturePredictions(null);
   };
 
   /**
    * 前のステップに戻る（価値選択から基本質問など）
+   * ・「前の質問に戻る」ボタン押下時
    */
   const goToPreviousStep = () => {
     switch (step) {
@@ -156,6 +171,16 @@ export const useDiagnosis = () => {
     }
   };
 
+  /**
+   * 前の質問に戻る
+   * ・「前の質問に戻る」ボタン押下時
+   */
+  const handleAnswerPrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
+    }
+  };
+
   // === 戻り値 ===
   return {
     // 状態
@@ -165,7 +190,9 @@ export const useDiagnosis = () => {
     selectedValues,
     valueDetails,
     result,
-    isRunning,
+    futurePredictions,
+    isDiagnosisRunning,
+    isFuturePredictionRunning,
     apiError,
     totalQuestionsCount,
     QUESTION_COUNTS,
@@ -178,7 +205,6 @@ export const useDiagnosis = () => {
     handleValueSelectionNext,
     handleValueDetailsNext,
     goToFuturePrediction,
-    handleFuturePredictionComplete,
     goToPreviousStep,
   };
 }; 

@@ -31,6 +31,7 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
     { id: 'adventure', name: '冒険・挑戦', description: '新しい体験、リスクテイク、挑戦' }
   ];
 
+  // 価値項目の選択時
   const handleValueToggle = (value: ValueItem) => {
     setSelectedValues(prev => {
       const isSelected = prev.some(v => v.id === value.id);

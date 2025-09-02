@@ -24,7 +24,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   const [text, setText] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
 
-  // 質問が変更されたときに入力内容を切り替える
+  // 質問が変更されたときに入力内容を保持する
   useEffect(() => {
     setText(initialValue); // 以前までの回答を保持
     setError(null); // バリデーションエラーはクリア

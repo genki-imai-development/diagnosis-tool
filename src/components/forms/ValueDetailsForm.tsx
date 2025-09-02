@@ -30,7 +30,6 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   // 診断実行中フラグ（インジケーターを100%にするため）
   const [isExecutingDiagnosis, setIsExecutingDiagnosis] = useState(false);
-
   // 表示中の価値項目
   const currentValue = selectedValues[currentValueIndex];
   // 表示中の質問の回答内容
@@ -49,7 +48,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
     }
   }, [selectedValues, initialValues]);
 
-  // 質問が変更されたときに入力内容を切り替える
+  // 質問が変更されたときに入力内容を保持する
   useEffect(() => {
     if (currentValue && currentDetail) {
       if (currentQuestionType === 'current') {
@@ -73,7 +72,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
     // 回答を保存
     const updatedDetails = [...valueDetails];
     const detailIndex = updatedDetails.findIndex(d => d.id === currentValue.id);
-    
+
     if (currentQuestionType === 'current') {
       updatedDetails[detailIndex].currentStatus = text.trim();
       setValueDetails(updatedDetails);

@@ -25,11 +25,13 @@ export default function HomePage() {
     selectedValues,
     valueDetails,
     result,
-    isRunning,
+    futurePredictions,
+    isDiagnosisRunning,
+    isFuturePredictionRunning,
     apiError,
     totalQuestionsCount,
     QUESTION_COUNTS,
-    
+
     // アクション関数
     startDiagnosis,
     resetToStart,
@@ -38,14 +40,13 @@ export default function HomePage() {
     handleValueSelectionNext,
     handleValueDetailsNext,
     goToFuturePrediction,
-    handleFuturePredictionComplete,
     goToPreviousStep,
   } = useDiagnosis();
 
   // 現在の質問を取得
   const currentQuestion = DIAGNOSIS_QUESTIONS[currentQuestionIndex];
   
-  // 現在の回答を取得（編集時の初期値として使用）
+  // 現在の回答を取得（以前までの回答を保持するため初期値として利用）
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id);
 
   return (
@@ -99,7 +100,7 @@ export default function HomePage() {
       )}
 
       {/* ローディング画面（AI診断実行中） */}
-      {isRunning && (
+      {isDiagnosisRunning && (
         <div className="animate-fade-in">
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
@@ -237,12 +238,14 @@ export default function HomePage() {
       )}
 
       {/* ステップ6: 将来予測 */}
-      {step === 'futurePrediction' && result && valueDetails.length > 0 && (
+      {step === 'futurePrediction' && (
         <div className="animate-fade-in">
           <FuturePrediction
-            valueDetails={valueDetails}
-            diagnosisResult={result}
-            onComplete={handleFuturePredictionComplete}
+            predictions={futurePredictions}
+            loading={isFuturePredictionRunning}
+            error={apiError}
+            onComplete={resetToStart}
+            onRetry={goToFuturePrediction}
           />
         </div>
       )}
