@@ -61,9 +61,9 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 文字数バリデーション（最小15文字） TODO: QuestionのminLengthに合わせる
-    if (text.trim().length < 15) {
-      setError('15文字以上で入力してください');
+    // 文字数バリデーション（最小10文字） TODO: QuestionのminLengthに合わせる
+    if (text.trim().length < 10) {
+      setError('10文字以上で入力してください');
       return;
     }
 
@@ -133,7 +133,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
     }
   };
 
-  const getMinLength = () => 15;
+  const getMinLength = () => 10;
   const currentLength = text.trim().length;
   const isValid = currentLength >= getMinLength();
 

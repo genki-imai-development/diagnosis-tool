@@ -135,7 +135,7 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
                           ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 text-blue-900 shadow-lg cursor-pointer'
                           : isDisabled
                           ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed'
-                          : 'border-gray-300 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50'
+                          : 'border-gray-300 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50 cursor-pointer'
                       }`}
                     >
                       {/* 選択状態インジケーター */}
