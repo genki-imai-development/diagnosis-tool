@@ -96,23 +96,21 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
         <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
           
-          <form onSubmit={handleSubmit} className="p-8 md:p-8 space-y-8">
-            <div className="text-center mb-8">
-              <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
-                <div className="bg-white rounded-full p-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                    </svg>
-                  </div>
+          <form onSubmit={handleSubmit} className="p-4 md:p-8 space-y-8">
+            <div className="text-center mb-4 md:mb-8">
+              <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-4 md:mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                  </svg>
                 </div>
               </div>
               
-              <h2 className="text-3xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
+              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6 leading-tight">
                 あなたの人生で最も大切にしたい項目を3つ選んでください
               </h2>
               
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 以下の10個の項目から、あなたが最も重要だと思う3つを選択してください。
               </p>
             </div>
@@ -130,7 +128,7 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
                       type="button"
                       onClick={() => handleValueToggle(item)}
                       disabled={isDisabled}
-                      className={`relative p-6 border-2 rounded-2xl text-left transition-all duration-300 group hover:shadow-lg ${
+                      className={`relative p-4 md:p-6 border-2 rounded-2xl text-left transition-all duration-300 group hover:shadow-lg ${
                         isSelected
                           ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 text-blue-900 shadow-lg cursor-pointer'
                           : isDisabled
@@ -154,7 +152,7 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
                       </div>
 
                       <div className="pr-8">
-                        <h3 className="text-lg font-bold mb-2">{item.name}</h3>
+                        <h3 className="text-base md:text-lg font-bold mb-2">{item.name}</h3>
                         <p className="text-sm opacity-80 leading-relaxed">{item.description}</p>
                       </div>
                     </button>
@@ -175,25 +173,25 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
               )}
 
               {/* ボタン */}
-              <div className="flex justify-between items-center pt-6">
+              <div className="flex justify-between items-center">
                 <button
                   type="button"
                   onClick={onPrevious}
-                  className="px-8 py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
+                  className="px-4 py-4 md:px-10 md:py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
                 >
-                  ← 前の質問に戻る
+                  前の質問に戻る
                 </button>
 
                 <button
                   type="submit"
                   disabled={selectedValues.length !== 3}
-                  className={`px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 ${
+                  className={`px-4 py-4 md:px-10 md:py-4 rounded-2xl font-semibold text-base md:text-lg transition-all duration-200 ${
                     selectedValues.length === 3
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer'
                       : 'bg-gray-300 cursor-not-allowed text-gray-500'
                   }`}
                 >
-                  次の質問へ →
+                  次の質問へ
                 </button>
               </div>
             </div>

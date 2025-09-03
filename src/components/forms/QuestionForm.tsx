@@ -67,7 +67,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* 進捗インジケーターカード */}
-      <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-4 md:mb-8">
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
           <div className="flex justify-between items-center text-white">
             <div className="flex items-center">
@@ -97,17 +97,15 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
         <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
           
-          <form onSubmit={handleSubmit} className="p-8 md:p-8 space-y-8">
-            <div className="text-center mb-8">
-              <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
-                <div className="bg-white rounded-full p-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">{currentIndex + 1}</span>
-                  </div>
+          <form onSubmit={handleSubmit} className="p-4 md:p-8 space-y-8">
+            <div className="text-center mb-4 md:mb-8">
+              <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-4 md:mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-xl">{currentIndex + 1}</span>
                 </div>
               </div>
               
-              <h2 className="text-3xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
+              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6 leading-tight">
                 {question.text}
               </h2>
             </div>
@@ -118,7 +116,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
                   value={text}
                   onChange={handleTextChange}
                   placeholder={question.placeholder || '自由にご記入ください...'}
-                  className={`w-full p-6 border-2 rounded-2xl resize-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-lg leading-relaxed ${
+                  className={`w-full p-4 md:p-6 border-2 rounded-2xl resize-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-base md:text-lg leading-relaxed ${
                     error ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
                   }`}
                   rows={4}
@@ -163,14 +161,14 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
               </div>
 
               {/* ボタン */}
-              <div className="flex justify-between items-center pt-6">
+              <div className="flex justify-between items-center">
                 {currentIndex > 0 ? (
                   <button
                     type="button"
                     onClick={onPrevious}
-                    className="px-8 py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
+                    className="px-4 py-4 md:px-10 md:py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
                   >
-                    ← 前の質問に戻る
+                    前の質問に戻る
                   </button>
                 ) : (
                   <div />
@@ -179,7 +177,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
                 <button
                   type="submit"
                   disabled={!isValid}
-                  className={`px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 ${
+                  className={`px-4 py-4 md:px-10 md:py-4 rounded-2xl font-semibold text-base md:text-lg transition-all duration-200 ${
                     isValid
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer'
                       : 'bg-gray-300 cursor-not-allowed text-gray-500'
