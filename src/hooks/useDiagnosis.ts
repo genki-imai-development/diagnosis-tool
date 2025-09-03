@@ -91,6 +91,7 @@ export const useDiagnosis = () => {
    * ・「診断を実行」ボタン押下時
    */
   const handleValueDetailsNext = async (details: SelectedValueItem[]) => {
+    setStep('result');
     setValueDetails(details);
 
     try {
@@ -102,7 +103,6 @@ export const useDiagnosis = () => {
       }
       const diagnosisResult = await runPersonalityDiagnosis(answers);
       setResult(diagnosisResult);
-      setStep('result');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '診断の実行に失敗しました';
       setApiError(errorMessage);

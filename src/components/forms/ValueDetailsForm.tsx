@@ -5,7 +5,6 @@ interface ValueDetailsFormProps {
   selectedValues: ValueItem[];
   onNext: (valueDetails: SelectedValueItem[]) => void;
   onPrevious: () => void;
-  currentIndex: number;
   totalQuestions: number;
   initialValues?: SelectedValueItem[];
 }
@@ -14,7 +13,6 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   selectedValues,
   onNext,
   onPrevious,
-  currentIndex,
   totalQuestions,
   initialValues = [],
 }) => {
@@ -153,113 +151,132 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const isLastQuestion = currentValueIndex === selectedValues.length - 1 && currentQuestionType === 'ideal';
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      {/* 進捗インジケーター */}
-      <div className="mb-8">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
-          <span>質問 {currentStepNumber + 1} / {totalSteps}</span>
-          <span>{Math.round(progressPercentage)}%</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </div>
-      </div>
-
-      {/* 価値項目の進捗表示 */}
-      <div className="mb-6">
-        <div className="flex items-center justify-center space-x-2 mb-4">
-          {selectedValues.map((value, index) => (
-            <div
-              key={value.id}
-              className={`w-3 h-3 rounded-full ${
-                index < currentValueIndex
-                  ? 'bg-green-500'
-                  : index === currentValueIndex
-                  ? 'bg-blue-500'
-                  : 'bg-gray-300'
-              }`}
-            />
-          ))}
-        </div>
-        <p className="text-center text-sm text-gray-600">
-          {currentValueIndex + 1} / {selectedValues.length} の項目
-        </p>
-      </div>
-
-      {/* 質問フォーム */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            {getQuestionText()}
-          </h2>
-          
-          <textarea
-            value={text}
-            onChange={handleTextChange}
-            placeholder={getPlaceholder()}
-            className={`w-full p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 placeholder-gray-500 ${
-              error ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-white'
-            }`}
-            rows={6}
-            required
-          />
-          
-          {/* 文字数カウンター */}
-          <div className="flex justify-between items-center mt-2 text-sm">
-            <span className={`${
-              isValid 
-                ? 'text-green-600' 
-                : currentLength > 0 
-                ? 'text-amber-600' 
-                : 'text-gray-500'
-            }`}>
-              {currentLength} / {getMinLength()}文字以上
-              {isValid && <span className="ml-1">✓</span>}
-            </span>
-          </div>
-
-          {/* エラーメッセージ */}
-          {error && (
-            <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-red-600 text-sm flex items-center">
-                <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* 進捗インジケーターカード */}
+      <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
+          <div className="flex justify-between items-center text-white">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                {error}
-              </p>
+              </div>
+              <span className="text-lg font-semibold">質問 {currentStepNumber + 1} / {totalSteps}</span>
             </div>
-          )}
+            <span className="text-lg font-bold">{Math.round(progressPercentage)}%</span>
+          </div>
+          <div className="mt-4">
+            <div className="w-full bg-white/20 rounded-full h-3">
+              <div
+                className="bg-white h-3 rounded-full transition-all duration-500 shadow-sm"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* ボタン */}
-        <div className="flex justify-between items-center pt-4">
-          <button
-            type="button"
-            onClick={handlePrevious}
-            className="px-6 py-3 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
-          >
-            ← 前へ
-          </button>
+      {/* 質問カード */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl opacity-10 transform rotate-1"></div>
+        <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+          
+          <form onSubmit={handleSubmit} className="p-8 md:p-8 space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
+                <div className="bg-white rounded-full p-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">{currentStepNumber + 1}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
+                {getQuestionText()}
+              </h2>
+            </div>
 
-          <button
-            type="submit"
-            disabled={!isValid}
-            className={`px-8 py-3 rounded-lg font-medium transition-all duration-200 ${
-              isValid
-                ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
-                : 'bg-gray-300 cursor-not-allowed text-gray-500'
-            }`}
-          >
-            {isLastQuestion
-              ? '診断を実行 →'
-              : '次へ →'
-            }
-          </button>
+            <div className="space-y-6">
+              <div className="relative">
+                <textarea
+                  value={text}
+                  onChange={handleTextChange}
+                  placeholder={getPlaceholder()}
+                  className={`w-full p-6 border-2 rounded-2xl resize-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-lg leading-relaxed ${
+                    error ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
+                  }`}
+                  rows={4}
+                  required
+                />
+                
+                {/* 文字数カウンター */}
+                <div className="flex justify-between items-center mt-4">
+                  <div className={`flex items-center text-sm font-medium ${
+                    isValid 
+                      ? 'text-emerald-600' 
+                      : currentLength > 0 
+                      ? 'text-amber-600' 
+                      : 'text-gray-500'
+                  }`}>
+                    <div className={`w-5 h-5 rounded-full mr-2 flex items-center justify-center ${
+                      isValid ? 'bg-emerald-100' : 'bg-gray-100'
+                    }`}>
+                      {isValid ? (
+                        <svg className="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                      )}
+                    </div>
+                    {currentLength} / {getMinLength()}文字以上
+                  </div>
+                </div>
+
+                {/* エラーメッセージ */}
+                {error && (
+                  <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-2xl">
+                    <p className="text-red-600 font-medium flex items-center">
+                      <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {error}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* ボタン */}
+              <div className="flex justify-between items-center pt-6">
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="px-8 py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
+                >
+                  ← 前の質問に戻る
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={!isValid}
+                  className={`px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 ${
+                    isValid
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer'
+                      : 'bg-gray-300 cursor-not-allowed text-gray-500'
+                  }`}
+                >
+                  {isLastQuestion
+                    ? '診断を実行 →'
+                    : '次の質問へ →'
+                  }
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 }; 

@@ -6,8 +6,8 @@ import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
 import { ValueSelectionForm } from '@/components/forms/ValueSelectionForm';
 import { ValueDetailsForm } from '@/components/forms/ValueDetailsForm';
+import { DiagnosisResult } from '@/components/DiagnosisResult';
 import { FuturePrediction } from '@/components/FuturePrediction';
-import { RadarChart } from '@/components/ui/RadarChart';
 import { useDiagnosis } from '@/hooks/useDiagnosis';
 import { DIAGNOSIS_QUESTIONS } from '@/lib/constants';
 
@@ -64,11 +64,10 @@ export default function HomePage() {
           <QuestionForm
             question={currentQuestion}
             currentIndex={currentQuestionIndex}
-            totalQuestions={QUESTION_COUNTS.BASE_QUESTIONS}
+            totalQuestions={QUESTION_COUNTS.BASE_QUESTIONS + QUESTION_COUNTS.VALUE_SELECTION + QUESTION_COUNTS.VALUE_DETAILS}
             onNext={handleAnswerNext}
             onPrevious={currentQuestionIndex > 0 ? handleAnswerPrevious : undefined}
             initialValue={currentAnswer?.text || ''}
-            isLastQuestion={currentQuestionIndex === QUESTION_COUNTS.BASE_QUESTIONS - 1}
           />
         </div>
       )}
@@ -92,148 +91,51 @@ export default function HomePage() {
             selectedValues={selectedValues}
             onNext={handleValueDetailsNext}
             onPrevious={goToPreviousStep}
-            currentIndex={QUESTION_COUNTS.BASE_QUESTIONS + QUESTION_COUNTS.VALUE_SELECTION}
             totalQuestions={totalQuestionsCount}
             initialValues={valueDetails}
           />
         </div>
       )}
 
-      {/* ローディング画面（AI診断実行中） */}
-      {isDiagnosisRunning && (
-        <div className="animate-fade-in">
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              AIが診断を実行中です...
-            </h2>
-            <p className="text-gray-600">
-              あなたの回答を分析し、性格傾向を診断しています
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* エラー表示 */}
       {apiError && (
         <div className="animate-fade-in">
-          <div className="text-center py-12">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-red-900 mb-2">
-                エラーが発生しました
-              </h2>
-              <p className="text-red-700 mb-4">{apiError}</p>
-              <button
-                onClick={resetToStart}
-                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                最初からやり直す
-              </button>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+              <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6">
+                <h3 className="text-2xl font-bold text-white flex items-center">
+                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  エラーが発生しました
+                </h3>
+              </div>
+              <div className="p-8 text-center">
+                <p className="text-gray-700 mb-6 text-lg leading-relaxed">{apiError}</p>
+                <button
+                  onClick={resetToStart}
+                  className="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  最初からやり直す
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
       {/* ステップ5: 診断結果表示 */}
-      {step === 'result' && result && (
+      {step === 'result' && (
         <div className="animate-fade-in">
-          <div className="space-y-8">
-            {/* 結果ヘッダー */}
-            <div className="text-center">
-              <h1 className="text-xl font-bold text-gray-900 mb-4">
-                診断結果
-              </h1>
-              <p className="text-lg text-gray-600">
-                あなたの性格傾向が分析されました
-              </p>
-            </div>
-
-            {/* 性格パターン表示 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                あなたのタイプ
-              </h2>
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
-                {/* パターン画像 */}
-                <div className="flex flex-col md:flex-row items-center gap-6 mb-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      src={result.pattern.image}
-                      alt={result.pattern.name}
-                      className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-blue-200 shadow-lg"
-                      onError={(e) => {
-                        // 画像が見つからない場合のフォールバック
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                      }}
-                    />
-                    {/* フォールバック用のアイコン */}
-                    <div className="hidden w-24 h-24 md:w-32 md:h-32 rounded-full bg-blue-200 flex items-center justify-center border-4 border-blue-300 shadow-lg">
-                      <svg className="w-12 h-12 md:w-16 md:h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-xl font-bold text-blue-900 mb-2">
-                      {result.pattern.name}
-                    </h3>
-                    <p className="text-gray-700">
-                      {result.pattern.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* レーダーチャート */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                性格特性のバランス
-              </h2>
-              <RadarChart scores={result.scores} />
-            </div>
-
-            {/* 詳細特性 */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                あなたの特性
-              </h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                {result.characteristics}
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-                  <h3 className="font-semibold text-green-900 mb-2">
-                    活かされる環境・仕事
-                  </h3>
-                  <p className="text-green-800 text-sm">
-                    {result.suitableEnvironments}
-                  </p>
-                </div>
-
-                <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
-                  <h3 className="font-semibold text-yellow-900 mb-2">
-                    注意が必要な環境・仕事
-                  </h3>
-                  <p className="text-yellow-800 text-sm">
-                    {result.unsuitableEnvironments}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 次のステップボタン */}
-            <div className="text-center">
-              <button
-                onClick={goToFuturePrediction}
-                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
-              >
-                未来予測を見る →
-              </button>
-            </div>
-          </div>
+          <DiagnosisResult
+            result={result}
+            loading={isDiagnosisRunning}
+            error={apiError}
+            onNext={goToFuturePrediction}
+            onRetry={resetToStart}
+          />
         </div>
       )}
 
