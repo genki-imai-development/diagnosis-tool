@@ -71,10 +71,8 @@ export interface DiagnosisResult {
   pattern: DiagnosisPattern;
   /** あなたの特性 */
   characteristics: string;
-  /** 特性が活かされる環境・仕事 */
-  suitableEnvironments: string;
-  /** 特性が活かされない環境・仕事 */
-  unsuitableEnvironments: string;
+  /** あなたの強み（才能） */
+  strengths: string;
 }
 
 // 未来予測の型定義

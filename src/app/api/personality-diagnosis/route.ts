@@ -47,7 +47,7 @@ export async function POST(req: Request) {
       return createErrorResponse('validation_failed', 'スコア形式が不正です', 502);
     }
 
-    if (!aiResult.characteristics || !aiResult.suitableEnvironments || !aiResult.unsuitableEnvironments) {
+    if (!aiResult.characteristics || !aiResult.strengths) {
       return createErrorResponse('validation_failed', '特性情報が不完全です', 502);
     }
 
@@ -59,8 +59,7 @@ export async function POST(req: Request) {
       scores: aiResult.scores,
       pattern: selectedPattern,
       characteristics: aiResult.characteristics,
-      suitableEnvironments: aiResult.suitableEnvironments,
-      unsuitableEnvironments: aiResult.unsuitableEnvironments
+      strengths: aiResult.strengths
     };
 
     return NextResponse.json(finalResult);
