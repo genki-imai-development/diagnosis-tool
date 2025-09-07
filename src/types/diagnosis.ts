@@ -1,16 +1,21 @@
+// 質問の選択肢型定義
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
+
 // 質問の型定義
 export interface Question {
   id: number;
   text: string;
-  placeholder?: string;
-  minLength: number;
+  options: QuestionOption[]; // 選択肢（必須）
   order: number;
 }
 
 // 回答の型定義
 export interface Answer {
   questionId: number;
-  text: string;
+  text: string; // 選択した選択肢のテキスト
 }
 
 // 価値選択項目の型定義

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Question, Answer } from '@/types/diagnosis';
-import { validateAnswer } from '@/utils/validation';
 
 interface QuestionFormProps {
   question: Question;
@@ -21,22 +20,20 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   initialValue = '',
   isLastQuestion = false,
 }) => {
-  const [text, setText] = useState(initialValue);
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  // 質問が変更されたときに入力内容を保持する
+  // 質問が変更されたときに選択肢をリセット
   useEffect(() => {
-    setText(initialValue); // 以前までの回答を保持
+    setSelectedOption(''); // 選択肢はリセット
     setError(null); // バリデーションエラーはクリア
-  }, [question.id, initialValue]); // question.idを監視して質問変更を検知
+  }, [question.id]); // question.idを監視して質問変更を検知
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 文字数バリデーション実行
-    const validationError = validateAnswer(text, question);
-    if (validationError) {
-      setError(validationError);
+    if (!selectedOption) {
+      setError('選択肢を選んでください');
       return;
     }
 
@@ -44,20 +41,19 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
     setError(null);
     onNext({
       questionId: question.id,
-      text: text.trim(),
+      text: selectedOption,
     });
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-    // 入力中にエラーをクリア
+  const handleOptionChange = (option: string) => {
+    setSelectedOption(option);
+    // 選択中にエラーをクリア
     if (error) {
       setError(null);
     }
   };
 
-  const currentLength = text.trim().length;
-  const isValid = currentLength >= question.minLength;
+  const isValid = selectedOption !== '';
 
   // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
   // 基本質問は0%から開始し、1問目完了時に約8.33%（100/12）
@@ -111,54 +107,45 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
             </div>
 
             <div className="space-y-6">
-              <div className="relative">
-                <textarea
-                  value={text}
-                  onChange={handleTextChange}
-                  placeholder={question.placeholder || '自由にご記入ください...'}
-                  className={`w-full p-4 md:p-6 border-2 rounded-2xl resize-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-base md:text-lg leading-relaxed ${
-                    error ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
-                  }`}
-                  rows={4}
-                  required
-                />
-                
-                {/* 文字数カウンター */}
-                <div className="flex justify-between items-center mt-4">
-                  <div className={`flex items-center text-sm font-medium ${
-                    isValid 
-                      ? 'text-emerald-600' 
-                      : currentLength > 0 
-                      ? 'text-amber-600' 
-                      : 'text-gray-500'
-                  }`}>
-                    <div className={`w-5 h-5 rounded-full mr-2 flex items-center justify-center ${
-                      isValid ? 'bg-emerald-100' : 'bg-gray-100'
-                    }`}>
-                      {isValid ? (
-                        <svg className="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      ) : (
-                        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      )}
+              {/* 選択肢フォーム */}
+              <div className="space-y-4">
+                {question.options.map((option, index) => (
+                  <label
+                    key={option.id}
+                    className={`block p-4 md:p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                      selectedOption === option.text
+                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                        : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        name="question-option"
+                        value={option.text}
+                        checked={selectedOption === option.text}
+                        onChange={() => handleOptionChange(option.text)}
+                        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                      />
+                      <span className="ml-4 text-base md:text-lg text-gray-900 font-medium">
+                        {option.text}
+                      </span>
                     </div>
-                    {currentLength} / {question.minLength}文字以上
-                  </div>
-                </div>
-
-                {/* エラーメッセージ */}
-                {error && (
-                  <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-2xl">
-                    <p className="text-red-600 font-medium flex items-center">
-                      <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                      </svg>
-                      {error}
-                    </p>
-                  </div>
-                )}
+                  </label>
+                ))}
               </div>
+
+              {/* エラーメッセージ */}
+              {error && (
+                <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-2xl">
+                  <p className="text-red-600 font-medium flex items-center">
+                    <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {error}
+                  </p>
+                </div>
+              )}
 
               {/* ボタン */}
               <div className="flex justify-between items-center">
