@@ -219,11 +219,9 @@ export function validateFuturePredictions(predictions: any[]): string | null {
     if (
       !prediction.valueId || 
       !prediction.valueName || 
-      !prediction.realisticPrediction || 
-      !prediction.idealPrediction ||
-      typeof prediction.idealRealizationProbability !== 'number' ||
-      prediction.idealRealizationProbability < 0 ||
-      prediction.idealRealizationProbability > 100 ||
+      !prediction.gapAnalysis ||
+      !prediction.gapLevel ||
+      !['大', '中', '小'].includes(prediction.gapLevel) ||
       !prediction.onePointAdvice
     ) {
       return '予測情報が不完全です';

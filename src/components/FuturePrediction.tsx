@@ -37,10 +37,10 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
               </div>
               
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-                あなたの未来を予測中...
+                AI分析中...30秒程度お待ちください
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                価値観の詳細情報を基に、実現可能性の高い未来と理想の未来を生成しています
+                価値観の詳細情報を基に、現在と理想の未来のギャップを分析しています
               </p>
             </div>
           </div>
@@ -60,7 +60,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              未来予測の生成に失敗しました
+              ギャップ分析の生成に失敗しました
             </h3>
           </div>
           <div className="p-8 text-center">
@@ -118,10 +118,10 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
             </div>
           </div>
           <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-            現実と理想の未来のギャップ
+            現在と理想の未来のギャップ分析
           </h1>
           <p className="text-base font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
-            価値観を基に、実現可能性の高い未来と理想の未来を比較できます
+            価値観を基に、現在と理想の未来のギャップを分析し、改善への道筋を示します
           </p>
         </div>
       </div>
@@ -151,60 +151,54 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                   </h3>
                 </div>
 
-                {/* 未来比較コンテナ */}
-                <div className="grid lg:grid-cols-2 gap-4 mb-4 md:mb-8">
-                  {/* 実現可能性の高い未来 */}
-                  <div className="group">
-                    <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-2xl p-4 md:p-6 border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-lg h-full">
-                      <div className="flex items-center mb-2 md:mb-4">
-                        <div className="w-10 h-10 bg-gray-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </div>
-                        <h4 className="text-base md:text-xl font-bold text-gray-900">
-                          実現可能性の高い未来
-                        </h4>
-                      </div>
-                      <p className="text-gray-800 leading-relaxed">
-                        {prediction.realisticPrediction}
-                      </p>
+                {/* ギャップ分析コンテナ */}
+                <div className="mb-4 md:mb-8">
+                  {/* ギャップレベルバッジ */}
+                  <div className="flex justify-center mb-4 md:mb-6">
+                    <div className={`inline-flex items-center px-4 py-2 rounded-full font-bold text-sm ${
+                      prediction.gapLevel === '大' ? 'bg-red-100 text-red-800 border border-red-200' :
+                      prediction.gapLevel === '中' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                      'bg-green-100 text-green-800 border border-green-200'
+                    }`}>
+                      <span className="mr-2 text-lg">
+                        {prediction.gapLevel === '大' ? '🔥' : prediction.gapLevel === '中' ? '⚡' : '✨'}
+                      </span>
+                      ギャップレベル：{prediction.gapLevel}
                     </div>
                   </div>
 
-                  {/* 理想の未来 */}
+                  {/* ギャップ分析 */}
                   <div className="group">
-                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4 md:p-6 border border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-lg h-full">
+                    <div className={`rounded-2xl p-4 md:p-6 border transition-all duration-300 hover:shadow-lg ${
+                      prediction.gapLevel === '大' ? 'bg-gradient-to-br from-red-50 to-pink-50 border-red-200 hover:border-red-300' :
+                      prediction.gapLevel === '中' ? 'bg-gradient-to-br from-yellow-50 to-amber-50 border-yellow-200 hover:border-yellow-300' :
+                      'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 hover:border-green-300'
+                    }`}>
                       <div className="flex items-center mb-2 md:mb-4">
-                        <div className="w-10 h-10 bg-purple-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform ${
+                          prediction.gapLevel === '大' ? 'bg-red-500' :
+                          prediction.gapLevel === '中' ? 'bg-yellow-500' :
+                          'bg-green-500'
+                        }`}>
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                         </div>
-                        <h4 className="text-base md:text-xl font-bold text-purple-900">
-                          理想の未来
+                        <h4 className={`text-base md:text-xl font-bold ${
+                          prediction.gapLevel === '大' ? 'text-red-900' :
+                          prediction.gapLevel === '中' ? 'text-yellow-900' :
+                          'text-green-900'
+                        }`}>
+                          現在と理想のギャップ分析
                         </h4>
                       </div>
-                      <p className="text-purple-800 leading-relaxed mb-4">
-                        {prediction.idealPrediction}
+                      <p className={`leading-relaxed ${
+                        prediction.gapLevel === '大' ? 'text-red-800' :
+                        prediction.gapLevel === '中' ? 'text-yellow-800' :
+                        'text-green-800'
+                      }`}>
+                        {prediction.gapAnalysis}
                       </p>
-                      {/* プログレスバー */}
-                      <div className="mt-4">
-                        <div className="flex justify-between text-sm text-purple-700 mb-2 font-medium">
-                          <span>実現可能性</span>
-                          <span>{prediction.idealRealizationProbability}%</span>
-                        </div>
-                        <div className="w-full bg-purple-100 rounded-full h-3">
-                          <div
-                            className={`h-3 rounded-full transition-all duration-500 ${
-                              prediction.idealRealizationProbability >= 50 ? 'bg-green-500' :
-                              prediction.idealRealizationProbability >= 30 ? 'bg-yellow-500' :
-                              'bg-red-500'
-                            }`}
-                            style={{ width: `${prediction.idealRealizationProbability}%` }}
-                          />
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -219,7 +213,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                         </svg>
                       </div>
                       <h4 className="text-base md:text-xl font-bold text-emerald-900">
-                        理想を実現するためのワンポイントアドバイス
+                        ギャップを埋めるためのワンポイントアドバイス
                       </h4>
                     </div>
                     <p className="text-emerald-800 leading-relaxed">
@@ -252,10 +246,10 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
               </div>
               
               <h3 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4 md:mb-6">
-                理想の未来を実現しませんか？
+                ギャップを埋めて理想を実現しませんか？
               </h3>
               <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                診断結果から見えてきた「現実と理想のギャップ」。<br />
+                診断結果から見えてきた「現在と理想のギャップ」。<br />
                 そのギャップを埋めるための具体的な行動計画を、<br />
                 プロのコーチがあなたと一緒に作成します。
               </p>

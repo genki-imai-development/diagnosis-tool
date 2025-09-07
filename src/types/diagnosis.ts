@@ -79,12 +79,10 @@ export interface DiagnosisResult {
 export interface FuturePrediction {
   valueId: string;
   valueName: string;
-  /** 実現可能性の高い未来 */
-  realisticPrediction: string;
-  /** 理想の未来 */
-  idealPrediction: string;
-  /** 理想の未来の実現可能性（0-100%） */
-  idealRealizationProbability: number;
+  /** 現在と未来のギャップ説明 */
+  gapAnalysis: string;
+  /** ギャップレベル（大・中・小） */
+  gapLevel: '大' | '中' | '小';
   /** 理想の未来を実現するためのワンポイントアドバイス */
   onePointAdvice: string;
 }
