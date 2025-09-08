@@ -1,21 +1,18 @@
 import React from 'react';
 import type { FuturePrediction as FuturePredictionType } from '@/types/diagnosis';
 import { EXTERNAL_LINKS } from '@/lib/constants';
+import { RoadmapRenderer } from '@/components/ui/RoadmapRenderer';
 
 interface FuturePredictionProps {
   predictions: FuturePredictionType[] | null;
   loading: boolean;
-  error: string | null;
   onComplete?: () => void;
-  onRetry?: () => void;
 }
 
 export const FuturePrediction: React.FC<FuturePredictionProps> = ({
   predictions,
   loading,
-  error,
   onComplete,
-  onRetry,
 }) => {
   const handleLinkClick = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
@@ -43,34 +40,6 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                 価値観の詳細情報を基に、現在と理想の未来のギャップを分析しています
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6">
-            <h3 className="text-2xl font-bold text-white flex items-center">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              ギャップ分析の生成に失敗しました
-            </h3>
-          </div>
-          <div className="p-8 text-center">
-            <p className="text-gray-700 mb-6 text-lg leading-relaxed">{error}</p>
-            <button
-              onClick={onRetry}
-              className="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              再試行
-            </button>
           </div>
         </div>
       </div>
@@ -203,23 +172,20 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                   </div>
                 </div>
 
-                {/* ワンポイントアドバイス */}
+                {/* 詳細ロードマップ */}
                 <div className="group">
-                  <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-4 md:p-6 border border-emerald-200 hover:border-emerald-300 transition-all duration-300 hover:shadow-lg">
-                    <div className="flex items-center mb-2 md:mb-4">
-                      <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                      </div>
-                      <h4 className="text-base md:text-xl font-bold text-emerald-900">
-                        ギャップを埋めるためのワンポイントアドバイス
-                      </h4>
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     </div>
-                    <p className="text-emerald-800 leading-relaxed">
-                      {prediction.onePointAdvice}
-                    </p>
+                    <h4 className="text-base md:text-xl font-bold text-emerald-900">
+                      ギャップを埋めるための詳細ロードマップ
+                    </h4>
                   </div>
+                  <RoadmapRenderer 
+                    markdown={prediction.detailedRoadmap} 
+                    gapLevel={prediction.gapLevel}
+                  />
                 </div>
               </div>
             </div>

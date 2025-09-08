@@ -132,9 +132,7 @@ export default function HomePage() {
           <DiagnosisResult
             result={result}
             loading={isDiagnosisRunning}
-            error={apiError}
             onNext={goToFuturePrediction}
-            onRetry={resetToStart}
           />
         </div>
       )}
@@ -145,9 +143,7 @@ export default function HomePage() {
           <FuturePrediction
             predictions={futurePredictions}
             loading={isFuturePredictionRunning}
-            error={apiError}
             onComplete={resetToStart}
-            onRetry={goToFuturePrediction}
           />
         </div>
       )}

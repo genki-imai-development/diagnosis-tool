@@ -83,6 +83,6 @@ export interface FuturePrediction {
   gapAnalysis: string;
   /** ギャップレベル（大・中・小） */
   gapLevel: '大' | '中' | '小';
-  /** 理想の未来を実現するためのワンポイントアドバイス */
-  onePointAdvice: string;
+  /** ギャップを埋めるための詳細ロードマップ */
+  detailedRoadmap: string;
 }
