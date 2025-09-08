@@ -24,12 +24,12 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
             </div>
           </div>
           <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-            あなたの性格を診断します
+            ライフコーチAIを使ってみましょう！
           </h1>
           <p className="text-base font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
-            いくつかの質問にお答えいただくことで、あなたの性格傾向を分析します。<br />
-            基本質問の後に、人生で大切にしたい項目の選択と詳細な質問があります。<br />
-            所要時間は約10-15分です。
+            Big5診断で性格を分析し、あなたの強みと才能を発見します。<br />
+            人生で大切にしたい価値を明確にして、理想の自分への具体的なロードマップを作成します。<br />
+            所要時間は約5-10分です。
           </p>
         </div>
       </div>
@@ -51,7 +51,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
               </div>
               
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6">
-                診断について
+                3つのステップで理想の未来へ
               </h2>
             </div>
 
@@ -60,16 +60,14 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 md:p-6 border border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-lg h-full">
                   <div className="flex items-center mb-2 md:mb-4">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
+                      <span className="text-white font-bold text-sm md:text-base">1</span>
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-blue-900 mb-2">
-                    自由記述回答
+                    自己理解
                   </h3>
                   <p className="text-blue-800 leading-relaxed text-sm">
-                    複数の質問に自由記述でお答えください
+                    Big5診断であなたの性格傾向を分析し、強みと才能を発見します。
                   </p>
                 </div>
               </div>
@@ -78,16 +76,14 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                 <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4 md:p-6 border border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-lg h-full">
                   <div className="flex items-center mb-2 md:mb-4">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
+                      <span className="text-white font-bold text-sm md:text-base">2</span>
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-purple-900 mb-2">
-                    AI性格分析
+                    目標設定
                   </h3>
                   <p className="text-purple-800 leading-relaxed text-sm">
-                    AIが回答を分析し、性格傾向を診断します
+                    大切にしたい価値を選択し、現状と理想のギャップを明確化します。
                   </p>
                 </div>
               </div>
@@ -96,16 +92,14 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                 <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-4 md:p-6 border border-emerald-200 hover:border-emerald-300 transition-all duration-300 hover:shadow-lg h-full">
                   <div className="flex items-center mb-2 md:mb-4">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-emerald-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
+                      <span className="text-white font-bold text-sm md:text-base">3</span>
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-emerald-900 mb-2">
-                    詳細分析結果
+                    行動計画
                   </h3>
                   <p className="text-emerald-800 leading-relaxed text-sm">
-                    詳細な分析結果をご提供します
+                    目標達成までの具体的なロードマップを作成します。
                   </p>
                 </div>
               </div>
@@ -137,7 +131,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
         </div>
         <div className="p-4 md:p-8">
           <p className="text-gray-700 leading-relaxed text-base">
-            この診断は娯楽目的です。医学的な診断や治療の参考にはなさらないでください。
+            この診断は自己理解と目標設定を支援するツールです。医学的な診断や治療の参考にはなさらないでください。
             また、不適切な内容の投稿はお控えください。
           </p>
         </div>
