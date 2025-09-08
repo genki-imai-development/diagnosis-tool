@@ -123,15 +123,21 @@ export default function LandingPage() {
             </p>
             <div className="mb-6 text-white/90 opacity-0 animate-fade-in-up animation-delay-300">
               <div className="flex items-center mb-2">
-                <span className="mr-3">✅</span>
+                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
                 <span>科学的なBig5診断で客観的な自己理解</span>
               </div>
               <div className="flex items-center mb-2">
-                <span className="mr-3">✅</span>
+                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
                 <span>あなたの価値観に基づいた現実的な目標設定</span>
               </div>
               <div className="flex items-center">
-                <span className="mr-3">✅</span>
+                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
                 <span>迷わず行動できる段階的なロードマップ</span>
               </div>
             </div>
