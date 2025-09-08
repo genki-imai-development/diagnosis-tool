@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
     // AI予測実行
     let aiResult: { predictions: FuturePrediction[] };
     try {
-      aiResult = await callOpenAiApi(FUTURE_PREDICTION_SYSTEM_PROMPT, userPrompt, 0.7);
+      aiResult = await callOpenAiApi(FUTURE_PREDICTION_SYSTEM_PROMPT, userPrompt, 0.3);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '未来予測の生成に失敗しました';
       
