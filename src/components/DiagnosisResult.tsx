@@ -1,6 +1,7 @@
 import React from 'react';
 import { RadarChart } from '@/components/ui/RadarChart';
 import type { DiagnosisResult as DiagnosisResultType } from '@/types/diagnosis';
+import Image from 'next/image';
 
 interface DiagnosisResultProps {
   result: DiagnosisResultType | null;
@@ -101,9 +102,11 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
               <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
                 <div className="bg-white rounded-full p-4">
                   <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto">
-                    <img
+                    <Image
                       src={result.pattern.image}
                       alt={result.pattern.name}
+                      width={128}
+                      height={128}
                       className="w-full h-full rounded-full object-cover shadow-lg group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';

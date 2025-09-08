@@ -57,9 +57,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto flex justify-between items-center px-2 py-2 md:px-8">
           <div className="flex items-center">
             {/* ロゴ */}
-            <img
+            <Image
               src="/images/patterns/logo.svg"
               alt="ロゴ"
+              width={64}
+              height={64}
               className="w-12 h-12 md:w-16 md:h-16 mr-3"
             />
             <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
@@ -344,9 +346,11 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="rounded-3xl overflow-hidden">
-              <img 
+              <Image 
                 src="/images/patterns/step01.png" 
                 alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
+                width={600}
+                height={400}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -380,9 +384,11 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="rounded-3xl overflow-hidden">
-              <img 
+              <Image 
                 src="/images/patterns/step02.png" 
                 alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
+                width={600}
+                height={400}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -416,9 +422,11 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="rounded-3xl overflow-hidden">
-              <img 
+              <Image 
                 src="/images/patterns/step03.png" 
                 alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
+                width={600}
+                height={400}
                 className="w-full h-full object-cover"
               />
             </div>

@@ -1,4 +1,4 @@
-import type { Question, Answer, DiagnosisResult, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
+import type { Answer, DiagnosisResult, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
 
 // 共通定数
 export const API_CONFIG = {
@@ -24,7 +24,7 @@ export async function callOpenAiApi(
   systemPrompt: string,
   userPrompt: string,
   temperature: number = 0.3
-): Promise<any> {
+): Promise<Record<string, unknown>> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error('OPENAI_API_KEYが未設定です');
@@ -68,7 +68,7 @@ export async function callOpenAiApi(
 
   try {
     return JSON.parse(content);
-  } catch (e) {
+  } catch {
     console.error('Failed to parse AI JSON:', content);
     throw new Error('AI応答の解析に失敗しました');
   }

@@ -17,8 +17,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   totalQuestions,
   onNext,
   onPrevious,
-  initialValue = '',
-  isLastQuestion = false,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -109,7 +107,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
             <div className="space-y-6">
               {/* 選択肢フォーム */}
               <div className="space-y-4">
-                {question.options.map((option, index) => (
+                {question.options.map((option) => (
                   <label
                     key={option.id}
                     className={`block p-4 md:p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${

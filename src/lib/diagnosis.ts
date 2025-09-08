@@ -1,4 +1,4 @@
-import { DiagnosisPattern, PersonalityScores, Answer } from '@/types/diagnosis';
+import { DiagnosisPattern, PersonalityScores, Answer, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
 import { APP_CONFIG, DIAGNOSIS_QUESTIONS } from '@/lib/constants';
 
 // マジックナンバーを定数化
@@ -187,7 +187,7 @@ export function formatAnswersText(answers: Answer[]): string {
 }
 
 // 将来予測バリデーション関数群
-export function validateValueDetails(valueDetails: any[]): string | null {
+export function validateValueDetails(valueDetails: SelectedValueItem[]): string | null {
   if (!valueDetails || !Array.isArray(valueDetails)) {
     return '価値詳細情報が必要です';
   }
@@ -206,7 +206,7 @@ export function validateValueDetails(valueDetails: any[]): string | null {
   return null;
 }
 
-export function validateFuturePredictions(predictions: any[]): string | null {
+export function validateFuturePredictions(predictions: FuturePrediction[]): string | null {
   if (!predictions || !Array.isArray(predictions)) {
     return '予測結果の形式が不正です';
   }

@@ -75,7 +75,6 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
       // リスト項目 (-)
       else if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
         const indent = line.length - line.trimLeft().length;
-        const listMarker = line.trim().startsWith('- ') ? '- ' : '* ';
         let indentClass = '';
         let bulletColor = '';
         

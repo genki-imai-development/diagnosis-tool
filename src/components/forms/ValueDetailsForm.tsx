@@ -13,7 +13,6 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   selectedValues,
   onNext,
   onPrevious,
-  totalQuestions,
   initialValues = [],
 }) => {
   // 詳細回答セット
@@ -56,7 +55,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
       }
     }
     setError(null);
-  }, [currentValueIndex, currentQuestionType, currentDetail]);
+  }, [currentValueIndex, currentQuestionType, currentDetail, currentValue]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

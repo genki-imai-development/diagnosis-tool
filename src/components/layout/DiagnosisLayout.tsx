@@ -8,8 +8,6 @@ interface DiagnosisLayoutProps {
 
 export const DiagnosisLayout: React.FC<DiagnosisLayoutProps> = ({
   children,
-  title = '性格診断ツール',
-  subtitle,
 }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">

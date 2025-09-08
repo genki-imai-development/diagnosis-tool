@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     // AI診断実行
     let aiResult: DiagnosisResult;
     try {
-      aiResult = await callOpenAiApi(PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, userPrompt, 0.3);
+      aiResult = await callOpenAiApi(PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, userPrompt, 0.3) as unknown as DiagnosisResult;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'AI診断の実行に失敗しました';
       

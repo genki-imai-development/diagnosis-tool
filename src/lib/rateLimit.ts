@@ -117,7 +117,6 @@ export function addRateLimitHeaders(
 
 // 定期的なクリーンアップ（メモリリーク防止）
 setInterval(() => {
-  const now = Date.now();
   for (const [ip, timestamps] of requestHistory.entries()) {
     const cleaned = cleanupOldRequests(timestamps, DEFAULT_CONFIG.windowMs);
     if (cleaned.length === 0) {
