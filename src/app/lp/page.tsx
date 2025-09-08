@@ -54,13 +54,13 @@ export default function LandingPage() {
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isHeaderScrolled ? 'bg-white/98' : 'bg-white/95'
       } backdrop-blur-md shadow-sm`}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 md:px-8">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-2 py-2 md:px-8">
           <div className="flex items-center">
             {/* ロゴ */}
             <img
               src="/images/patterns/logo.svg"
               alt="ロゴ"
-              className="w-16 h-16 mr-3"
+              className="w-12 h-12 md:w-16 md:h-16 mr-3"
             />
             <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
               ライフコーチAI（ベータ版）
@@ -117,7 +117,7 @@ export default function LandingPage() {
             <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-shadow-lg opacity-0 animate-fade-in-up">
               なりたい自分への道筋<br />5分で見える化。<br />ライフコーチAIで。
             </h1>
-            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200">
+            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200 hidden md:block">
               大切にしている価値観から理想の未来を描き、<br />
               今いる場所から目標までの具体的な道筋を作成します。
             </p>
@@ -317,7 +317,7 @@ export default function LandingPage() {
           </h2>
           
           {/* Feature 1 - 自己理解 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-8 md:mb-24">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-12 md:mb-24">
             <div>
               <div className="flex items-center mb-6">
                 <div className="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">1</div>
@@ -353,7 +353,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 2 - 目標設定 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-8 md:mb-24">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-12 md:mb-24">
             <div className="md:order-2">
               <div className="flex items-center mb-6">
                 <div className="bg-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">2</div>
