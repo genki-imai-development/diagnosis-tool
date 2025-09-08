@@ -4,7 +4,7 @@ import type { Question, Answer, DiagnosisResult, SelectedValueItem, FuturePredic
 export const API_CONFIG = {
   OPENAI_MODEL: 'gpt-4o-mini',
   RESPONSE_FORMAT: { type: 'json_object' as const },
-  TIMEOUT: 30000, // 30秒
+  TIMEOUT: 60000, // 30秒
 } as const;
 
 // 共通エラーレスポンス型

@@ -5,17 +5,13 @@ import type { DiagnosisResult as DiagnosisResultType } from '@/types/diagnosis';
 interface DiagnosisResultProps {
   result: DiagnosisResultType | null;
   loading: boolean;
-  error: string | null;
   onNext?: () => void;
-  onRetry?: () => void;
 }
 
 export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   result,
   loading,
-  error,
   onNext,
-  onRetry,
 }) => {
   if (loading) {
     return (
@@ -39,34 +35,6 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 あなたの回答を分析し、性格傾向を診断しています
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6">
-            <h3 className="text-2xl font-bold text-white flex items-center">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              エラーが発生しました
-            </h3>
-          </div>
-          <div className="p-8 text-center">
-            <p className="text-gray-700 mb-6 text-lg leading-relaxed">{error}</p>
-            <button
-              onClick={onRetry}
-              className="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              再試行
-            </button>
           </div>
         </div>
       </div>
@@ -209,43 +177,22 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* 適性環境 */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 md:p-6 border border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-green-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                    <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <h4 className="text-base md:text-lg font-bold text-green-900">
-                    活かされる環境・仕事
-                  </h4>
+          {/* あなたの強み（才能） */}
+          <div className="group">
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-4 md:p-6 border border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                  </svg>
                 </div>
-                <p className="text-green-800 leading-relaxed text-base md:text-lg">
-                  {result.suitableEnvironments}
-                </p>
+                <h4 className="text-base md:text-lg font-bold text-purple-900">
+                  あなたの強み（才能）
+                </h4>
               </div>
-            </div>
-
-            {/* 注意環境 */}
-            <div className="group">
-              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-4 md:p-6 border border-amber-200 hover:border-amber-300 transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
-                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <h4 className="text-base md:text-lg font-bold text-amber-900">
-                    注意が必要な環境・仕事
-                  </h4>
-                </div>
-                <p className="text-amber-800 leading-relaxed text-base md:text-lg">
-                  {result.unsuitableEnvironments}
-                </p>
-              </div>
+              <p className="text-purple-800 leading-relaxed text-base md:text-lg">
+                {result.strengths}
+              </p>
             </div>
           </div>
         </div>

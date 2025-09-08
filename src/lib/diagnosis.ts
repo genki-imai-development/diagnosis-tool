@@ -1,5 +1,5 @@
 import { DiagnosisPattern, PersonalityScores, Answer } from '@/types/diagnosis';
-import { APP_CONFIG } from '@/lib/constants';
+import { APP_CONFIG, DIAGNOSIS_QUESTIONS } from '@/lib/constants';
 
 // マジックナンバーを定数化
 export const SIMILARITY_SCORES = {
@@ -154,9 +154,10 @@ export function validateAnswers(answers: Answer[]): string | null {
     return 'answersが空です';
   }
 
-  const tooShort = answers.find((a) => (a.text?.trim().length ?? 0) < VALIDATION_CONSTRAINTS.MIN_ANSWER_LENGTH);
-  if (tooShort) {
-    return `各回答は${VALIDATION_CONSTRAINTS.MIN_ANSWER_LENGTH}文字以上が必要です`;
+  // 回答が空でないことをチェック
+  const emptyAnswer = answers.find((a) => !a.text?.trim());
+  if (emptyAnswer) {
+    return '全ての質問に回答してください';
   }
 
   return null;
@@ -175,8 +176,14 @@ export function validatePersonalityScores(scores: PersonalityScores): boolean {
 // 回答テキストを整形する関数
 export function formatAnswersText(answers: Answer[]): string {
   return answers
-    .map((a) => `Q${a.questionId}: ${a.text.trim()}`)
-    .join('\n');
+    .map((a) => {
+      // 選択した選択肢のテキストを使用
+      const answerText = a.text.trim();
+      const question = DIAGNOSIS_QUESTIONS.find(q => q.id === a.questionId);
+      const questionText = question?.text || `質問${a.questionId}`;
+      return `${questionText}\n回答: ${answerText}`;
+    })
+    .join('\n\n');
 }
 
 // 将来予測バリデーション関数群
@@ -212,12 +219,10 @@ export function validateFuturePredictions(predictions: any[]): string | null {
     if (
       !prediction.valueId || 
       !prediction.valueName || 
-      !prediction.realisticPrediction || 
-      !prediction.idealPrediction ||
-      typeof prediction.idealRealizationProbability !== 'number' ||
-      prediction.idealRealizationProbability < 0 ||
-      prediction.idealRealizationProbability > 100 ||
-      !prediction.onePointAdvice
+      !prediction.gapAnalysis || 
+      !prediction.gapLevel ||
+      !['大', '中', '小'].includes(prediction.gapLevel) ||
+      !prediction.detailedRoadmap
     ) {
       return '予測情報が不完全です';
     }

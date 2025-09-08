@@ -1,16 +1,21 @@
+// 質問の選択肢型定義
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
+
 // 質問の型定義
 export interface Question {
   id: number;
   text: string;
-  placeholder?: string;
-  minLength: number;
+  options: QuestionOption[]; // 選択肢（必須）
   order: number;
 }
 
 // 回答の型定義
 export interface Answer {
   questionId: number;
-  text: string;
+  text: string; // 選択した選択肢のテキスト
 }
 
 // 価値選択項目の型定義
@@ -66,22 +71,18 @@ export interface DiagnosisResult {
   pattern: DiagnosisPattern;
   /** あなたの特性 */
   characteristics: string;
-  /** 特性が活かされる環境・仕事 */
-  suitableEnvironments: string;
-  /** 特性が活かされない環境・仕事 */
-  unsuitableEnvironments: string;
+  /** あなたの強み（才能） */
+  strengths: string;
 }
 
 // 未来予測の型定義
 export interface FuturePrediction {
   valueId: string;
   valueName: string;
-  /** 実現可能性の高い未来 */
-  realisticPrediction: string;
-  /** 理想の未来 */
-  idealPrediction: string;
-  /** 理想の未来の実現可能性（0-100%） */
-  idealRealizationProbability: number;
-  /** 理想の未来を実現するためのワンポイントアドバイス */
-  onePointAdvice: string;
+  /** 現在と未来のギャップ説明 */
+  gapAnalysis: string;
+  /** ギャップレベル（大・中・小） */
+  gapLevel: '大' | '中' | '小';
+  /** ギャップを埋めるための詳細ロードマップ */
+  detailedRoadmap: string;
 }
