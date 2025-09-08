@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { FuturePrediction, SelectedValueItem, DiagnosisResult } from '@/types/diagnosis';
 import { callOpenAiApi, createErrorResponse } from '@/lib/api';
 import { FUTURE_PREDICTION_SYSTEM_PROMPT, createFuturePredictionUserPrompt } from '@/lib/prompts';
 import { validateValueDetails, validateFuturePredictions } from '@/lib/diagnosis';
+import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/lib/rateLimit';
 
 // 性格診断結果を整形する関数
 function formatPersonalityInfo(diagnosisResult: DiagnosisResult): string {
@@ -32,8 +33,14 @@ function formatValueDetailsText(valueDetails: SelectedValueItem[]): string {
     .join('\n');
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    // レート制限チェック
+    const { isAllowed, remaining, resetTime } = checkRateLimit(req);
+    if (!isAllowed) {
+      return createRateLimitResponse(remaining, resetTime);
+    }
+
     // リクエストボディの解析とバリデーション
     const { valueDetails, diagnosisResult } = (await req.json()) as { 
       valueDetails?: SelectedValueItem[];
@@ -81,7 +88,8 @@ export async function POST(req: Request) {
     }
 
     // 予測結果を返却
-    return NextResponse.json(aiResult);
+    const response = NextResponse.json(aiResult);
+    return addRateLimitHeaders(response, remaining, resetTime);
     
   } catch (error) {
     console.error('Internal server error:', error);
