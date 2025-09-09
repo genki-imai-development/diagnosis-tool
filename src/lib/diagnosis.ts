@@ -23,70 +23,70 @@ export const DIAGNOSIS_PATTERNS: DiagnosisPattern[] = [
   {
     id: "salaryman",
     name: "空を飛びたいサラリーマン",
-    description: "創造性が高く、現実的な環境にいながらも理想を追い求める。協調性と勤勉性に優れ、組織内で信頼される存在。",
+    description: "会社では真面目に働くけど、心の中ではいつも夢を見ている人。みんなから信頼されて、新しいアイデアもたくさん思いつく。",
     scores: { creativity: 4, extraversion: 2, agreeableness: 4, emotionality: 3, conscientiousness: 4 },
     image: "/images/patterns/salaryman.png"
   },
   {
     id: "firefighter",
     name: "注目されたい消防員",
-    description: "外向性が高く、人々の注目を集めることを好む。情動性も高く、感情豊かでドラマチックな行動を取る傾向。",
+    description: "人を助ける仕事をしているけど、実はみんなに「すごいね！」って言われたい人。感情豊かで、目立つのが大好き。",
     scores: { creativity: 3, extraversion: 4, agreeableness: 2, emotionality: 4, conscientiousness: 3 },
     image: "/images/patterns/firefighter.png"
   },
   {
     id: "revolutionary",
     name: "革命を起こしたい事務員",
-    description: "創造性が高く、現状打破を目指す。協調性も高く、人々をまとめて変革を起こそうとする。情動性は低く冷静。",
+    description: "普通の事務仕事をしているけど、「世界を変えたい」と思っている人。冷静で、みんなと協力するのが上手。",
     scores: { creativity: 4, extraversion: 2, agreeableness: 4, emotionality: 2, conscientiousness: 4 },
     image: "/images/patterns/revolutionary.png"
   },
   {
     id: "rapper",
     name: "真面目なラッパー",
-    description: "創造性と外向性が高く、表現力豊か。協調性は低く、独自のスタイルを貫く。勤勉性が高く、技術向上に励む。",
+    description: "音楽で自分を表現するのは得意だけど、一人で黙々と練習するタイプ。人前に出るのは平気だけど、群れるのは苦手。",
     scores: { creativity: 4, extraversion: 4, agreeableness: 2, emotionality: 2, conscientiousness: 4 },
     image: "/images/patterns/rapper.png"
   },
   {
     id: "mc",
     name: "人前が苦手なMC",
-    description: "創造性が高く、表現力に優れる。外向性は低く、人前での活動は苦手。情動性が高く、感情表現が豊か。",
+    description: "表現力があって創造性豊かだけど、実は人前に出るのが恥ずかしい人。感情表現が上手で、とても繊細。",
     scores: { creativity: 4, extraversion: 2, agreeableness: 2, emotionality: 4, conscientiousness: 3 },
     image: "/images/patterns/mc.png"
   },
   {
     id: "teamleader",
     name: "一人になりたいチームリーダー",
-    description: "外向性と協調性が高く、チームをまとめる能力に長ける。情動性も高く、メンバーの感情に敏感。",
+    description: "チームをまとめるのが得意で、みんなの気持ちもよくわかる。でも時々、一人の時間がほしくなる優しい人。",
     scores: { creativity: 3, extraversion: 4, agreeableness: 4, emotionality: 4, conscientiousness: 3 },
     image: "/images/patterns/teamleader.png"
   },
   {
     id: "teacher",
     name: "暴れたい茶道の先生",
-    description: "創造性は低く、伝統を重んじる。外向性も低く、内向的。情動性が高く、感情の起伏が激しい。",
+    description: "伝統的なお茶の作法を教えているけど、本当は自由に動き回りたい人。感情の変化が激しくて、じっとしているのが苦手。",
     scores: { creativity: 2, extraversion: 2, agreeableness: 2, emotionality: 4, conscientiousness: 4 },
     image: "/images/patterns/teacher.png"
   },
   {
     id: "pharmacist",
     name: "スリルを求める薬剤師",
-    description: "創造性と外向性が高く、新しい体験を求める。勤勉性が高く、責任感が強い。",
+    description: "薬の仕事では責任感が強くて真面目だけど、プライベートではドキドキする体験が大好きな人。新しいことにチャレンジするのが好き。",
     scores: { creativity: 4, extraversion: 4, agreeableness: 3, emotionality: 3, conscientiousness: 4 },
     image: "/images/patterns/pharmacist.png"
   },
   {
     id: "archaeologist",
     name: "孤独を嫌う考古学者",
-    description: "創造性は中程度で、研究に情熱を注ぐ。外向性は低いが、協調性が高く、チームワークを重視。",
+    description: "一人で研究する仕事だけど、実はみんなでワイワイするのが一番好きな人。人とのつながりをとても大切にしている。",
     scores: { creativity: 3, extraversion: 2, agreeableness: 4, emotionality: 4, conscientiousness: 2 },
     image: "/images/patterns/archaeologist.png"
   },
   {
     id: "comedian",
     name: "完璧主義な笑い芸人",
-    description: "創造性は低く、既存のパターンを重視。外向性が高く、人を楽しませることが好き。完璧主義で自己要求が厳しい。",
+    description: "人を笑わせるのは得意だけど、自分には厳しくて「もっと上手くなりたい」といつも思っている人。真面目で努力家。",
     scores: { creativity: 2, extraversion: 4, agreeableness: 3, emotionality: 2, conscientiousness: 2 },
     image: "/images/patterns/comedian.png"
   }
