@@ -190,9 +190,8 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
                 ギャップを埋めて理想を実現しませんか？
               </h3>
               <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                診断結果から見えてきた「現在と理想のギャップ」。<br />
-                そのギャップを埋めるための具体的な行動計画を、<br />
-                プロのコーチがあなたと一緒に作成します。
+                現在と理想のギャップを埋めるための<br className="block md:hidden" />具体的な行動計画を<br />
+                コーチがあなたと一緒に作成します。
               </p>
             </div>
 

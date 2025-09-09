@@ -148,7 +148,7 @@ export default function LandingPage() {
               あなたの人生を動かす第一歩を、今ここから。
             </p>
             <div className="hero-buttons flex flex-col sm:flex-row gap-4 mt-8 opacity-0 animate-fade-in-up animation-delay-400">
-              <Link href="/#diagnosis" className="btn btn-primary px-6 md:px-8 py-3 md:py-4 bg-white text-indigo-600 rounded-full font-semibold text-base md:text-lg hover:transform hover:scale-105 transition-all duration-300 shadow-2xl relative overflow-hidden group text-center">
+              <Link href="/" className="btn btn-primary px-6 md:px-8 py-3 md:py-4 bg-white text-indigo-600 rounded-full font-semibold text-base md:text-lg hover:transform hover:scale-105 transition-all duration-300 shadow-2xl relative overflow-hidden group text-center">
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500" />
                 無料で診断を始める
               </Link>
