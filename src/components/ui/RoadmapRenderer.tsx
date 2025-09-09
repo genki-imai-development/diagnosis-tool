@@ -2,10 +2,9 @@ import React from 'react';
 
 interface RoadmapRendererProps {
   markdown: string;
-  gapLevel: '大' | '中' | '小';
 }
 
-export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapLevel }) => {
+export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown }) => {
   // Markdownを解析してJSXに変換する関数
   const parseMarkdown = (text: string) => {
     const lines = text.split('\n');
@@ -14,19 +13,20 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      
-      if (line.trim() === '') {
-        elements.push(<div key={key++} className="h-3" />);
-        continue;
-      }
 
       // H1 (#)
       if (line.startsWith('# ')) {
         elements.push(
           <div key={key++} className="relative mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800 relative inline-block">
-              <span className="relative z-10">{line.substring(2)}</span>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transform -translate-y-1"></div>
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center mr-3 transition-transform  bg-gradient-to-r from-blue-500 to-purple-500">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+                <h4 className="text-base md:text-xl font-bold">
+                  {line.substring(2)}
+                </h4>
+              </div>
             </h1>
           </div>
         );
@@ -35,7 +35,6 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
       else if (line.startsWith('## ')) {
         elements.push(
           <div key={key++} className="flex items-center mt-8 mb-4">
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 flex-shrink-0"></div>
             <h2 className="text-xl md:text-2xl font-bold text-gray-700 leading-tight">
               {line.substring(3)}
             </h2>
@@ -47,8 +46,8 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
       else if (line.startsWith('### ')) {
         const content = line.substring(4);
         elements.push(
-          <div key={key++} className="mt-6 mb-3">
-            <h3 className="text-lg md:text-xl font-semibold text-gray-700 bg-white/70 backdrop-blur-sm px-4 py-3 rounded-lg border border-gray-200/50 shadow-sm">
+          <div key={key++} className="mt-6 mb-4">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-700 bg-white/70 backdrop-blur-sm px-4 py-3 rounded-lg border border-gray-200/50">
               {parseInlineMarkdown(content)}
             </h3>
           </div>
@@ -93,8 +92,8 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
         
         elements.push(
           <div key={key++} className={`flex items-start ${indentClass} mb-3 group`}>
-            <div className={`w-2 h-2 ${bulletColor} rounded-full mr-3 mt-2 flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}></div>
-            <span className="text-gray-700 leading-relaxed hover:text-gray-900 transition-colors duration-200">{content}</span>
+            <div className={`w-2 h-2 ${bulletColor} rounded-full mr-3 mt-2 flex-shrink-0 transition-transform duration-200`}></div>
+            <span className="text-gray-700 leading-relaxed transition-colors duration-200">{content}</span>
           </div>
         );
       }
@@ -110,10 +109,10 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
           
           elements.push(
             <div key={key++} className={`flex items-start ${indentClass} mb-3 group`}>
-              <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 mt-0.5 flex-shrink-0 flex items-center justify-center text-white text-sm font-medium group-hover:scale-110 transition-transform duration-200">
+              <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 mt-0.5 flex-shrink-0 flex items-center justify-center text-white text-sm font-medium transition-transform duration-200">
                 {number}
               </div>
-              <span className="text-gray-700 leading-relaxed hover:text-gray-900 transition-colors duration-200">{content}</span>
+              <span className="text-gray-700 leading-relaxed transition-colors duration-200">{content}</span>
             </div>
           );
         }
@@ -153,38 +152,18 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown, gapL
     });
   };
 
-  const getBorderColor = () => {
-    switch (gapLevel) {
-      case '大': return 'border-red-200/50';
-      case '中': return 'border-amber-200/50';
-      case '小': return 'border-emerald-200/50';
-      default: return 'border-gray-200/50';
-    }
-  };
 
-  const getBackgroundColor = () => {
-    switch (gapLevel) {
-      case '大': return 'from-red-50/30 via-pink-50/20 to-white';
-      case '中': return 'from-amber-50/30 via-yellow-50/20 to-white';
-      case '小': return 'from-emerald-50/30 via-green-50/20 to-white';
-      default: return 'from-blue-50/30 via-indigo-50/20 to-white';
-    }
-  };
-
-  const getAccentColor = () => {
-    switch (gapLevel) {
-      case '大': return 'shadow-red-100/50';
-      case '中': return 'shadow-amber-100/50';
-      case '小': return 'shadow-emerald-100/50';
-      default: return 'shadow-blue-100/50';
-    }
-  };
 
   return (
-    <div className={`relative bg-gradient-to-br ${getBackgroundColor()} rounded-2xl p-6 md:p-8 border ${getBorderColor()} ${getAccentColor()} shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-500 group`}>
+    <div 
+      className="rounded-2xl p-4 md:p-6 transition-all duration-300"
+      style={{
+        background: 'linear-gradient(135deg, #ffebee 0%, #f3e5f5 20%, #e8eaf6 40%, #e3f2fd 60%, #e0f2f1 80%, #f1f8e9 100%)'
+      }}
+    >
       {/* 装飾的な背景要素 */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-700"></div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/10 to-transparent rounded-full -ml-12 -mb-12 group-hover:scale-110 transition-transform duration-700"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full -mr-16 -mt-16 transition-transform duration-700"></div>
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-white/10 to-transparent rounded-full -ml-12 -mb-12 transition-transform duration-700"></div>
       
       {/* メインコンテンツ */}
       <div className="relative z-10 roadmap-content">

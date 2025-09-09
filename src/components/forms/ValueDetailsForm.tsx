@@ -120,7 +120,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
     if (currentQuestionType === 'current') {
       return `「${currentValue?.name}」の現状を教えてください`;
     } else {
-      return `「${currentValue?.name}」の3年後の100点満点の理想の未来は？`;
+      return `「${currentValue?.name}」について、あなたの理想の未来は？`;
     }
   };
 

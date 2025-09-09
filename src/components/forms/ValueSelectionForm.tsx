@@ -109,10 +109,6 @@ export const ValueSelectionForm: React.FC<ValueSelectionFormProps> = ({
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 md:mb-6 leading-tight">
                 あなたの人生で最も大切にしたい項目を3つ選んでください
               </h2>
-              
-              <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                以下の10個の項目から、あなたが最も重要だと思う3つを選択してください。
-              </p>
             </div>
 
             <div className="space-y-6">

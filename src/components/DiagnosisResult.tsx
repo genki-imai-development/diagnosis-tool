@@ -30,10 +30,10 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
               </div>
               
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-                AIが診断を実行中です...
+                AI分析中...10秒程度お待ちください
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                あなたの回答を分析し、性格傾向を診断しています
+                あなたの入力内容をもとに、性格特性を診断しています。
               </p>
             </div>
           </div>
@@ -83,10 +83,10 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             </div>
           </div>
           <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-            診断完了！
+            性格特性
           </h1>
           <p className="text-base font-light opacity-90 max-w-2xl mx-auto">
-            あなたの性格特性が明らかになりました
+            あなたの入力内容をもとに、性格特性を診断しました。
           </p>
         </div>
       </div>
@@ -208,7 +208,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             onClick={onNext}
             className="px-12 py-4 text-lg font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl text-white transform hover:scale-105 cursor-pointer"
           >
-            未来予測を見る
+            次へ進む
           </button>
         </div>
       )}

@@ -123,7 +123,11 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
                         value={option.text}
                         checked={selectedOption === option.text}
                         onChange={() => handleOptionChange(option.text)}
-                        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                        className="w-5 h-5 bg-gray-100 border-gray-300 focus:outline-none focus:ring-0"
+                        style={{ 
+                          accentColor: 'var(--color-blue-500)',
+                          color: 'var(--color-blue-500)'
+                        }}
                       />
                       <span className="ml-4 text-base md:text-lg text-gray-900 font-medium">
                         {option.text}
