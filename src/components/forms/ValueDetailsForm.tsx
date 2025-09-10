@@ -60,9 +60,14 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 文字数バリデーション（最小10文字） TODO: QuestionのminLengthに合わせる
+    // 文字数バリデーション（10文字以上50文字以下）
     if (text.trim().length < 10) {
       setError('10文字以上で入力してください');
+      return;
+    }
+
+    if (text.trim().length > 50) {
+      setError('50文字以下で入力してください');
       return;
     }
 
@@ -133,8 +138,9 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
   };
 
   const getMinLength = () => 10;
+  const getMaxLength = () => 50;
   const currentLength = text.trim().length;
-  const isValid = currentLength >= getMinLength();
+  const isValid = currentLength >= getMinLength() && currentLength <= getMaxLength();
 
   // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
   const totalSteps = 12; // 5 + 1 + 6
@@ -205,6 +211,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
                     error ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
                   }`}
                   rows={4}
+                  maxLength={getMaxLength()}
                   required
                 />
                 
@@ -228,7 +235,7 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
                         <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
                       )}
                     </div>
-                    {currentLength} / {getMinLength()}文字以上
+                    {currentLength} / {getMinLength()}〜{getMaxLength()}文字
                   </div>
                 </div>
 
