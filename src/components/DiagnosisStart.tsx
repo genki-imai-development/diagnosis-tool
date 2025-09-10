@@ -27,7 +27,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
             ライフコーチAIを使ってみましょう！
           </h1>
           <p className="text-base font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
-            Big5診断で性格を分析し、あなたの強みと才能を発見します。<br />
+            AI×Big5で性格を分析し、あなたの強みと才能を発見します。<br />
             人生で大切にしたい価値を明確にして、理想の自分への具体的なロードマップを作成します。<br />
             所要時間は約5-10分です。
           </p>
@@ -67,7 +67,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                     自己理解
                   </h3>
                   <p className="text-blue-800 leading-relaxed text-sm">
-                    Big5診断であなたの性格傾向を分析し、強みと才能を発見します。
+                    AI×Big5であなたの性格傾向を分析し、強みと才能を発見します。
                   </p>
                 </div>
               </div>
