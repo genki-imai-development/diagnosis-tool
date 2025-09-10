@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { FuturePrediction, SelectedValueItem, DiagnosisResult } from '@/types/diagnosis';
-import { callOpenAiApi, createErrorResponse } from '@/lib/api';
+import { callOpenAiApi, createErrorResponse, checkApiAccess } from '@/lib/api';
 import { FUTURE_PREDICTION_SYSTEM_PROMPT, createFuturePredictionUserPrompt } from '@/lib/prompts';
 import { validateValueDetails, validateFuturePredictions } from '@/lib/diagnosis';
 import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/lib/rateLimit';
@@ -35,9 +35,15 @@ function formatValueDetailsText(valueDetails: SelectedValueItem[]): string {
 
 export async function POST(req: NextRequest) {
   try {
+    // アクセス制御チェック
+    const { isAllowed, error } = checkApiAccess(req);
+    if (!isAllowed && error) {
+      return error;
+    }
+
     // レート制限チェック
-    const { isAllowed, remaining, resetTime } = checkRateLimit(req);
-    if (!isAllowed) {
+    const { isAllowed: rateLimitAllowed, remaining, resetTime } = checkRateLimit(req);
+    if (!rateLimitAllowed) {
       return createRateLimitResponse(remaining, resetTime);
     }
 

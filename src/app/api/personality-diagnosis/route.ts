@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DiagnosisResult, Answer } from '@/types/diagnosis';
-import { callOpenAiApi, createErrorResponse } from '@/lib/api';
+import { callOpenAiApi, createErrorResponse, checkApiAccess } from '@/lib/api';
 import { PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, createPersonalityDiagnosisUserPrompt } from '@/lib/prompts';
 import {
   selectPatternFromScores,
@@ -12,9 +12,15 @@ import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/
 
 export async function POST(req: NextRequest) {
   try {
+    // アクセス制御チェック
+    const { isAllowed, error } = checkApiAccess(req);
+    if (!isAllowed && error) {
+      return error;
+    }
+
     // レート制限チェック
-    const { isAllowed, remaining, resetTime } = checkRateLimit(req);
-    if (!isAllowed) {
+    const { isAllowed: rateLimitAllowed, remaining, resetTime } = checkRateLimit(req);
+    if (!rateLimitAllowed) {
       return createRateLimitResponse(remaining, resetTime);
     }
 

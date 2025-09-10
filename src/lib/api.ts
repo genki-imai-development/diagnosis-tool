@@ -1,4 +1,5 @@
 import type { Answer, DiagnosisResult, SelectedValueItem, FuturePrediction } from '@/types/diagnosis';
+import { NextRequest } from 'next/server';
 
 // 共通定数
 export const API_CONFIG = {
@@ -89,6 +90,43 @@ export function createErrorResponse(
       headers: { 'Content-Type': 'application/json' },
     }
   );
+}
+
+/**
+ * リファラーチェック関数 - 直接アクセスを防ぐ
+ * @param req NextRequest オブジェクト
+ * @returns アクセス許可の可否
+ */
+export function checkApiAccess(req: NextRequest): { isAllowed: boolean; error?: Response } {
+  const referer = req.headers.get('referer');
+  const origin = req.headers.get('origin');
+  const host = req.headers.get('host');
+  
+  // 開発環境では緩い制御（ただし、TEST_ACCESS_CONTROL=trueの場合は厳密にチェック）
+  if (process.env.NODE_ENV === 'development' && process.env.TEST_ACCESS_CONTROL !== 'true') {
+    return { isAllowed: true };
+  }
+  
+  // 本番環境でのチェック
+  const allowedOrigins = [
+    `https://${host}`,
+    `http://${host}`,
+    `https://localhost:3000`,
+    `http://localhost:3000`
+  ];
+  
+  // リファラーまたはオリジンが存在し、許可リストに含まれているかチェック
+  const hasValidReferer = referer && allowedOrigins.some(allowed => referer.startsWith(allowed));
+  const hasValidOrigin = origin && allowedOrigins.includes(origin);
+  
+  if (!hasValidReferer && !hasValidOrigin) {
+    return {
+      isAllowed: false,
+      error: createErrorResponse('access_denied', '不正なアクセスです', 403)
+    };
+  }
+  
+  return { isAllowed: true };
 }
 
 // === API呼び出し関数 ===
