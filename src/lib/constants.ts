@@ -87,7 +87,7 @@ export const APP_CONFIG = {
 export const DIAGNOSIS_QUESTIONS: Question[] = [
   {
     id: 1,
-    text: '新しい経験や挑戦に対するあなたの態度は？',
+    text: '新しい経験や挑戦に対するあなたの反応は？',
     options: [
       { id: 'challenge_1', text: 'いつも新しいことに積極的に挑戦したい' },
       { id: 'challenge_2', text: '興味があれば挑戦してみる' },
@@ -103,7 +103,7 @@ export const DIAGNOSIS_QUESTIONS: Question[] = [
     options: [
       { id: 'planning_1', text: '詳細な計画を立てて、必ず守る' },
       { id: 'planning_2', text: 'ある程度計画を立てて実行する' },
-      { id: 'planning_3', text: '状況に応じて柔軟に対応する' },
+      { id: 'planning_3', text: 'どちらとも言えない' },
       { id: 'planning_4', text: '計画は立てるが、よく変更する' },
       { id: 'planning_5', text: '計画を立てるのが苦手で、行き当たりばったり' }
     ],
@@ -115,7 +115,7 @@ export const DIAGNOSIS_QUESTIONS: Question[] = [
     options: [
       { id: 'social_1', text: '積極的に話しかけ、場を盛り上げる' },
       { id: 'social_2', text: '知っている人とは活発に話す' },
-      { id: 'social_3', text: '適度に参加する' },
+      { id: 'social_3', text: 'どちらとも言えない' },
       { id: 'social_4', text: '聞き役に回ることが多い' },
       { id: 'social_5', text: 'できるだけ静かな場所にいたい' }
     ],
@@ -127,7 +127,7 @@ export const DIAGNOSIS_QUESTIONS: Question[] = [
     options: [
       { id: 'conflict_1', text: '相手の気持ちを最優先に考え、譲歩する' },
       { id: 'conflict_2', text: 'お互いの妥協点を見つけようとする' },
-      { id: 'conflict_3', text: '状況に応じて判断する' },
+      { id: 'conflict_3', text: 'どちらとも言えない' },
       { id: 'conflict_4', text: '自分の意見をしっかりと主張する' },
       { id: 'conflict_5', text: '自分の考えを曲げることはない' }
     ],
@@ -139,7 +139,7 @@ export const DIAGNOSIS_QUESTIONS: Question[] = [
     options: [
       { id: 'stress_1', text: '冷静さを保ち、解決策を考える' },
       { id: 'stress_2', text: '少し緊張するが、なんとか対処する' },
-      { id: 'stress_3', text: '普通に対応する' },
+      { id: 'stress_3', text: 'どちらとも言えない' },
       { id: 'stress_4', text: '不安になり、うまく対処できないことがある' },
       { id: 'stress_5', text: 'とても動揺し、パニックになりやすい' }
     ],

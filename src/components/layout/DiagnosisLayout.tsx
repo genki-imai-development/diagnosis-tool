@@ -28,7 +28,7 @@ export const DiagnosisLayout: React.FC<DiagnosisLayoutProps> = ({
 
       {/* フッター */}
       <footer className="mt-auto py-8 text-center text-gray-500 text-sm">
-        <p>© 2025 性格診断ツール. All rights reserved.</p>
+        <p>Copyright(c) LIFE UP by YUKI IMAI all rights reserved.</p>
       </footer>
     </div>
   );

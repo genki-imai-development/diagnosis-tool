@@ -46,29 +46,30 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
     );
   }
 
-  // if (!predictions || predictions.length === 0) {
-  //   return (
-  //     <div className="max-w-4xl mx-auto">
-  //       <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-  //         <div className="bg-gradient-to-r from-amber-500 to-yellow-600 p-6">
-  //           <h3 className="text-2xl font-bold text-white flex items-center">
-  //             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-  //               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-  //                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-  //               </svg>
-  //             </div>
-  //             未来予測データがありません
-  //           </h3>
-  //         </div>
-  //         <div className="p-8 text-center">
-  //           <p className="text-gray-700 text-lg leading-relaxed">
-  //             予測データの生成に問題があったようです。
-  //           </p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!predictions || predictions.length === 0) {
+    return;
+    // return (
+    //   <div className="max-w-4xl mx-auto">
+    //     <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+    //       <div className="bg-gradient-to-r from-amber-500 to-yellow-600 p-6">
+    //         <h3 className="text-2xl font-bold text-white flex items-center">
+    //           <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+    //             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+    //               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+    //             </svg>
+    //           </div>
+    //           未来予測データがありません
+    //         </h3>
+    //       </div>
+    //       <div className="p-8 text-center">
+    //         <p className="text-gray-700 text-lg leading-relaxed">
+    //           予測データの生成に問題があったようです。
+    //         </p>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -87,7 +88,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
             </div>
           </div>
           <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-            ギャップ分析とロードマップ
+            ギャップ分析とロードマップを作成しました！
           </h1>
           <p className="text-base font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
             あなたの性格特性を活かした、完全オーダメイドのロードマップを作成しました。
