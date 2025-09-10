@@ -126,9 +126,9 @@ export const ValueDetailsForm: React.FC<ValueDetailsFormProps> = ({
 
   const getPlaceholder = () => {
     if (currentQuestionType === 'current') {
-      return `例：現在の${currentValue?.name}について、どのような状況で、どのような課題や成果があるか...`;
+      return `例：現在の${currentValue?.name}について、どのような状況で、どのような課題があるか...`;
     } else {
-      return `例：3年後の${currentValue?.name}で実現したい理想的な状態、具体的な目標や成果...`;
+      return `例：${currentValue?.name}で実現したい理想的な状態、具体的な目標など...`;
     }
   };
 
