@@ -78,7 +78,8 @@ export default function LandingPage() {
                 診断する
               </Link>
               <Link
-                href="https://nicky241103.com/contact"
+                target="_blank"
+                href="https://mosh.jp/nareru/inquiry"
                 className="px-6 py-2 border-2 border-indigo-500 text-indigo-600 font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 お問い合わせ
@@ -128,7 +129,7 @@ export default function LandingPage() {
                 <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                 </svg>
-                <span>科学的なBig5診断で客観的な自己理解</span>
+                <span>性格特性Big5で客観的な自己理解</span>
               </div>
               <div className="flex items-center mb-2">
                 <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
@@ -236,7 +237,7 @@ export default function LandingPage() {
               <h4 className="text-xl font-bold mb-4">自己理解</h4>
               <p className="mb-4">Big5診断であなたの強み・才能を発見</p>
               <ul className="text-base text-left">
-                <li>✔︎ 科学的根拠に基づく性格特性分析</li>
+                <li>✔︎ 性格を5因子で表す特性診断</li>
                 <li>✔︎ あなた独自の強みパターンを可視化</li>
                 <li>✔︎ 才能の活かし方をアドバイス</li>
               </ul>
@@ -328,7 +329,8 @@ export default function LandingPage() {
                 </h3>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                まずは、自分を知ることから始めましょう。5つの質問に答えるだけで、科学的根拠に基づくBig5診断があなたの性格特性を正確に分析します。開放性、誠実性、外向性、協調性、神経症傾向の5つの軸で、あなた独自の強みパターンを発見できます。
+                まずは、自分を知ることから始めましょう。<br />
+                5つの質問に答えるだけで、AIがあなたの性格特性を正確に分析します。開放性、誠実性、外向性、協調性、神経症傾向の5つの軸で、あなた独自の強みパターンを発見できます。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
@@ -366,7 +368,8 @@ export default function LandingPage() {
                 </h3>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                今の自分と理想の自分の違いを明確にしましょう。人生で大切にしている価値観を10個から3個選択し、それぞれについて現状と理想の未来を入力します。AIがギャップを分析し、大・中・小のレベルで目標の難易度を判定します。
+                今の自分と理想の自分の違いを明確にしましょう。<br />
+                人生で大切にしている価値観を10個から3個選択し、それぞれについて現状と理想の未来を入力します。AIがギャップを分析し、大・中・小のレベルで目標の難易度を判定します。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
@@ -404,7 +407,8 @@ export default function LandingPage() {
                 </h3>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                やるべきことを整理しましょう。性格診断の結果と価値観の入力内容をもとに、AIが「現状と未来のギャップ解説」「ギャップレベル」「目標達成までのロードマップ」を生成します。具体的で実行可能な行動指針をお届けします。
+                やるべきことを整理しましょう。<br />
+                性格診断の結果と価値観の入力内容をもとに、AIが「現状と未来のギャップ解説」「ギャップレベル」「目標達成までのロードマップ」を生成します。具体的で実行可能な行動指針をお届けします。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
@@ -442,7 +446,7 @@ export default function LandingPage() {
               診断の流れ
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              シンプルな5つのステップで、あなたの理想の未来への道筋を明確にします
+              シンプルな5つのステップで、あなたの理想の未来への道筋を明確にします。
             </p>
           </div>
 
@@ -453,9 +457,10 @@ export default function LandingPage() {
                 <div className="bg-indigo-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">1</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">Big5診断・強み才能の質問に回答</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">性格特性に関する質問に回答</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  まず、Big5診断と強み・才能を発見するための<strong>5つの質問</strong>にお答えください。科学的根拠に基づく質問で、あなたの性格特性を正確に分析します。所要時間は約3分です。
+                  まず、Big5と強み・才能を発見するための<strong>5つの質問</strong>にお答えください。<br />
+                  あなたの性格特性を正確に分析します。所要時間は約1-2分です。
                 </p>
               </div>
               <div className="text-6xl opacity-60">📝</div>
@@ -469,7 +474,8 @@ export default function LandingPage() {
               <div className="flex-1">
                 <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">人生で大事にしている価値を選択</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  人生で大切にしている価値観を<strong>10個の選択肢から3個</strong>選んでください。家族、キャリア、健康、創造性など、あなたが最も重視する価値観を明確にします。
+                  人生で大切にしている価値観を<strong>10個の選択肢から3個</strong>選んでください。<br />
+                  仕事・健康・人間関係など、あなたが最も重視する価値観を明確にします。
                 </p>
               </div>
               <div className="text-6xl opacity-60">💎</div>
@@ -483,7 +489,8 @@ export default function LandingPage() {
               <div className="flex-1">
                 <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">各価値の現状と理想の未来を入力</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  選択した3つの価値観について、<strong>それぞれの現状と理想の未来</strong>を具体的に入力してください。現在の状況と将来なりたい姿を明確にすることで、ギャップを可視化します。
+                  選択した3つの価値観について、<strong>それぞれの現状と理想の未来</strong>を具体的に入力してください。<br />
+                  現在の状況と将来なりたい姿を明確にすることで、ギャップを可視化します。
                 </p>
               </div>
               <div className="text-6xl opacity-60">✍️</div>
@@ -495,9 +502,10 @@ export default function LandingPage() {
                 <div className="bg-green-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">4</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">AIがBig5診断をスコアリング</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">AIがBig5をスコアリング</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  AIが回答内容を分析し、<strong>Big5診断のスコアリング</strong>を実行。あなたの「強み・才能」を生成し、性格診断の結果をレーダーチャート形式で分かりやすく表示します。
+                  AIが回答内容を分析し、<strong>Big5診断のスコアリング</strong>を実行。<br />
+                  あなたの「強み・才能」を生成し、性格診断の結果をレーダーチャート形式で分かりやすく表示します。
                 </p>
               </div>
               <div className="text-6xl opacity-60">🤖</div>
@@ -509,9 +517,9 @@ export default function LandingPage() {
                 <div className="bg-blue-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">5</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">総合分析結果とロードマップを表示</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">ギャップ分析とロードマップを表示</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  性格診断の結果と価値観の入力内容をもとに、AIが<strong>「現状と未来のギャップ解説」「ギャップレベル」「目標達成までのロードマップ」</strong>を生成。あなた専用の成長戦略をお届けします。
+                  性格診断の結果と価値観の入力内容をもとに、AIが<strong>「現状と未来のギャップ解説」「ギャップの大きさ」「目標達成までのロードマップ」</strong>を生成。あなた専用の成長戦略をお届けします。
                 </p>
               </div>
               <div className="text-6xl opacity-60">🎯</div>
@@ -624,7 +632,7 @@ export default function LandingPage() {
             </Link>
           </div> */}
           <div className="text-sm text-white/60 border-t border-white/10 pt-4">
-            Copyright(c)Future Tech Research Institute Co.,Ltd. all rights reserved.
+            Copyright(c) LIFE UP by YUKI IMAI all rights reserved.
           </div>
         </div>
       </footer>

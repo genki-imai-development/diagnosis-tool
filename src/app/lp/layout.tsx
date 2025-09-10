@@ -1,24 +1,24 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'フューチャーサイト - 特性診断・未来予想ツール',
-  description: '科学的根拠に基づく性格特性分析と、AIが導く未来予想。あなたの可能性を発見し、理想の未来へと導くパーソナル診断ツール',
-  keywords: '特性診断, 未来予想, AI診断, 性格分析, 自己理解, キャリア診断',
-  authors: [{ name: 'フューチャーテック研究所' }],
+  title: '自分を変える方法|自分が嫌いな人のための5分無料診断ツール - ライフコーチAI',
+  description: 'あなたの強みと才能を明確にし、理想の未来へと導くパーソナル診断ツール',
+  keywords: '性格特性診断, Big5, AI診断, 自己理解, キャリア診断',
+  authors: [{ name: 'LIFE UP by YUKI IMAI' }],
   viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
-    title: 'フューチャーサイト - 特性診断・未来予想ツール',
-    description: '科学的根拠に基づく性格特性分析と、AIが導く未来予想。あなたの可能性を発見し、理想の未来へと導くパーソナル診断ツール',
+    title: '自分を変える方法|自分が嫌いな人のための5分無料診断ツール - ライフコーチAI',
+    description: 'あなたの強みと才能を明確にし、理想の未来へと導くパーソナル診断ツール',
     type: 'website',
     locale: 'ja_JP',
     url: '/lp',
-    siteName: 'フューチャーサイト',
+    siteName: 'ライフコーチAI',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'フューチャーサイト - 特性診断・未来予想ツール',
-    description: '科学的根拠に基づく性格特性分析と、AIが導く未来予想。あなたの可能性を発見し、理想の未来へと導くパーソナル診断ツール',
+    title: '自分を変える方法|自分が嫌いな人のための5分無料診断ツール - ライフコーチAI',
+    description: 'あなたの強みと才能を明確にし、理想の未来へと導くパーソナル診断ツール',
   },
   alternates: {
     canonical: '/lp',
