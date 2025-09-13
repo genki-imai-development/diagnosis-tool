@@ -120,7 +120,7 @@ export default function LandingPage() {
             <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-shadow-lg opacity-0 animate-fade-in-up">
               なりたい自分への道筋<br />5分で見える化。<br />ライフコーチAIで。
             </h1>
-            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200 hidden md:block">
+            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200 hidden 2xl:block">
               大切にしている価値観から理想の未来を描き、<br />
               今いる場所から目標までの具体的な道筋を作成します。
             </p>
