@@ -530,31 +530,31 @@ export function validateValueDetails(valueDetails: SelectedValueItem[]): string 
 }
 
 export function validateFuturePredictions(predictions: FuturePrediction[]): string | null {
-  console.log('=== VALIDATION FUNCTION DEBUG ===');
-  console.log('Input predictions:', predictions);
-  console.log('Is array?', Array.isArray(predictions));
-  console.log('Type of predictions:', typeof predictions);
+  // console.log('=== VALIDATION FUNCTION DEBUG ===');
+  // console.log('Input predictions:', predictions);
+  // console.log('Is array?', Array.isArray(predictions));
+  // console.log('Type of predictions:', typeof predictions);
   
   if (!predictions || !Array.isArray(predictions)) {
     console.error('VALIDATION ERROR: predictions is not an array');
     return '予測結果の形式が不正です';
   }
 
-  console.log('Predictions length:', predictions.length);
+  // console.log('Predictions length:', predictions.length);
   if (predictions.length !== 1) {
     console.error(`VALIDATION ERROR: Expected 1 prediction, got ${predictions.length}`);
     return '1つの価値項目の予測が必要です';
   }
 
   for (const prediction of predictions) {
-    console.log('=== VALIDATING PREDICTION ===');
-    console.log('Prediction object:', prediction);
-    console.log('valueId:', prediction.valueId, 'type:', typeof prediction.valueId);
-    console.log('valueName:', prediction.valueName, 'type:', typeof prediction.valueName);
-    console.log('bestFuture:', prediction.bestFuture, 'type:', typeof prediction.bestFuture);
-    console.log('gapLevel:', prediction.gapLevel, 'type:', typeof prediction.gapLevel);
-    console.log('barriers:', prediction.barriers, 'type:', typeof prediction.barriers);
-    console.log('roadmap:', prediction.roadmap, 'type:', typeof prediction.roadmap);
+    // console.log('=== VALIDATING PREDICTION ===');
+    // console.log('Prediction object:', prediction);
+    // console.log('valueId:', prediction.valueId, 'type:', typeof prediction.valueId);
+    // console.log('valueName:', prediction.valueName, 'type:', typeof prediction.valueName);
+    // console.log('bestFuture:', prediction.bestFuture, 'type:', typeof prediction.bestFuture);
+    // console.log('gapLevel:', prediction.gapLevel, 'type:', typeof prediction.gapLevel);
+    // console.log('barriers:', prediction.barriers, 'type:', typeof prediction.barriers);
+    // console.log('roadmap:', prediction.roadmap, 'type:', typeof prediction.roadmap);
     
     if (!prediction.valueId) {
       console.error('VALIDATION ERROR: valueId is missing or falsy');
@@ -599,6 +599,6 @@ export function validateFuturePredictions(predictions: FuturePrediction[]): stri
     }
   }
 
-  console.log('=== VALIDATION PASSED ===');
+  // console.log('=== VALIDATION PASSED ===');
   return null;
 } 

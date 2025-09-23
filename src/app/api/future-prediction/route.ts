@@ -120,15 +120,15 @@ export async function POST(req: NextRequest) {
     let aiResult: { predictions: FuturePrediction[] };
     try {
       aiResult = await callOpenAiApi(FUTURE_PREDICTION_SYSTEM_PROMPT, userPrompt, 0.3) as unknown as { predictions: FuturePrediction[] };
-      console.log('=== AI RESULT DEBUG ===');
-      console.log('Raw AI result:', JSON.stringify(aiResult, null, 2));
-      console.log('Type of aiResult:', typeof aiResult);
-      console.log('Has predictions property:', 'predictions' in aiResult);
-      if (aiResult.predictions) {
-        console.log('Predictions array length:', aiResult.predictions.length);
-        console.log('First prediction:', JSON.stringify(aiResult.predictions[0], null, 2));
-      }
-      console.log('=== END DEBUG ===');
+      // console.log('=== AI RESULT DEBUG ===');
+      // console.log('Raw AI result:', JSON.stringify(aiResult, null, 2));
+      // console.log('Type of aiResult:', typeof aiResult);
+      // console.log('Has predictions property:', 'predictions' in aiResult);
+      // if (aiResult.predictions) {
+      //   console.log('Predictions array length:', aiResult.predictions.length);
+      //   console.log('First prediction:', JSON.stringify(aiResult.predictions[0], null, 2));
+      // }
+      // console.log('=== END DEBUG ===');
 
       // AIの結果を正規化（オブジェクトを文字列に変換）
       if (aiResult.predictions && Array.isArray(aiResult.predictions)) {
@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
             ? prediction.roadmap 
             : convertObjectToMarkdown(prediction.roadmap)
         }));
-        console.log('Normalized predictions:', JSON.stringify(aiResult.predictions, null, 2));
+        // console.log('Normalized predictions:', JSON.stringify(aiResult.predictions, null, 2));
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '未来予測の生成に失敗しました';
@@ -159,11 +159,11 @@ export async function POST(req: NextRequest) {
     }
 
     // AI結果の検証
-    console.log('=== VALIDATION DEBUG ===');
-    console.log('About to validate predictions:', aiResult.predictions);
+    // console.log('=== VALIDATION DEBUG ===');
+    // console.log('About to validate predictions:', aiResult.predictions);
     const validationError = validateFuturePredictions(aiResult.predictions);
-    console.log('Validation result:', validationError);
-    console.log('=== END VALIDATION DEBUG ===');
+    // console.log('Validation result:', validationError);
+    // console.log('=== END VALIDATION DEBUG ===');
     
     if (validationError) {
       console.error('Validation failed with error:', validationError);
