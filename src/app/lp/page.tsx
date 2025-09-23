@@ -129,19 +129,19 @@ export default function LandingPage() {
                 <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                 </svg>
-                <span>性格特性Big5で客観的な自己理解</span>
+                <span>あなたのキャラクターを32パターンから選択</span>
               </div>
               <div className="flex items-center mb-2">
                 <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                 </svg>
-                <span>あなたの価値観に基づいた現実的な目標設定</span>
+                <span>Big5をベースにあなたの性格特性傾向を診断</span>
               </div>
               <div className="flex items-center">
                 <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                 </svg>
-                <span>迷わず行動できる段階的なロードマップ</span>
+                <span>あなたの強みや才能を活かした目標達成ロードマップを作成</span>
               </div>
             </div>
             <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200">
@@ -197,13 +197,13 @@ export default function LandingPage() {
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
               <div className="text-4xl mb-4">🤔</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">自分の○○な部分を直したい</h3>
-              <p className="text-gray-600">変わりたい気持ちはあるけれど、具体的に何をどう改善すれば良いか分からない</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-800">強み・才能・適職が分からない</h3>
+              <p className="text-gray-600">自分のポテンシャルや向いていることが分からない</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
               <div className="text-4xl mb-4">❓</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">自分を変えたい</h3>
-              <p className="text-gray-600">漠然と「変わりたい」と思うものの、何をどうすれば良いのか分からない</p>
+              <h3 className="text-xl font-bold mb-4 text-gray-800">漠然と何をしたら良いか分からない</h3>
+              <p className="text-gray-600">変わりたい気持ちはあるけれど、具体的に何をどう改善すれば良いか分からない</p>
             </div>
           </div>
 
@@ -235,22 +235,22 @@ export default function LandingPage() {
               <div className="absolute top-4 right-4 bg-white text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center font-bold">1</div>
               <div className="text-4xl mb-4">🔍</div>
               <h4 className="text-xl font-bold mb-4">自己理解</h4>
-              <p className="mb-4">Big5診断であなたの強み・才能を発見</p>
+              <p className="mb-4">Big5をベースに性格特性傾向を診断</p>
               <ul className="text-base text-left">
-                <li>✔︎ 性格を5因子で表す特性診断</li>
-                <li>✔︎ あなた独自の強みパターンを可視化</li>
-                <li>✔︎ 才能の活かし方をアドバイス</li>
+                <li>✔︎ あなたを示すキャラクターは？</li>
+                <li>✔︎ あなたの性格特性傾向(5因子)は？</li>
+                <li>✔︎ あなたのやる気スイッチは？</li>
               </ul>
             </div>
             <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-4 md:p-8 text-white text-center relative">
               <div className="absolute top-4 right-4 bg-white text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-bold">2</div>
               <div className="text-4xl mb-4">🎯</div>
-              <h4 className="text-xl font-bold mb-4">目標設定</h4>
-              <p className="mb-4">現状と理想の未来のギャップを明確化</p>
+              <h4 className="text-xl font-bold mb-4">詳細分析</h4>
+              <p className="mb-4">あなたについてAIが分析</p>
               <ul className="text-base text-left">
-                <li>✔︎ 人生で大切にしたい価値観の選択</li>
-                <li>✔︎ 現状と理想のギャップ解説</li>
-                <li>✔︎ ギャップレベルの判定（大・中・小）</li>
+                <li>✔︎ あなたを象徴するキーワードは？</li>
+                <li>✔︎ あなたの強みや才能は？</li>
+                <li>✔︎ あなたの適職や避けるべき職業は？</li>
               </ul>
             </div>
             <div className="bg-gradient-to-br from-pink-500 to-red-500 rounded-2xl p-4 md:p-8 text-white text-center relative">
@@ -259,9 +259,9 @@ export default function LandingPage() {
               <h4 className="text-xl font-bold mb-4">行動計画</h4>
               <p className="mb-4">目標達成までのロードマップ作成</p>
               <ul className="text-base text-left">
-                <li>✔︎ 具体的なアクションプランの提示</li>
-                <li>✔︎ 段階的な成長ステップの設計</li>
-                <li>✔︎ 継続可能な行動指針の提供</li>
+                <li>✔︎ あなたが目指す理想の未来は？</li>
+                <li>✔︎ あなたの行動を止めるストッパーは？</li>
+                <li>✔︎ あなたの目標達成までのロードマップは？</li>
               </ul>
             </div>
           </div>
@@ -325,25 +325,25 @@ export default function LandingPage() {
               <div className="flex items-center mb-6">
                 <div className="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">1</div>
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                  <div className="hidden md:block">自己理解：</div>Big5診断で強み・才能を発見
+                  <div className="hidden md:block">自己理解：</div>Big5をベースに性格特性傾向を診断
                 </h3>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 まずは、自分を知ることから始めましょう。<br />
-                5つの質問に答えるだけで、AIがあなたの性格特性を正確に分析します。開放性、誠実性、外向性、協調性、神経症傾向の5つの軸で、あなた独自の強みパターンを発見できます。
+                簡単な質問に答えるだけで、あなたの性格特性を診断します。外向性、協調性、勤勉性、情動性、創造性の5つの軸で、あなたの性格を診断。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
                   <span className="text-indigo-600 mr-3">📊</span>
-                  <span className="text-gray-700">5つの質問で性格特性を科学的に分析</span>
+                  <span className="text-gray-700">あなたを示すキャラクターを提示</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-indigo-600 mr-3">💎</span>
-                  <span className="text-gray-700">あなただけの強み・才能を明確化</span>
+                  <span className="text-gray-700">あなたの性格特性傾向(5因子)を診断</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-indigo-600 mr-3">📈</span>
-                  <span className="text-gray-700">レーダーチャートで視覚的に理解</span>
+                  <span className="text-gray-700">あなたのやる気スイッチを解説</span>
                 </div>
               </div>
             </div>
@@ -358,31 +358,31 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Feature 2 - 目標設定 */}
+          {/* Feature 2 - 詳細分析 */}
           <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-12 md:mb-24">
             <div className="md:order-2">
               <div className="flex items-center mb-6">
                 <div className="bg-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">2</div>
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                <div className="hidden md:block">目標設定：</div>現状と理想のギャップを明確化
+                <div className="hidden md:block">詳細分析：</div>AIがあなたについて分析
                 </h3>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                今の自分と理想の自分の違いを明確にしましょう。<br />
-                人生で大切にしている価値観を10個から3個選択し、それぞれについて現状と理想の未来を入力します。AIがギャップを分析し、大・中・小のレベルで目標の難易度を判定します。
+                さらに自分自身について深く理解しましょう。<br />
+                あなたの強みや才能を解説。さらにあなたの適職や避けるべき職業を明確にします。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
                   <span className="text-purple-600 mr-3">💝</span>
-                  <span className="text-gray-700">人生で大切にしたい価値観を3つ選択</span>
+                  <span className="text-gray-700">あなたを象徴するキーワードを提示</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-purple-600 mr-3">📏</span>
-                  <span className="text-gray-700">現状と理想のギャップを定量化</span>
+                  <span className="text-gray-700">あなたの強みや才能を解説</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-purple-600 mr-3">🎯</span>
-                  <span className="text-gray-700">ギャップレベル（大・中・小）を判定</span>
+                  <span className="text-gray-700">あなたの適職や避けるべき職業が判明</span>
                 </div>
               </div>
             </div>
@@ -408,20 +408,20 @@ export default function LandingPage() {
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 やるべきことを整理しましょう。<br />
-                性格診断の結果と価値観の入力内容をもとに、AIが「現状と未来のギャップ解説」「ギャップレベル」「目標達成までのロードマップ」を生成します。具体的で実行可能な行動指針をお届けします。
+                性格特性傾向と詳細分析の結果をもとに、あなたの目標達成までのロードマップを作成します。
               </p>
               <div className="space-y-3">
                 <div className="flex items-center">
                   <span className="text-pink-600 mr-3">🗺️</span>
-                  <span className="text-gray-700">目標達成までの具体的ロードマップ</span>
+                  <span className="text-gray-700">あなたが目指す理想の未来を整理</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-pink-600 mr-3">📋</span>
-                  <span className="text-gray-700">段階的なアクションプラン</span>
+                  <span className="text-gray-700">あなたの行動を止めるストッパーを解説</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-pink-600 mr-3">🚀</span>
-                  <span className="text-gray-700">継続可能な成長戦略の提示</span>
+                  <span className="text-gray-700">目標達成ロードマップ作成</span>
                 </div>
               </div>
             </div>
@@ -457,10 +457,10 @@ export default function LandingPage() {
                 <div className="bg-indigo-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">1</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">性格特性に関する質問に回答</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">性格特性傾向に関する質問に回答</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  まず、Big5と強み・才能を発見するための<strong>5つの質問</strong>にお答えください。<br />
-                  あなたの性格特性を正確に分析します。所要時間は約1-2分です。
+                  まず、性格特性傾向を診断するために<strong>YES or NO</strong>の質問にお答えください。<br />
+                  所要時間は約1-2分です。
                 </p>
               </div>
               <div className="text-6xl opacity-60">📝</div>
@@ -472,10 +472,10 @@ export default function LandingPage() {
                 <div className="bg-purple-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">2</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">人生で大事にしている価値を選択</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">最も重要だと考える価値観を選択</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  人生で大切にしている価値観を<strong>10個の選択肢から3個</strong>選んでください。<br />
-                  仕事・健康・人間関係など、あなたが最も重視する価値観を明確にします。
+                  人生で大切にしている価値観を<strong>6個の選択肢から1個</strong>選んでください。<br />
+                  仕事・健康・お金など、あなたが最も重視する価値観を明確にします。
                 </p>
               </div>
               <div className="text-6xl opacity-60">💎</div>
@@ -487,10 +487,10 @@ export default function LandingPage() {
                 <div className="bg-pink-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">3</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">各価値の現状と理想の未来を入力</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">選択した価値について詳細入力</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  選択した3つの価値観について、<strong>それぞれの現状と理想の未来</strong>を具体的に入力してください。<br />
-                  現在の状況と将来なりたい姿を明確にすることで、ギャップを可視化します。
+                  選択した価値観について、<strong>より具体的な</strong>の質問にお答えください。<br />
+                  AIがあなたについて深く理解するために必要な情報です。
                 </p>
               </div>
               <div className="text-6xl opacity-60">✍️</div>
@@ -502,10 +502,10 @@ export default function LandingPage() {
                 <div className="bg-green-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">4</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">AIがBig5をスコアリング</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">AIがあなたの性格特性傾向を分析</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  AIが回答内容を分析し、<strong>Big5診断のスコアリング</strong>を実行。<br />
-                  あなたの「強み・才能」を生成し、性格診断の結果をレーダーチャート形式で分かりやすく表示します。
+                  AIが回答内容を分析し、<strong>性格特性診断</strong>を実行。<br />
+                  あなたの「強み・才能」を生成し、自己理解に役立つ情報を提供します。
                 </p>
               </div>
               <div className="text-6xl opacity-60">🤖</div>
@@ -517,9 +517,9 @@ export default function LandingPage() {
                 <div className="bg-blue-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">5</div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">ギャップ分析とロードマップを表示</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">目標達成ロードマップを作成</h3>
                 <p className="text-gray-600 text-base md:text-lg">
-                  性格診断の結果と価値観の入力内容をもとに、AIが<strong>「現状と未来のギャップ解説」「ギャップの大きさ」「目標達成までのロードマップ」</strong>を生成。あなた専用の成長戦略をお届けします。
+                  性格特性傾向と詳細分析の結果をもとに、<strong>「あなたが目指す理想の未来」「あなたの行動を止めるストッパー」「目標達成までのロードマップ」</strong>を生成。あなた専用の成長戦略をお届けします。
                 </p>
               </div>
               <div className="text-6xl opacity-60">🎯</div>

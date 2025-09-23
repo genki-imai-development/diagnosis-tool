@@ -67,7 +67,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                     自己理解
                   </h3>
                   <p className="text-blue-800 leading-relaxed text-sm">
-                    AI×Big5であなたの性格傾向を分析し、強みと才能を発見します。
+                    Big5をベースに性格特性傾向を診断します。
                   </p>
                 </div>
               </div>
@@ -80,10 +80,10 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-purple-900 mb-2">
-                    目標設定
+                    詳細分析
                   </h3>
                   <p className="text-purple-800 leading-relaxed text-sm">
-                    大切にしたい価値を選択し、現状と理想のギャップを明確化します。
+                    あなたについてAIが分析します。
                   </p>
                 </div>
               </div>
@@ -99,7 +99,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
                     行動計画
                   </h3>
                   <p className="text-emerald-800 leading-relaxed text-sm">
-                    目標達成までの具体的なロードマップを作成します。
+                    目標達成までのロードマップ作成します。
                   </p>
                 </div>
               </div>

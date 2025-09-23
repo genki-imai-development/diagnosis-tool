@@ -59,11 +59,8 @@ export const RadarChart: React.FC<RadarChartProps> = ({ scores }) => {
     <div className="w-full max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-            あなたの性格特性
+            あなたの性格特性傾向
           </h3>
-          <p className="text-gray-600">
-            5つの性格特性のバランスを表示しています
-          </p>
         </div>
 
         <div className="space-y-6">

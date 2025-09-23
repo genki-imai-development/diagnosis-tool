@@ -160,7 +160,6 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             </div>
             性格特性のバランス
           </h3>
-          <p className="text-blue-100 mt-2">あなたの5つの性格特性をレーダーチャートで可視化</p>
         </div>
         <div className="p-8">
           <div className="flex justify-center">
