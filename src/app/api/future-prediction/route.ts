@@ -45,21 +45,39 @@ function convertObjectToMarkdown(obj: unknown): string {
 // 性格診断結果を整形する関数
 function formatPersonalityInfo(diagnosisResult: DiagnosisResult): string {
   return `
-【性格診断結果】
-パターン: ${diagnosisResult.pattern.name}
-特徴: ${diagnosisResult.pattern.description}
-あなたの強み: ${diagnosisResult.strengths}
-やる気スイッチ: ${diagnosisResult.motivation}
-マッチする環境: ${diagnosisResult.goodEnvironment}
-マッチしない環境: ${diagnosisResult.badEnvironment}
+【性格診断結果の詳細分析】
+診断パターン名: ${diagnosisResult.pattern.name}
+基本説明: ${diagnosisResult.pattern.description}
+特徴キーワード: ${diagnosisResult.pattern.keywords}
+詳細な特性説明: ${diagnosisResult.pattern.keywords_summary}
 
-【性格スコア】
-- 創造性: ${diagnosisResult.scores.creativity}/5
-- 外向性: ${diagnosisResult.scores.extraversion}/5
-- 協調性: ${diagnosisResult.scores.agreeableness}/5
-- 情動性: ${diagnosisResult.scores.emotionality}/5
-- 勤勉性: ${diagnosisResult.scores.conscientiousness}/5
+【AI診断による個別分析結果】
+あなたの強み・才能: ${diagnosisResult.strengths}
+あなたのやる気スイッチ（原動力）: ${diagnosisResult.motivation}
+マッチする環境（最も輝く環境）: ${diagnosisResult.goodEnvironment}
+マッチしない環境（輝かない環境）: ${diagnosisResult.badEnvironment}
+
+【性格特性スコア分析】
+- 創造性: ${diagnosisResult.scores.creativity}/5 ${getScoreDescription('creativity', diagnosisResult.scores.creativity)}
+- 外向性: ${diagnosisResult.scores.extraversion}/5 ${getScoreDescription('extraversion', diagnosisResult.scores.extraversion)}
+- 協調性: ${diagnosisResult.scores.agreeableness}/5 ${getScoreDescription('agreeableness', diagnosisResult.scores.agreeableness)}
+- 情動性: ${diagnosisResult.scores.emotionality}/5 ${getScoreDescription('emotionality', diagnosisResult.scores.emotionality)}
+- 勤勉性: ${diagnosisResult.scores.conscientiousness}/5 ${getScoreDescription('conscientiousness', diagnosisResult.scores.conscientiousness)}
   `.trim();
+}
+
+// スコアの説明を生成するヘルパー関数
+function getScoreDescription(trait: string, score: number): string {
+  const level = score >= 4 ? '高' : score >= 3 ? '中' : '低';
+  const descriptions: Record<string, Record<string, string>> = {
+    creativity: { 高: '(新しいアイデアや表現を好む)', 中: '(状況に応じて創造性を発揮)', 低: '(現実的で実用的なアプローチを好む)' },
+    extraversion: { 高: '(社交的でエネルギッシュ)', 中: '(状況に応じて社交的)', 低: '(内向的で深く考えるタイプ)' },
+    agreeableness: { 高: '(協力的で他者思い)', 中: '(バランスの取れた協調性)', 低: '(独立心が強く率直)' },
+    emotionality: { 高: '(感情豊かで敏感)', 中: '(適度な感情表現)', 低: '(冷静で安定した情緒)' },
+    conscientiousness: { 高: '(責任感が強く計画的)', 中: '(状況に応じて計画的)', 低: '(柔軟で自由度を重視)' }
+  };
+  
+  return descriptions[trait]?.[level] || '';
 }
 
 // 価値詳細情報を整形する関数
