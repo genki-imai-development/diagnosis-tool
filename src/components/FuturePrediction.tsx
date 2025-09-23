@@ -34,7 +34,7 @@ export const FuturePrediction: React.FC<FuturePredictionProps> = ({
               </div>
               
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-                AI分析中...1~2分程度お待ちください
+                AI分析中...10~20秒分程度お待ちください
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 あなたの価値観をもとに、最高の未来とロードマップを作成しています。

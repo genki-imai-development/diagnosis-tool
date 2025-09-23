@@ -30,7 +30,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
               </div>
               
               <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-                AI分析中...10秒程度お待ちください
+                AI分析中...10~20秒程度お待ちください
               </h2>
               <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 あなたの入力内容をもとに、性格特性を診断しています。
