@@ -64,7 +64,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({ scores }) => {
         </div>
 
         <div className="space-y-6">
-          {traits.map((trait, index) => (
+          {traits.map((trait) => (
             <div key={trait.key} className="relative">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">

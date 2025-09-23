@@ -1,4 +1,4 @@
-import type { Question, Answer } from '@/types/diagnosis';
+import type { Question } from '@/types/diagnosis';
 
 // アプリケーション全体で使用する定数
 

@@ -6,28 +6,29 @@ import { validateValueDetails, validateFuturePredictions } from '@/lib/diagnosis
 import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/lib/rateLimit';
 
 // オブジェクトをMarkdown形式に変換するヘルパー関数
-function convertObjectToMarkdown(obj: any): string {
+function convertObjectToMarkdown(obj: unknown): string {
   if (typeof obj === 'string') return obj;
   
   try {
     // オブジェクトがロードマップ構造の場合の処理
-    if (obj && typeof obj === 'object') {
-      if (obj.shortTerm || obj.midTerm || obj.longTerm) {
+    if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+      const roadmapObj = obj as { shortTerm?: unknown; midTerm?: unknown; longTerm?: unknown };
+      if (roadmapObj.shortTerm || roadmapObj.midTerm || roadmapObj.longTerm) {
         let markdown = '';
         
-        if (obj.shortTerm) {
+        if (roadmapObj.shortTerm) {
           markdown += '## 短期（1-3ヶ月）\n';
-          markdown += typeof obj.shortTerm === 'string' ? obj.shortTerm + '\n\n' : JSON.stringify(obj.shortTerm) + '\n\n';
+          markdown += typeof roadmapObj.shortTerm === 'string' ? roadmapObj.shortTerm + '\n\n' : JSON.stringify(roadmapObj.shortTerm) + '\n\n';
         }
         
-        if (obj.midTerm) {
+        if (roadmapObj.midTerm) {
           markdown += '## 中期（3-12ヶ月）\n';
-          markdown += typeof obj.midTerm === 'string' ? obj.midTerm + '\n\n' : JSON.stringify(obj.midTerm) + '\n\n';
+          markdown += typeof roadmapObj.midTerm === 'string' ? roadmapObj.midTerm + '\n\n' : JSON.stringify(roadmapObj.midTerm) + '\n\n';
         }
         
-        if (obj.longTerm) {
+        if (roadmapObj.longTerm) {
           markdown += '## 長期（1年以上）\n';
-          markdown += typeof obj.longTerm === 'string' ? obj.longTerm + '\n\n' : JSON.stringify(obj.longTerm) + '\n\n';
+          markdown += typeof roadmapObj.longTerm === 'string' ? roadmapObj.longTerm + '\n\n' : JSON.stringify(roadmapObj.longTerm) + '\n\n';
         }
         
         return markdown;
@@ -36,7 +37,7 @@ function convertObjectToMarkdown(obj: any): string {
     
     // その他の場合はJSON文字列として返す
     return JSON.stringify(obj, null, 2);
-  } catch (error) {
+  } catch {
     return String(obj);
   }
 }

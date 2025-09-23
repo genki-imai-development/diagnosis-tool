@@ -23,13 +23,11 @@ export default function HomePage() {
     currentQuestionIndex,
     answers,
     selectedValues,
-    valueDetails,
     result,
     futurePredictions,
     isDiagnosisRunning,
     isFuturePredictionRunning,
     apiError,
-    totalQuestionsCount,
     QUESTION_COUNTS,
 
     // アクション関数
