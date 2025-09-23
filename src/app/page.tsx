@@ -5,7 +5,7 @@ import { DiagnosisLayout } from '@/components/layout/DiagnosisLayout';
 import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
 import { ValueSelectionForm } from '@/components/forms/ValueSelectionForm';
-import { ValueDetailsForm } from '@/components/forms/ValueDetailsForm';
+import ValueDetailsForm from '@/components/forms/ValueDetailsForm';
 import { DiagnosisResult } from '@/components/DiagnosisResult';
 import { FuturePrediction } from '@/components/FuturePrediction';
 import { useDiagnosis } from '@/hooks/useDiagnosis';
@@ -53,74 +53,60 @@ export default function HomePage() {
     <DiagnosisLayout>
       {/* ステップ1: 診断開始画面 */}
       {step === 'start' && (
-        <div className="animate-fade-in">
-          <DiagnosisStart onStart={startDiagnosis} />
-        </div>
+        <DiagnosisStart onStart={startDiagnosis} />
       )}
 
-      {/* ステップ2: 基本質問（5問） */}
+      {/* ステップ2: 基本質問（20問） */}
       {step === 'questions' && currentQuestion && (
-        <div className="animate-fade-in">
-          <QuestionForm
-            question={currentQuestion}
-            currentIndex={currentQuestionIndex}
-            totalQuestions={QUESTION_COUNTS.BASE_QUESTIONS + QUESTION_COUNTS.VALUE_SELECTION + QUESTION_COUNTS.VALUE_DETAILS}
-            onNext={handleAnswerNext}
-            onPrevious={currentQuestionIndex > 0 ? handleAnswerPrevious : undefined}
-            initialValue={currentAnswer?.text || ''}
-          />
-        </div>
+        <QuestionForm
+          question={currentQuestion}
+          currentIndex={currentQuestionIndex}
+          totalQuestions={QUESTION_COUNTS.BASE_QUESTIONS + QUESTION_COUNTS.VALUE_SELECTION + QUESTION_COUNTS.VALUE_DETAILS}
+          onNext={handleAnswerNext}
+          onPrevious={currentQuestionIndex > 0 ? handleAnswerPrevious : undefined}
+          initialValue={currentAnswer?.value}
+        />
       )}
 
       {/* ステップ3: 価値選択 */}
       {step === 'valueSelection' && (
-        <div className="animate-fade-in">
-          <ValueSelectionForm
-            onNext={handleValueSelectionNext}
-            onPrevious={goToPreviousStep}
-            currentIndex={QUESTION_COUNTS.BASE_QUESTIONS}
-            totalQuestions={totalQuestionsCount}
-          />
-        </div>
+        <ValueSelectionForm
+          onNext={handleValueSelectionNext}
+          onPrevious={goToPreviousStep}
+        />
       )}
 
       {/* ステップ4: 価値詳細入力 */}
       {step === 'valueDetails' && selectedValues.length > 0 && (
-        <div className="animate-fade-in">
-          <ValueDetailsForm
-            selectedValues={selectedValues}
-            onNext={handleValueDetailsNext}
-            onPrevious={goToPreviousStep}
-            totalQuestions={totalQuestionsCount}
-            initialValues={valueDetails}
-          />
-        </div>
+        <ValueDetailsForm
+          valueItems={selectedValues}
+          onNext={handleValueDetailsNext}
+          onBack={goToPreviousStep}
+        />
       )}
 
       {/* エラー表示 */}
       {apiError && (
-        <div className="animate-fade-in">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6">
-                <h3 className="text-2xl font-bold text-white flex items-center">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  エラーが発生しました
-                </h3>
-              </div>
-              <div className="p-8 text-center">
-                <p className="text-gray-700 mb-6 text-lg leading-relaxed">{apiError}</p>
-                <button
-                  onClick={resetToStart}
-                  className="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  最初からやり直す
-                </button>
-              </div>
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-red-500 to-pink-600 p-6">
+              <h3 className="text-2xl font-bold text-white flex items-center">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                エラーが発生しました
+              </h3>
+            </div>
+            <div className="p-8 text-center">
+              <p className="text-gray-700 mb-6 text-lg leading-relaxed">{apiError}</p>
+              <button
+                onClick={resetToStart}
+                className="px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                最初からやり直す
+              </button>
             </div>
           </div>
         </div>
@@ -128,24 +114,20 @@ export default function HomePage() {
 
       {/* ステップ5: 診断結果表示 */}
       {step === 'result' && (
-        <div className="animate-fade-in">
-          <DiagnosisResult
-            result={result}
-            loading={isDiagnosisRunning}
-            onNext={goToFuturePrediction}
-          />
-        </div>
+        <DiagnosisResult
+          result={result}
+          loading={isDiagnosisRunning}
+          onNext={goToFuturePrediction}
+        />
       )}
 
       {/* ステップ6: 将来予測 */}
       {step === 'futurePrediction' && (
-        <div className="animate-fade-in">
-          <FuturePrediction
-            predictions={futurePredictions}
-            loading={isFuturePredictionRunning}
-            onComplete={resetToStart}
-          />
-        </div>
+        <FuturePrediction
+          predictions={futurePredictions}
+          loading={isFuturePredictionRunning}
+          onComplete={resetToStart}
+        />
       )}
     </DiagnosisLayout>
   );

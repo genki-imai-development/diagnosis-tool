@@ -3,9 +3,10 @@ import { DiagnosisResult, Answer } from '@/types/diagnosis';
 import { callOpenAiApi, createErrorResponse, checkApiAccess } from '@/lib/api';
 import { PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, createPersonalityDiagnosisUserPrompt } from '@/lib/prompts';
 import {
-  selectPatternFromScores,
+  calculateBigFiveFromAnswers,
+  getBigFiveScoreLevels,
+  selectPatternFromBigFive,
   validateAnswers,
-  validatePersonalityScores,
   formatAnswersText
 } from '@/lib/diagnosis';
 import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/lib/rateLimit';
@@ -37,16 +38,27 @@ export async function POST(req: NextRequest) {
       return createErrorResponse('validation_failed', validationError, 400);
     }
 
-    // ユーザーの回答を整形
-    const userText = formatAnswersText(answers);
-    const userPrompt = createPersonalityDiagnosisUserPrompt(userText);
+    // YES/NO回答から直接ビッグファイブスコアを計算
+    const scores = calculateBigFiveFromAnswers(answers);
+    const scoreLevels = getBigFiveScoreLevels(answers);
 
-    // AI診断実行
-    let aiResult: DiagnosisResult;
+    // スコアレベルからパターンを選択
+    const selectedPattern = selectPatternFromBigFive(scoreLevels);
+
+    // ユーザーの回答を整形してAI用プロンプトを作成
+    const userAnswersText = formatAnswersText(answers);
+    const userPrompt = createPersonalityDiagnosisUserPrompt(
+      userAnswersText,
+      selectedPattern.name,
+      selectedPattern.description
+    );
+
+    // AI で特性と強みを生成
+    let aiResult: { strengths: string; motivation: string; goodEnvironment: string; badEnvironment: string };
     try {
-      aiResult = await callOpenAiApi(PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, userPrompt, 0.3) as unknown as DiagnosisResult;
+      aiResult = await callOpenAiApi(PERSONALITY_DIAGNOSIS_SYSTEM_PROMPT, userPrompt, 0.7) as { strengths: string; motivation: string; goodEnvironment: string; badEnvironment: string };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'AI診断の実行に失敗しました';
+      const errorMessage = error instanceof Error ? error.message : 'AI診断内容生成に失敗しました';
       
       if (errorMessage.includes('利用制限')) {
         return createErrorResponse('rate_limit', errorMessage, 429);
@@ -56,23 +68,18 @@ export async function POST(req: NextRequest) {
     }
 
     // AI結果の検証
-    if (!aiResult.scores || !validatePersonalityScores(aiResult.scores)) {
-      return createErrorResponse('validation_failed', 'スコア形式が不正です', 502);
+    if (!aiResult.strengths || !aiResult.motivation || !aiResult.goodEnvironment || !aiResult.badEnvironment) {
+      return createErrorResponse('validation_failed', '診断内容が不完全です', 502);
     }
-
-    if (!aiResult.characteristics || !aiResult.strengths) {
-      return createErrorResponse('validation_failed', '特性情報が不完全です', 502);
-    }
-
-    // スコアからパターンを選択
-    const selectedPattern = selectPatternFromScores(aiResult.scores);
 
     // 最終的な診断結果を構築
     const finalResult: DiagnosisResult = {
-      scores: aiResult.scores,
+      scores,
       pattern: selectedPattern,
-      characteristics: aiResult.characteristics,
-      strengths: aiResult.strengths
+      strengths: aiResult.strengths,
+      motivation: aiResult.motivation,
+      goodEnvironment: aiResult.goodEnvironment,
+      badEnvironment: aiResult.badEnvironment
     };
 
     const response = NextResponse.json(finalResult);

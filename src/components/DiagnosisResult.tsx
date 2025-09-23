@@ -98,7 +98,14 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
         <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 group">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
           
-          <div className="p-4 md:p-8">
+          {/* 背景英語テキスト */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="text-gray-300/40 font-black text-7xl md:text-9xl lg:text-[12rem] xl:text-[14rem] tracking-wider transform -rotate-12 select-none whitespace-nowrap">
+              {result.pattern.id.toUpperCase()}
+            </div>
+          </div>
+          
+          <div className="p-4 md:p-8 relative z-10">
             <div className="text-center">
               <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
                 <div className="bg-white rounded-full p-4">
@@ -171,20 +178,197 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
-            あなたの特性分析
+            あなたの詳細分析
           </h3>
         </div>
-        <div className="p-4 md:p-8">
-          <div className="prose prose-lg max-w-none mb-4 md:mb-8">
-            <p className="text-gray-700 leading-relaxed text-base md:text-lg">
-              {result.characteristics}
-            </p>
+        <div className="p-4 md:p-8 space-y-6">
+          {/* キーワードカード */}
+          <div className="mb-6">
+            {/* セクション見出し */}
+            <div className="mb-4">
+              <h3 className="text-base md:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-1">
+                あなたを象徴するキーワード
+              </h3>
+              <div className="w-20 h-0.5 md:h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+            </div>
+
+            {/* モバイル: 横スクロール */}
+            <div className="md:hidden">
+              <div className="flex gap-4 overflow-x-auto pb-4 px-4 -mx-4 scrollbar-hide">
+                <div className="flex gap-4" style={{ width: 'max-content' }}>
+                  {result.pattern.keywords.split(',').slice(0, 3).map((keyword, index) => {
+                    // 固定デザイン設定
+                    const cardDesigns = [
+                      {
+                        // 1つ目: ダイヤモンド
+                        icon: (
+                          <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 2l2 4h8l2-4-3 20L12 18 9 22 6 2z"/>
+                            <path d="M8 6l4 12 4-12H8z" opacity="0.5"/>
+                          </svg>
+                        ),
+                        gradient: 'from-indigo-600 via-purple-600 to-pink-600',
+                        border: 'border-indigo-300/30'
+                      },
+                      {
+                        // 2つ目: フェニックス
+                        icon: (
+                          <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.19 0 2.34-.21 3.41-.6-.51-.96-.78-2.05-.78-3.19 0-3.73 3.02-6.75 6.75-6.75.37 0 .74.03 1.1.08C21.82 9.71 21 7.73 19.65 6.17 18.03 4.31 15.61 3 12.9 3c-.3 0-.6.01-.9.04V2z"/>
+                            <path d="M17.62 11.54c-1.5 0-2.71 1.21-2.71 2.71 0 .45.11.87.31 1.24.43-.23.91-.37 1.42-.37 1.66 0 3 1.34 3 3 0 .83-.34 1.58-.88 2.12.54-.34.88-.94.88-1.62 0-1.5-1.21-2.71-2.71-2.71-.23 0-.45.03-.66.08.18-.4.28-.84.28-1.3 0-1.66-1.34-3-3-3-.93 0-1.76.43-2.31 1.1.23-.06.47-.1.72-.1 1.5 0 2.71 1.21 2.71 2.71 0 .83-.38 1.57-0.97 2.06.31.18.66.29 1.04.29 1.66 0 3-1.34 3-3 0-.45-.1-.87-.28-1.24.52.24 1.1.37 1.71.37 2.21 0 4-1.79 4-4s-1.79-4-4-4z"/>
+                          </svg>
+                        ),
+                        gradient: 'from-orange-600 via-red-600 to-pink-600',
+                        border: 'border-orange-300/30'
+                      },
+                      {
+                        // 3つ目: 王冠
+                        icon: (
+                          <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 16L3 6l5.5 6L12 4l3.5 8L21 6l-2 10H5zm2.7-2h8.6l.9-4.4L14 12l-2-5-2 5-3.2-2.4L7.7 14z"/>
+                          </svg>
+                        ),
+                        gradient: 'from-emerald-600 via-teal-600 to-cyan-600',
+                        border: 'border-emerald-300/30'
+                      }
+                    ];
+
+                    const design = cardDesigns[index];
+
+                    return (
+                      <div key={index} className="relative flex-shrink-0" style={{ width: '220px' }}>
+                        {/* メインカード */}
+                        <div className={`relative bg-gradient-to-br ${design.gradient} rounded-2xl p-6 border ${design.border} shadow-2xl overflow-hidden h-32`}>
+                          {/* 背景アイコン */}
+                          <div className="absolute inset-0 flex items-center justify-center text-white/15 opacity-100">
+                            <div className="w-24 h-24">
+                              {design.icon}
+                            </div>
+                          </div>
+                          
+                          {/* 装飾的なグラデーション層 */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10"></div>
+                          
+                          {/* 光沢効果 */}
+                          <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/20 to-transparent"></div>
+                          
+                          {/* テキストコンテンツ */}
+                          <div className="relative z-10 flex items-center justify-center h-full">
+                            <h3 className="text-white font-bold text-base text-center leading-tight drop-shadow-lg">
+                              {keyword.trim()}
+                            </h3>
+                          </div>
+                          
+                          {/* 下部の装飾ライン */}
+                          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                        </div>
+                        
+                        {/* 外側のグロー効果 */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${design.gradient} rounded-2xl blur-xl opacity-20 -z-10 scale-105`}></div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* デスクトップ: グリッド */}
+            <div className="hidden md:grid md:grid-cols-3 md:gap-6">
+              {result.pattern.keywords.split(',').slice(0, 3).map((keyword, index) => {
+                // 固定デザイン設定
+                const cardDesigns = [
+                  {
+                    // 1つ目: ダイヤモンド
+                    icon: (
+                      <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 2l2 4h8l2-4-3 20L12 18 9 22 6 2z"/>
+                        <path d="M8 6l4 12 4-12H8z" opacity="0.5"/>
+                      </svg>
+                    ),
+                    gradient: 'from-indigo-600 via-purple-600 to-pink-600',
+                    border: 'border-indigo-300/30'
+                  },
+                  {
+                    // 2つ目: フェニックス
+                    icon: (
+                      <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.19 0 2.34-.21 3.41-.6-.51-.96-.78-2.05-.78-3.19 0-3.73 3.02-6.75 6.75-6.75.37 0 .74.03 1.1.08C21.82 9.71 21 7.73 19.65 6.17 18.03 4.31 15.61 3 12.9 3c-.3 0-.6.01-.9.04V2z"/>
+                        <path d="M17.62 11.54c-1.5 0-2.71 1.21-2.71 2.71 0 .45.11.87.31 1.24.43-.23.91-.37 1.42-.37 1.66 0 3 1.34 3 3 0 .83-.34 1.58-.88 2.12.54-.34.88-.94.88-1.62 0-1.5-1.21-2.71-2.71-2.71-.23 0-.45.03-.66.08.18-.4.28-.84.28-1.3 0-1.66-1.34-3-3-3-.93 0-1.76.43-2.31 1.1.23-.06.47-.1.72-.1 1.5 0 2.71 1.21 2.71 2.71 0 .83-.38 1.57-0.97 2.06.31.18.66.29 1.04.29 1.66 0 3-1.34 3-3 0-.45-.1-.87-.28-1.24.52.24 1.1.37 1.71.37 2.21 0 4-1.79 4-4s-1.79-4-4-4z"/>
+                      </svg>
+                    ),
+                    gradient: 'from-orange-600 via-red-600 to-pink-600',
+                    border: 'border-orange-300/30'
+                  },
+                  {
+                    // 3つ目: 王冠
+                    icon: (
+                      <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 16L3 6l5.5 6L12 4l3.5 8L21 6l-2 10H5zm2.7-2h8.6l.9-4.4L14 12l-2-5-2 5-3.2-2.4L7.7 14z"/>
+                      </svg>
+                    ),
+                    gradient: 'from-emerald-600 via-teal-600 to-cyan-600',
+                    border: 'border-emerald-300/30'
+                  }
+                ];
+
+                const design = cardDesigns[index];
+
+                return (
+                  <div key={index} className="relative group">
+                    {/* メインカード */}
+                    <div className={`relative bg-gradient-to-br ${design.gradient} rounded-2xl p-8 border ${design.border} shadow-2xl overflow-hidden`}>
+                      {/* 背景アイコン */}
+                      <div className="absolute inset-0 flex items-center justify-center text-white/15 opacity-100">
+                        <div className="w-32 h-32 md:w-40 md:h-40">
+                          {design.icon}
+                        </div>
+                      </div>
+                      
+                      {/* 装飾的なグラデーション層 */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10"></div>
+                      
+                      {/* 光沢効果 */}
+                      <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-white/20 to-transparent"></div>
+                      
+                      {/* テキストコンテンツ */}
+                      <div className="relative z-10 flex items-center justify-center h-24 md:h-28">
+                        <h3 className="text-white font-bold text-lg md:text-xl text-center leading-tight drop-shadow-lg">
+                          {keyword.trim()}
+                        </h3>
+                      </div>
+                      
+                      {/* 下部の装飾ライン */}
+                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    </div>
+                    
+                    {/* 外側のグロー効果 */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${design.gradient} rounded-2xl blur-xl opacity-20 -z-10 scale-105`}></div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* あなたの強み（才能） */}
+          {/* キーワード総評エリア */}
+          {/* <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-2xl p-4 md:p-6 border border-slate-200 mb-6">
+            <div className="flex items-start space-x-3">
+              <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-br from-slate-500 to-gray-600 rounded-full flex items-center justify-center mt-1">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 011.414 0L9 8.586 7.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4a1 1 0 00-1.414-1.414L9 8.586z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-slate-800 leading-relaxed text-sm md:text-base">
+                  {result.pattern.keywords_summary}
+                </p>
+              </div>
+            </div>
+          </div> */}
+
+          {/* 1. あなたの強み（才能） */}
           <div className="group">
             <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-4 md:p-6 border border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-3">
                 <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
                   <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
@@ -194,9 +378,110 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   あなたの強み（才能）
                 </h4>
               </div>
-              <p className="text-purple-800 leading-relaxed text-base md:text-lg">
+              <p className="text-purple-800 leading-relaxed text-sm md:text-base">
                 {result.strengths}
               </p>
+            </div>
+          </div>
+
+          {/* 2. あなたのやる気スイッチ（原動力） */}
+          <div className="group">
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-4 md:p-6 border border-orange-200 hover:border-orange-300 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-orange-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h4 className="text-base md:text-lg font-bold text-orange-900">
+                  あなたのやる気スイッチ（原動力）
+                </h4>
+              </div>
+              <p className="text-orange-800 leading-relaxed text-sm md:text-base">
+                {result.motivation}
+              </p>
+            </div>
+          </div>
+
+          {/* 3. マッチする環境（最も輝く環境） */}
+          <div className="group">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 md:p-6 border border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-green-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h4 className="text-base md:text-lg font-bold text-green-900">
+                  マッチする環境（最も輝く環境）
+                </h4>
+              </div>
+              <div className="text-green-800 leading-relaxed text-sm md:text-base">
+                {result.goodEnvironment.split('\n').map((line, index) => {
+                  if (line.startsWith('・')) {
+                    return (
+                      <div key={index} className="flex items-center ml-4 my-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2 flex-shrink-0"></div>
+                        <span>{line.substring(1)}</span>
+                      </div>
+                    );
+                  } else if (line.includes('適職：')) {
+                    return (
+                      <div key={index} className="font-semibold mt-3 mb-2 text-green-900">
+                        {line}
+                      </div>
+                    );
+                  } else if (line.trim()) {
+                    return (
+                      <p key={index} className="mb-2">
+                        {line}
+                      </p>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* 4. マッチしない環境（輝かない環境） */}
+          <div className="group">
+            <div className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-2xl p-4 md:p-6 border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-500 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h4 className="text-base md:text-lg font-bold text-gray-900">
+                  マッチしない環境（輝かない環境）
+                </h4>
+              </div>
+              <div className="text-gray-800 leading-relaxed text-sm md:text-base">
+                {result.badEnvironment.split('\n').map((line, index) => {
+                  if (line.startsWith('・')) {
+                    return (
+                      <div key={index} className="flex items-center ml-4 my-1">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full mr-2 flex-shrink-0"></div>
+                        <span>{line.substring(1)}</span>
+                      </div>
+                    );
+                  } else if (line.includes('避けるべき職業：')) {
+                    return (
+                      <div key={index} className="font-semibold mt-3 mb-2 text-gray-900">
+                        {line}
+                      </div>
+                    );
+                  } else if (line.trim()) {
+                    return (
+                      <p key={index} className="mb-2">
+                        {line}
+                      </p>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
             </div>
           </div>
         </div>
