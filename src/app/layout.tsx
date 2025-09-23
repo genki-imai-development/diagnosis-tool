@@ -36,6 +36,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#3b82f6" />
+        <meta name="google-site-verification" content="LOO3soh5bUtIyKbsccPr1F-gj5J_ts-kB4JO6G5vAMI" />
       </head>
       <body className={`${inter.className} antialiased`}>
         {/* Google Analytics */}
