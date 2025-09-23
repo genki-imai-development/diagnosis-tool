@@ -47,10 +47,17 @@ export async function POST(req: NextRequest) {
 
     // ユーザーの回答を整形してAI用プロンプトを作成
     const userAnswersText = formatAnswersText(answers);
+    
+    // 診断パターンの詳細情報を整形
+    const patternScoresText = `創造性: ${selectedPattern.scores.creativity}, 外向性: ${selectedPattern.scores.extraversion}, 協調性: ${selectedPattern.scores.agreeableness}, 情動性: ${selectedPattern.scores.emotionality}, 勤勉性: ${selectedPattern.scores.conscientiousness}`;
+    
     const userPrompt = createPersonalityDiagnosisUserPrompt(
       userAnswersText,
       selectedPattern.name,
-      selectedPattern.description
+      selectedPattern.description,
+      selectedPattern.keywords,
+      selectedPattern.keywords_summary,
+      patternScoresText
     );
 
     // AI で特性と強みを生成
