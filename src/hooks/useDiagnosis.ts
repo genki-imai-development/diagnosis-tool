@@ -25,9 +25,9 @@ export const useDiagnosis = () => {
 
   // === 定数（設定値） ===
   const QUESTION_COUNTS = {
-    BASE_QUESTIONS: 5,        // 基本質問数
+    BASE_QUESTIONS: 20,       // 基本質問数
     VALUE_SELECTION: 1,       // 価値選択
-    VALUE_DETAILS: 6,         // 価値詳細（3項目 × 2質問）
+    VALUE_DETAILS: 5,         // 価値詳細（5つの質問）
   } as const;
 
   const totalQuestionsCount = 
@@ -54,7 +54,7 @@ export const useDiagnosis = () => {
   };
 
   /**
-   * 基本質問（前半5問）の回答を処理し、次のステップに進む
+   * 基本質問（前半20問）の回答を処理し、次のステップに進む
    * ・「　次の質問へ」ボタン押下時
    */
   const handleAnswerNext = (answer: Answer) => {

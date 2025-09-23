@@ -4,18 +4,23 @@ export interface QuestionOption {
   text: string;
 }
 
+// ビッグファイブのカテゴリ型
+export type BigFiveCategory = 'extraversion' | 'agreeableness' | 'conscientiousness' | 'neuroticism' | 'openness';
+
 // 質問の型定義
 export interface Question {
   id: number;
   text: string;
-  options: QuestionOption[]; // 選択肢（必須）
+  category: BigFiveCategory; // ビッグファイブのカテゴリを追加
+  options?: QuestionOption[]; // YES/NO形式では不要だが、後方互換性のためoptionalに
   order: number;
 }
 
 // 回答の型定義
 export interface Answer {
   questionId: number;
-  text: string; // 選択した選択肢のテキスト
+  value: boolean; // YES/NO形式のためboolean値
+  text?: string; // 表示用テキスト（オプション）
 }
 
 // 価値選択項目の型定義
@@ -29,8 +34,11 @@ export interface ValueItem {
 export interface SelectedValueItem {
   id: string;
   name: string;
-  currentStatus: string;
-  idealFuture: string;
+  satisfaction: number; // 現状の満足度（0-100）
+  satisfactionPoints: string; // 満足している点
+  dissatisfactionPoints: string; // 不満や課題を感じている点
+  idealState: string; // どんな状態になれば100点満点か
+  obstacles: string; // 理想に近づくときの障害や不安
 }
 
 // 診断ステップの型定義
@@ -63,26 +71,34 @@ export interface DiagnosisPattern {
   description: string;
   scores: PersonalityScores;
   image: string; // 画像ファイルのパス
+  keywords: string; // カンマ区切りの3つのキーワード
+  keywords_summary: string; // 3つのキーワード全体の総評
 }
 
 // 診断結果の型定義
 export interface DiagnosisResult {
   scores: PersonalityScores;
   pattern: DiagnosisPattern;
-  /** あなたの特性 */
-  characteristics: string;
   /** あなたの強み（才能） */
   strengths: string;
+  /** あなたのやる気スイッチ（原動力） */
+  motivation: string;
+  /** マッチする環境（最も輝く環境） */
+  goodEnvironment: string;
+  /** マッチしない環境（輝かない環境） */
+  badEnvironment: string;
 }
 
 // 未来予測の型定義
 export interface FuturePrediction {
   valueId: string;
   valueName: string;
-  /** 現在と未来のギャップ説明 */
-  gapAnalysis: string;
-  /** ギャップレベル（大・中・小） */
-  gapLevel: '大' | '中' | '小';
-  /** ギャップを埋めるための詳細ロードマップ */
-  detailedRoadmap: string;
+  /** あなたが描く「最高の未来」 */
+  bestFuture: string;
+  /** ギャップレベル（0-100の数値） */
+  gapLevel: number;
+  /** あなたを止めている障壁（励ましの言葉） */
+  barriers: string;
+  /** ロードマップ（現状もの） */
+  roadmap: string;
 }

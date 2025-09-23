@@ -5,13 +5,53 @@ import { FUTURE_PREDICTION_SYSTEM_PROMPT, createFuturePredictionUserPrompt } fro
 import { validateValueDetails, validateFuturePredictions } from '@/lib/diagnosis';
 import { checkRateLimit, createRateLimitResponse, addRateLimitHeaders } from '@/lib/rateLimit';
 
+// オブジェクトをMarkdown形式に変換するヘルパー関数
+function convertObjectToMarkdown(obj: unknown): string {
+  if (typeof obj === 'string') return obj;
+  
+  try {
+    // オブジェクトがロードマップ構造の場合の処理
+    if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+      const roadmapObj = obj as { shortTerm?: unknown; midTerm?: unknown; longTerm?: unknown };
+      if (roadmapObj.shortTerm || roadmapObj.midTerm || roadmapObj.longTerm) {
+        let markdown = '';
+        
+        if (roadmapObj.shortTerm) {
+          markdown += '## 短期（1-3ヶ月）\n';
+          markdown += typeof roadmapObj.shortTerm === 'string' ? roadmapObj.shortTerm + '\n\n' : JSON.stringify(roadmapObj.shortTerm) + '\n\n';
+        }
+        
+        if (roadmapObj.midTerm) {
+          markdown += '## 中期（3-12ヶ月）\n';
+          markdown += typeof roadmapObj.midTerm === 'string' ? roadmapObj.midTerm + '\n\n' : JSON.stringify(roadmapObj.midTerm) + '\n\n';
+        }
+        
+        if (roadmapObj.longTerm) {
+          markdown += '## 長期（1年以上）\n';
+          markdown += typeof roadmapObj.longTerm === 'string' ? roadmapObj.longTerm + '\n\n' : JSON.stringify(roadmapObj.longTerm) + '\n\n';
+        }
+        
+        return markdown;
+      }
+    }
+    
+    // その他の場合はJSON文字列として返す
+    return JSON.stringify(obj, null, 2);
+  } catch {
+    return String(obj);
+  }
+}
+
 // 性格診断結果を整形する関数
 function formatPersonalityInfo(diagnosisResult: DiagnosisResult): string {
   return `
 【性格診断結果】
 パターン: ${diagnosisResult.pattern.name}
 特徴: ${diagnosisResult.pattern.description}
-あなたの特性: ${diagnosisResult.characteristics}
+あなたの強み: ${diagnosisResult.strengths}
+やる気スイッチ: ${diagnosisResult.motivation}
+マッチする環境: ${diagnosisResult.goodEnvironment}
+マッチしない環境: ${diagnosisResult.badEnvironment}
 
 【性格スコア】
 - 創造性: ${diagnosisResult.scores.creativity}/5
@@ -19,7 +59,7 @@ function formatPersonalityInfo(diagnosisResult: DiagnosisResult): string {
 - 協調性: ${diagnosisResult.scores.agreeableness}/5
 - 情動性: ${diagnosisResult.scores.emotionality}/5
 - 勤勉性: ${diagnosisResult.scores.conscientiousness}/5
-`;
+  `.trim();
 }
 
 // 価値詳細情報を整形する関数
@@ -27,8 +67,11 @@ function formatValueDetailsText(valueDetails: SelectedValueItem[]): string {
   return valueDetails
     .map((detail, index) => `
 【価値項目${index + 1}: ${detail.name}】
-現状: ${detail.currentStatus}
-理想の未来: ${detail.idealFuture}
+満足度: ${detail.satisfaction}/100点
+満足している点: ${detail.satisfactionPoints}
+不満や課題: ${detail.dissatisfactionPoints}
+理想の状態: ${detail.idealState}
+障害や不安: ${detail.obstacles}
 `)
     .join('\n');
 }
@@ -77,6 +120,34 @@ export async function POST(req: NextRequest) {
     let aiResult: { predictions: FuturePrediction[] };
     try {
       aiResult = await callOpenAiApi(FUTURE_PREDICTION_SYSTEM_PROMPT, userPrompt, 0.3) as unknown as { predictions: FuturePrediction[] };
+      // console.log('=== AI RESULT DEBUG ===');
+      // console.log('Raw AI result:', JSON.stringify(aiResult, null, 2));
+      // console.log('Type of aiResult:', typeof aiResult);
+      // console.log('Has predictions property:', 'predictions' in aiResult);
+      // if (aiResult.predictions) {
+      //   console.log('Predictions array length:', aiResult.predictions.length);
+      //   console.log('First prediction:', JSON.stringify(aiResult.predictions[0], null, 2));
+      // }
+      // console.log('=== END DEBUG ===');
+
+      // AIの結果を正規化（オブジェクトを文字列に変換）
+      if (aiResult.predictions && Array.isArray(aiResult.predictions)) {
+        const userSatisfaction = valueDetails[0]?.satisfaction || 0; // ユーザーが入力した満足度
+        aiResult.predictions = aiResult.predictions.map(prediction => ({
+          ...prediction,
+          bestFuture: typeof prediction.bestFuture === 'string' 
+            ? prediction.bestFuture 
+            : JSON.stringify(prediction.bestFuture),
+          gapLevel: userSatisfaction, // ユーザーが入力した満足度をそのまま使用
+          barriers: typeof prediction.barriers === 'string' 
+            ? prediction.barriers 
+            : JSON.stringify(prediction.barriers),
+          roadmap: typeof prediction.roadmap === 'string' 
+            ? prediction.roadmap 
+            : convertObjectToMarkdown(prediction.roadmap)
+        }));
+        // console.log('Normalized predictions:', JSON.stringify(aiResult.predictions, null, 2));
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '未来予測の生成に失敗しました';
       
@@ -88,8 +159,14 @@ export async function POST(req: NextRequest) {
     }
 
     // AI結果の検証
+    // console.log('=== VALIDATION DEBUG ===');
+    // console.log('About to validate predictions:', aiResult.predictions);
     const validationError = validateFuturePredictions(aiResult.predictions);
+    // console.log('Validation result:', validationError);
+    // console.log('=== END VALIDATION DEBUG ===');
+    
     if (validationError) {
+      console.error('Validation failed with error:', validationError);
       return createErrorResponse('validation_failed', validationError, 502);
     }
 

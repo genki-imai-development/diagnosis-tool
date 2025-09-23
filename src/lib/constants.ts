@@ -84,68 +84,160 @@ export const APP_CONFIG = {
 } as const;
 
 // 診断用質問データ
-export const DIAGNOSIS_QUESTIONS: Question[] = [
+const BASE_QUESTIONS: Question[] = [
+  // 外向性（Extraversion） - 質問1-4
   {
     id: 1,
-    text: '新しい経験や挑戦に対するあなたの反応は？',
-    options: [
-      { id: 'challenge_1', text: 'いつも新しいことに積極的に挑戦したい' },
-      { id: 'challenge_2', text: '興味があれば挑戦してみる' },
-      { id: 'challenge_3', text: 'どちらとも言えない' },
-      { id: 'challenge_4', text: '慣れ親しんだことを好む' },
-      { id: 'challenge_5', text: '変化や新しいことは避けたい' }
-    ],
+    text: '初対面でも自分から話しかけるほうだ。',
+    category: 'extraversion',
     order: 1
   },
   {
     id: 2,
-    text: '仕事や勉強での計画性について',
-    options: [
-      { id: 'planning_1', text: '詳細な計画を立てて、必ず守る' },
-      { id: 'planning_2', text: 'ある程度計画を立てて実行する' },
-      { id: 'planning_3', text: 'どちらとも言えない' },
-      { id: 'planning_4', text: '計画は立てるが、よく変更する' },
-      { id: 'planning_5', text: '計画を立てるのが苦手で、行き当たりばったり' }
-    ],
+    text: '飲み会や集まりでは、自然と会話の中心になりがちだ。',
+    category: 'extraversion',
     order: 2
   },
   {
     id: 3,
-    text: 'パーティーや集まりでのあなたは？',
-    options: [
-      { id: 'social_1', text: '積極的に話しかけ、場を盛り上げる' },
-      { id: 'social_2', text: '知っている人とは活発に話す' },
-      { id: 'social_3', text: 'どちらとも言えない' },
-      { id: 'social_4', text: '聞き役に回ることが多い' },
-      { id: 'social_5', text: 'できるだけ静かな場所にいたい' }
-    ],
+    text: '休みの日は、家にいるより誰かと外で過ごすほうが楽しい。',
+    category: 'extraversion',
     order: 3
   },
   {
     id: 4,
-    text: '他人との意見の対立が起きた時',
-    options: [
-      { id: 'conflict_1', text: '相手の気持ちを最優先に考え、譲歩する' },
-      { id: 'conflict_2', text: 'お互いの妥協点を見つけようとする' },
-      { id: 'conflict_3', text: 'どちらとも言えない' },
-      { id: 'conflict_4', text: '自分の意見をしっかりと主張する' },
-      { id: 'conflict_5', text: '自分の考えを曲げることはない' }
-    ],
+    text: '静かな時間よりも、ワイワイした雰囲気が好きだ。',
+    category: 'extraversion',
     order: 4
   },
+  // 協調性（Agreeableness） - 質問5-8
   {
     id: 5,
-    text: 'ストレスを感じる状況での反応は？',
-    options: [
-      { id: 'stress_1', text: '冷静さを保ち、解決策を考える' },
-      { id: 'stress_2', text: '少し緊張するが、なんとか対処する' },
-      { id: 'stress_3', text: 'どちらとも言えない' },
-      { id: 'stress_4', text: '不安になり、うまく対処できないことがある' },
-      { id: 'stress_5', text: 'とても動揺し、パニックになりやすい' }
-    ],
+    text: '困っている人を見ると、つい手を貸したくなる。',
+    category: 'agreeableness',
     order: 5
+  },
+  {
+    id: 6,
+    text: '友達や同僚の意見には、なるべく合わせるほうだ。',
+    category: 'agreeableness',
+    order: 6
+  },
+  {
+    id: 7,
+    text: '衝突を避けるためなら、自分の意見を引っ込めることがある。',
+    category: 'agreeableness',
+    order: 7
+  },
+  {
+    id: 8,
+    text: '人の気持ちを察して行動するのが得意だと思う。',
+    category: 'agreeableness',
+    order: 8
+  },
+  // 誠実性（Conscientiousness） - 質問9-12
+  {
+    id: 9,
+    text: 'スケジュールや計画はきちんと守るタイプだ。',
+    category: 'conscientiousness',
+    order: 9
+  },
+  {
+    id: 10,
+    text: '机の上や部屋は、なるべく整理整頓していたい。',
+    category: 'conscientiousness',
+    order: 10
+  },
+  {
+    id: 11,
+    text: '締め切り前に焦らないように、早めに取りかかる。',
+    category: 'conscientiousness',
+    order: 11
+  },
+  {
+    id: 12,
+    text: '「まあいっか」よりも「ちゃんとしなきゃ」が口ぐせに近い。',
+    category: 'conscientiousness',
+    order: 12
+  },
+  // 神経症傾向（Neuroticism） - 質問13-16
+  {
+    id: 13,
+    text: 'ちょっとしたことで不安になりやすい。',
+    category: 'neuroticism',
+    order: 13
+  },
+  {
+    id: 14,
+    text: '失敗すると、なかなか気持ちを切り替えられない。',
+    category: 'neuroticism',
+    order: 14
+  },
+  {
+    id: 15,
+    text: '他の人は気にしないことでも、自分はクヨクヨ考えてしまう。',
+    category: 'neuroticism',
+    order: 15
+  },
+  {
+    id: 16,
+    text: '寝る前に、つい今日のことを反省してしまうことが多い。',
+    category: 'neuroticism',
+    order: 16
+  },
+  // 開放性（Openness） - 質問17-20
+  {
+    id: 17,
+    text: '新しい趣味や遊びには、まず試してみようと思う。',
+    category: 'openness',
+    order: 17
+  },
+  {
+    id: 18,
+    text: '子どもの頃から「なんで？」と考えるのが好きだった。',
+    category: 'openness',
+    order: 18
+  },
+  {
+    id: 19,
+    text: '想像をふくらませて妄想するのがけっこう楽しい。',
+    category: 'openness',
+    order: 19
+  },
+  {
+    id: 20,
+    text: '流行よりも「自分なりの面白さ」を大事にしたい。',
+    category: 'openness',
+    order: 20
   }
 ];
+
+// 固定シードを使った簡易的なシャッフル関数
+function shuffleWithSeed<T>(array: T[], seed: number): T[] {
+  const shuffled = [...array];
+  let currentIndex = shuffled.length;
+  let randomIndex;
+
+  // シードベースの疑似乱数生成
+  const random = () => {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(random() * currentIndex);
+    currentIndex--;
+
+    [shuffled[currentIndex], shuffled[randomIndex]] = [
+      shuffled[randomIndex], shuffled[currentIndex]
+    ];
+  }
+
+  return shuffled;
+}
+
+// 固定順序でシャッフルされた質問配列（シード値12345を使用）
+export const DIAGNOSIS_QUESTIONS: Question[] = shuffleWithSeed(BASE_QUESTIONS, 12345);
 
 // デバッグ・開発用設定
 export const DEV_CONFIG = {

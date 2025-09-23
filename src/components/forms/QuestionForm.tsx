@@ -7,7 +7,7 @@ interface QuestionFormProps {
   totalQuestions: number;
   onNext: (answer: Answer) => void;
   onPrevious?: () => void;
-  initialValue?: string;
+  initialValue?: boolean;
   isLastQuestion?: boolean;
 }
 
@@ -18,45 +18,31 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
   onNext,
   onPrevious,
 }) => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<boolean | null>(null);
 
   // 質問が変更されたときに選択肢をリセット
   useEffect(() => {
-    setSelectedOption(''); // 選択肢はリセット
-    setError(null); // バリデーションエラーはクリア
+    setSelectedValue(null); // 選択肢はリセット
   }, [question.id]); // question.idを監視して質問変更を検知
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    if (!selectedOption) {
-      setError('選択肢を選んでください');
-      return;
-    }
 
-    // エラーをクリアして次へ
-    setError(null);
+  const handleOptionChange = (value: boolean) => {
+    setSelectedValue(value);
+    
+    // 選択されたら即座に次の質問へ進む
     onNext({
       questionId: question.id,
-      text: selectedOption,
+      value: value,
+      text: value ? 'YES' : 'NO',
     });
   };
 
-  const handleOptionChange = (option: string) => {
-    setSelectedOption(option);
-    // 選択中にエラーをクリア
-    if (error) {
-      setError(null);
-    }
-  };
 
-  const isValid = selectedOption !== '';
 
-  // 全体12ステップ（基本質問5 + 価値選択1 + 価値詳細6）での進捗計算
-  // 基本質問は0%から開始し、1問目完了時に約8.33%（100/12）
-  const totalSteps = 12; // 5 + 1 + 6
-  const progressPercentage = (currentIndex / totalSteps) * 100; // 0%からスタート
+  // プログレス計算
+  const totalSteps = 26; // 基本質問20 + 価値選択1 + 価値詳細5
+  const progressPercentage = (currentIndex / totalSteps) * 100; // 1問目は0%から開始
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -91,10 +77,10 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
         <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
           
-          <form onSubmit={handleSubmit} className="p-4 md:p-8 space-y-8">
+          <div className="p-4 md:p-8 space-y-8">
             <div className="text-center mb-4 md:mb-8">
               <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-4 md:mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-xl">{currentIndex + 1}</span>
                 </div>
               </div>
@@ -105,78 +91,97 @@ export const QuestionForm: React.FC<QuestionFormProps> = ({
             </div>
 
             <div className="space-y-6">
-              {/* 選択肢フォーム */}
-              <div className="space-y-4">
-                {question.options.map((option) => (
-                  <label
-                    key={option.id}
-                    className={`block p-4 md:p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                      selectedOption === option.text
-                        ? 'border-blue-500 bg-blue-50 shadow-md'
-                        : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex items-center">
+              {/* YES/NO選択肢フォーム */}
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
+                {/* YES選択肢 */}
+                <div className="relative flex-1 max-w-xs">
+                  <div className={`absolute inset-0 rounded-2xl transform transition-all duration-300 ${
+                    selectedValue === true 
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 scale-105' 
+                      : 'bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 scale-100 hover:scale-105'
+                  }`}></div>
+                  <label className={`group relative block p-3 md:p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 active:scale-50 ${
+                    selectedValue === true
+                      ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-purple-50 shadow-xl scale-105'
+                      : 'border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-blue-50 hover:to-purple-50 hover:border-blue-500 hover:shadow-xl hover:scale-105'
+                  }`}>
+                    <div className="flex flex-col items-center text-center">
                       <input
                         type="radio"
-                        name="question-option"
-                        value={option.text}
-                        checked={selectedOption === option.text}
-                        onChange={() => handleOptionChange(option.text)}
-                        className="w-5 h-5 bg-gray-100 border-gray-300 focus:outline-none focus:ring-0"
-                        style={{ 
-                          accentColor: 'var(--color-blue-500)',
-                          color: 'var(--color-blue-500)'
-                        }}
+                        name={`question-option-${question.id}`}
+                        value="yes"
+                        checked={selectedValue === true}
+                        onChange={() => handleOptionChange(true)}
+                        className="sr-only"
                       />
-                      <span className="ml-4 text-base md:text-lg text-gray-900 font-medium">
-                        {option.text}
-                      </span>
+                      <div className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-1 md:mb-3 transition-all duration-300 ${
+                        selectedValue === true
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
+                          : 'bg-gradient-to-r from-blue-500 to-purple-600 md:from-gray-100 md:to-gray-200 text-white md:text-gray-600 group-hover:from-blue-500 group-hover:to-purple-600 group-hover:text-white group-hover:shadow-lg'
+                      }`}>
+                        <span className="text-xl md:text-2xl font-bold">✓</span>
+                      </div>
+                      <span className={`text-lg md:text-xl font-bold transition-colors duration-300 ${
+                        selectedValue === true
+                          ? 'text-blue-600'
+                          : 'text-gray-700 md:group-hover:text-blue-600'
+                      }`}>YES</span>
                     </div>
                   </label>
-                ))}
+                </div>
+
+                {/* NO選択肢 */}
+                <div className="relative flex-1 max-w-xs">
+                  <div className={`absolute inset-0 rounded-2xl transform transition-all duration-300 ${
+                    selectedValue === false 
+                      ? 'bg-gradient-to-r from-gray-500 to-gray-600 opacity-30 scale-105' 
+                      : 'bg-gradient-to-r from-gray-400 to-gray-500 opacity-20 scale-100 hover:scale-105'
+                  }`}></div>
+                  <label className={`group relative block p-3 md:p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 active:scale-50 ${
+                    selectedValue === false
+                      ? 'border-gray-500 bg-gradient-to-r from-gray-50 to-gray-100 shadow-xl scale-105'
+                      : 'border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 hover:border-gray-500 hover:shadow-xl hover:scale-105'
+                  }`}>
+                    <div className="flex flex-col items-center text-center">
+                      <input
+                        type="radio"
+                        name={`question-option-${question.id}`}
+                        value="no"
+                        checked={selectedValue === false}
+                        onChange={() => handleOptionChange(false)}
+                        className="sr-only"
+                      />
+                      <div className={`w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center mb-1 md:mb-3 transition-all duration-300 ${
+                        selectedValue === false
+                          ? 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg'
+                          : 'bg-gradient-to-r from-gray-500 to-gray-600 md:from-gray-100 md:to-gray-200 text-white md:text-gray-600 group-hover:from-gray-500 group-hover:to-gray-600 group-hover:text-white group-hover:shadow-lg'
+                      }`}>
+                        <span className="text-xl md:text-2xl font-bold">✗</span>
+                      </div>
+                      <span className={`text-lg md:text-xl font-bold transition-colors duration-300 ${
+                        selectedValue === false
+                          ? 'text-gray-600'
+                          : 'text-gray-700 group-hover:text-gray-600'
+                      }`}>NO</span>
+                    </div>
+                  </label>
+                </div>
               </div>
 
-              {/* エラーメッセージ */}
-              {error && (
-                <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-2xl">
-                  <p className="text-red-600 font-medium flex items-center">
-                    <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    {error}
-                  </p>
-                </div>
-              )}
-
-              {/* ボタン */}
-              <div className="flex justify-between items-center">
-                {currentIndex > 0 ? (
+              {/* 戻るボタン */}
+              {currentIndex > 0 && (
+                <div className="flex justify-center">
                   <button
                     type="button"
                     onClick={onPrevious}
-                    className="px-4 py-4 md:px-10 md:py-4 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
+                    className="px-6 py-3 md:px-8 md:py-3 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-2xl font-semibold transition-all duration-200 hover:shadow-lg cursor-pointer"
                   >
                     前の質問に戻る
                   </button>
-                ) : (
-                  <div />
-                )}
-
-                <button
-                  type="submit"
-                  disabled={!isValid}
-                  className={`px-4 py-4 md:px-10 md:py-4 rounded-2xl font-semibold text-base md:text-lg transition-all duration-200 ${
-                    isValid
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer'
-                      : 'bg-gray-300 cursor-not-allowed text-gray-500'
-                  }`}
-                >
-                  次の質問へ
-                </button>
-              </div>
+                </div>
+              )}
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
