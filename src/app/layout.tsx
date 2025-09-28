@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   keywords: '性格特性診断, Big5, AI診断, 自己理解, キャリア診断',
   authors: [{ name: 'LIFE UP by YUKI IMAI' }],
   viewport: 'width=device-width, initial-scale=1',
-  robots: 'noindex, nofollow',
+  robots: 'index, follow',
   openGraph: {
     title: '自分を変える方法|自分が嫌いな人のための5分無料診断ツール - ライフコーチAI',
     description: 'あなたの強みと才能を明確にし、理想の未来へと導くパーソナル診断ツール',
