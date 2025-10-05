@@ -99,6 +99,19 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           20% { transform: translate(-110px, -140px) rotate(-200deg); opacity: 1; }
           100% { transform: translate(-210px, 270px) rotate(-800deg); opacity: 0; }
         }
+        @keyframes imageShake {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          10% { transform: translate(-2px, -1px) rotate(-0.5deg); }
+          20% { transform: translate(2px, 1px) rotate(0.5deg); }
+          30% { transform: translate(-1px, 2px) rotate(-0.3deg); }
+          40% { transform: translate(1px, -2px) rotate(0.3deg); }
+          50% { transform: translate(-2px, 1px) rotate(-0.5deg); }
+          60% { transform: translate(2px, -1px) rotate(0.5deg); }
+          70% { transform: translate(-1px, -2px) rotate(-0.3deg); }
+          80% { transform: translate(1px, 2px) rotate(0.3deg); }
+          90% { transform: translate(-1px, 1px) rotate(-0.2deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
         @keyframes fadeOut {
           0% { opacity: 1; }
           100% { opacity: 0; }
@@ -167,25 +180,22 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* ヘロー結果セクション */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 rounded-3xl shadow-2xl p-4 md:p-8 mb-4 md:mb-8 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 rounded-3xl shadow-2xl p-6 mb-4 md:mb-8 text-white">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-20 translate-x-20"></div>
         <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-20 -translate-x-20"></div>
         
         <div className="relative z-10 text-center">
           <div className="inline-block mb-4 md:mb-5">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
               </svg>
             </div>
           </div>
-          <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
+          <h1 className="text-lg md:text-xl font-bold leading-tight">
             性格特性分析が完了しました！
           </h1>
-          <p className="text-base font-light opacity-90 max-w-2xl mx-auto">
-            あなたの入力内容をもとに、性格特性を診断しました。
-          </p>
         </div>
       </div>
 
@@ -299,8 +309,11 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   alt={result.pattern.name}
                   width={224}
                   height={224}
-                  className="w-full h-full object-contain animate-pulse"
-                  style={{ animationDuration: '2s', animationIterationCount: '1' }}
+                  className="w-full h-full object-contain"
+                  style={{ 
+                    animation: 'imageShake 0.8s ease-in-out forwards',
+                    animationDelay: '0s'
+                  }}
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
