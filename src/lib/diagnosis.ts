@@ -160,7 +160,7 @@ export const DIAGNOSIS_PATTERNS: DiagnosisPattern[] = [
     name: "リーダー",
     description: "包容力と力強さを兼ね備える統率者",
     scores: { creativity: 5, extraversion: 5, agreeableness: 5, emotionality: 1, conscientiousness: 5 },
-    image: "/images/patterns/archaeologist.png",
+    image: "/images/patterns/leader.png",
     keywords: "指導力,包容力,統率",
     keywords_summary: "あなたは天性のリーダーです。チームを正しい方向に導く指導力と、多様な人を受け入れる包容力で、組織全体を一つの方向に統率します。それぞれの良さを活かしながら目標達成を支援する、真の統率者タイプです。"
   },
