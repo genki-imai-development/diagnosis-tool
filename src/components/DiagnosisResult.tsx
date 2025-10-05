@@ -3,6 +3,66 @@ import { RadarChart } from '@/components/ui/RadarChart';
 import type { DiagnosisResult as DiagnosisResultType } from '@/types/diagnosis';
 import Image from 'next/image';
 
+// すべてのパーソナリティタイプの画像パス
+const PERSONALITY_IMAGES = [
+  '/images/patterns/adventurer.png',
+  '/images/patterns/analyzer.png',
+  '/images/patterns/builder.png',
+  '/images/patterns/catalyst.png',
+  '/images/patterns/challenger.png',
+  '/images/patterns/connector.png',
+  '/images/patterns/creator.png',
+  '/images/patterns/dreamer.png',
+  '/images/patterns/driver.png',
+  '/images/patterns/explorer.png',
+  '/images/patterns/guardian.png',
+  '/images/patterns/harmonizer.png',
+  '/images/patterns/healer.png',
+  '/images/patterns/innovator.png',
+  '/images/patterns/leader.png',
+  '/images/patterns/maverick.png',
+  '/images/patterns/nurturer.png',
+  '/images/patterns/observer.png',
+  '/images/patterns/optimist.png',
+  '/images/patterns/optimizer.png',
+  '/images/patterns/performer.png',
+  '/images/patterns/philosopher.png',
+  '/images/patterns/pioneer.png',
+  '/images/patterns/protector.png',
+  '/images/patterns/realist.png',
+  '/images/patterns/rebel.png',
+  '/images/patterns/seeker.png',
+  '/images/patterns/strategist.png',
+  '/images/patterns/supporter.png',
+  '/images/patterns/tactician.png',
+  '/images/patterns/thinker.png',
+  '/images/patterns/visionary.png',
+];
+
+// 画像事前読み込み関数
+const preloadImages = async (imagePaths: string[]): Promise<{ success: number; failed: number }> => {
+  const loadPromises = imagePaths.map((src) => {
+    return new Promise<{ success: boolean; src: string }>((resolve) => {
+      const img = new window.Image();
+      img.onload = () => resolve({ success: true, src });
+      img.onerror = () => resolve({ success: false, src });
+      img.src = src;
+    });
+  });
+
+  const results = await Promise.all(loadPromises);
+  const successCount = results.filter(r => r.success).length;
+  const failedCount = results.filter(r => !r.success).length;
+  
+  if (failedCount > 0) {
+    const failedImages = results.filter(r => !r.success).map(r => r.src);
+    console.warn(`Failed to preload ${failedCount} images:`, failedImages);
+  }
+  
+  console.log(`Image preloading completed: ${successCount} success, ${failedCount} failed`);
+  return { success: successCount, failed: failedCount };
+};
+
 interface DiagnosisResultProps {
   result: DiagnosisResultType | null;
   loading: boolean;
@@ -14,6 +74,11 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   loading,
   onNext,
 }) => {
+  // 画像の事前読み込み
+  React.useEffect(() => {
+    preloadImages(PERSONALITY_IMAGES);
+  }, []);
+
   // CSSアニメーションを動的に追加
   React.useEffect(() => {
     if (result) {
@@ -310,7 +375,6 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   width={224}
                   height={224}
                   className="w-full h-full object-contain"
-                  priority
                   style={{ 
                     animation: 'imageShake 0.8s ease-in-out forwards',
                     animationDelay: '0s'
