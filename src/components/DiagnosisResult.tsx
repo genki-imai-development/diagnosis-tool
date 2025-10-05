@@ -14,6 +14,103 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   loading,
   onNext,
 }) => {
+  // CSSアニメーションを動的に追加
+  React.useEffect(() => {
+    if (result) {
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes confettiStrip1 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(60px, -80px) rotate(45deg); opacity: 1; }
+          100% { transform: translate(160px, 240px) rotate(180deg); opacity: 0; }
+        }
+        @keyframes confettiStrip2 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-50px, -70px) rotate(-30deg); opacity: 1; }
+          100% { transform: translate(-140px, 200px) rotate(-120deg); opacity: 0; }
+        }
+        @keyframes confettiStrip3 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(80px, -100px) rotate(60deg); opacity: 1; }
+          100% { transform: translate(180px, 220px) rotate(240deg); opacity: 0; }
+        }
+        @keyframes confettiStrip4 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-70px, -90px) rotate(-45deg); opacity: 1; }
+          100% { transform: translate(-160px, 180px) rotate(-180deg); opacity: 0; }
+        }
+        @keyframes confettiStrip5 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(70px, -110px) rotate(75deg); opacity: 1; }
+          100% { transform: translate(150px, 260px) rotate(300deg); opacity: 0; }
+        }
+        @keyframes confettiStrip6 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-80px, -80px) rotate(-60deg); opacity: 1; }
+          100% { transform: translate(-170px, 190px) rotate(-240deg); opacity: 0; }
+        }
+        @keyframes confettiStrip7 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(50px, -120px) rotate(90deg); opacity: 1; }
+          100% { transform: translate(130px, 280px) rotate(360deg); opacity: 0; }
+        }
+        @keyframes confettiStrip8 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-60px, -100px) rotate(-75deg); opacity: 1; }
+          100% { transform: translate(-150px, 210px) rotate(-300deg); opacity: 0; }
+        }
+        @keyframes confettiStrip9 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(90px, -70px) rotate(30deg); opacity: 1; }
+          100% { transform: translate(190px, 170px) rotate(150deg); opacity: 0; }
+        }
+        @keyframes confettiStrip10 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-90px, -110px) rotate(-90deg); opacity: 1; }
+          100% { transform: translate(-180px, 230px) rotate(-360deg); opacity: 0; }
+        }
+        @keyframes confettiStrip11 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(100px, -60px) rotate(120deg); opacity: 1; }
+          100% { transform: translate(200px, 150px) rotate(480deg); opacity: 0; }
+        }
+        @keyframes confettiStrip12 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-100px, -120px) rotate(-120deg); opacity: 1; }
+          100% { transform: translate(-190px, 250px) rotate(-480deg); opacity: 0; }
+        }
+        @keyframes confettiStrip13 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(40px, -130px) rotate(150deg); opacity: 1; }
+          100% { transform: translate(110px, 300px) rotate(600deg); opacity: 0; }
+        }
+        @keyframes confettiStrip14 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-40px, -70px) rotate(-150deg); opacity: 1; }
+          100% { transform: translate(-110px, 160px) rotate(-600deg); opacity: 0; }
+        }
+        @keyframes confettiStrip15 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(110px, -50px) rotate(200deg); opacity: 1; }
+          100% { transform: translate(210px, 130px) rotate(800deg); opacity: 0; }
+        }
+        @keyframes confettiStrip16 {
+          0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+          20% { transform: translate(-110px, -140px) rotate(-200deg); opacity: 1; }
+          100% { transform: translate(-210px, 270px) rotate(-800deg); opacity: 0; }
+        }
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      return () => {
+        document.head.removeChild(style);
+      };
+    }
+  }, [result]);
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto">
@@ -108,12 +205,102 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           <div className="p-4 pt-0 md:p-8 md:pt-0 relative z-10">
             <div className="text-center">
               <div className="relative w-64 h-64 md:w-72 md:h-72 mx-auto">
+                {/* パーティクラッカー演出 */}
+                <div className="absolute inset-0 pointer-events-none z-20" style={{ animation: 'fadeOut 0.1s ease-in-out 2s forwards' }}>
+                  {/* クラッカー紙片 - より大きな細長い四角形 */}
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-yellow-400" style={{ 
+                    animation: 'confettiStrip1 2s ease-out forwards',
+                    animationDelay: '0s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-pink-400" style={{ 
+                    animation: 'confettiStrip2 2s ease-out forwards',
+                    animationDelay: '0.05s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-blue-400" style={{ 
+                    animation: 'confettiStrip3 2s ease-out forwards',
+                    animationDelay: '0.1s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-green-400" style={{ 
+                    animation: 'confettiStrip4 2s ease-out forwards',
+                    animationDelay: '0.15s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-purple-400" style={{ 
+                    animation: 'confettiStrip5 2s ease-out forwards',
+                    animationDelay: '0.2s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-red-400" style={{ 
+                    animation: 'confettiStrip6 2s ease-out forwards',
+                    animationDelay: '0.25s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-orange-400" style={{ 
+                    animation: 'confettiStrip7 2s ease-out forwards',
+                    animationDelay: '0.3s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-6 bg-indigo-400" style={{ 
+                    animation: 'confettiStrip8 2s ease-out forwards',
+                    animationDelay: '0.35s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  
+                  {/* 追加のクラッカー紙片 */}
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-cyan-400" style={{ 
+                    animation: 'confettiStrip9 2s ease-out forwards',
+                    animationDelay: '0.4s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-emerald-400" style={{ 
+                    animation: 'confettiStrip10 2s ease-out forwards',
+                    animationDelay: '0.45s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-rose-400" style={{ 
+                    animation: 'confettiStrip11 2s ease-out forwards',
+                    animationDelay: '0.5s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-amber-400" style={{ 
+                    animation: 'confettiStrip12 2s ease-out forwards',
+                    animationDelay: '0.55s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  
+                  {/* より多くのクラッカー紙片 */}
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-lime-400" style={{ 
+                    animation: 'confettiStrip13 2s ease-out forwards',
+                    animationDelay: '0.6s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-teal-400" style={{ 
+                    animation: 'confettiStrip14 2s ease-out forwards',
+                    animationDelay: '0.65s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-violet-400" style={{ 
+                    animation: 'confettiStrip15 2s ease-out forwards',
+                    animationDelay: '0.7s',
+                    transformOrigin: 'center'
+                  }}></div>
+                  <div className="absolute top-1/2 left-1/2 w-2 h-5 bg-fuchsia-400" style={{ 
+                    animation: 'confettiStrip16 2s ease-out forwards',
+                    animationDelay: '0.75s',
+                    transformOrigin: 'center'
+                  }}></div>
+                </div>
+                
                 <Image
                   src={result.pattern.image}
                   alt={result.pattern.name}
                   width={224}
                   height={224}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain animate-pulse"
+                  style={{ animationDuration: '2s', animationIterationCount: '1' }}
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
