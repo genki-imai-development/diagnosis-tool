@@ -310,6 +310,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   width={224}
                   height={224}
                   className="w-full h-full object-contain"
+                  priority
                   style={{ 
                     animation: 'imageShake 0.8s ease-in-out forwards',
                     animationDelay: '0s'
