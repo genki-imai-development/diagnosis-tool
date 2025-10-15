@@ -3,66 +3,6 @@ import { RadarChart } from '@/components/ui/RadarChart';
 import type { DiagnosisResult as DiagnosisResultType } from '@/types/diagnosis';
 import Image from 'next/image';
 
-// すべてのパーソナリティタイプの画像パス
-const PERSONALITY_IMAGES = [
-  '/images/patterns/adventurer.png',
-  '/images/patterns/analyzer.png',
-  '/images/patterns/builder.png',
-  '/images/patterns/catalyst.png',
-  '/images/patterns/challenger.png',
-  '/images/patterns/connector.png',
-  '/images/patterns/creator.png',
-  '/images/patterns/dreamer.png',
-  '/images/patterns/driver.png',
-  '/images/patterns/explorer.png',
-  '/images/patterns/guardian.png',
-  '/images/patterns/harmonizer.png',
-  '/images/patterns/healer.png',
-  '/images/patterns/innovator.png',
-  '/images/patterns/leader.png',
-  '/images/patterns/maverick.png',
-  '/images/patterns/nurturer.png',
-  '/images/patterns/observer.png',
-  '/images/patterns/optimist.png',
-  '/images/patterns/optimizer.png',
-  '/images/patterns/performer.png',
-  '/images/patterns/philosopher.png',
-  '/images/patterns/pioneer.png',
-  '/images/patterns/protector.png',
-  '/images/patterns/realist.png',
-  '/images/patterns/rebel.png',
-  '/images/patterns/seeker.png',
-  '/images/patterns/strategist.png',
-  '/images/patterns/supporter.png',
-  '/images/patterns/tactician.png',
-  '/images/patterns/thinker.png',
-  '/images/patterns/visionary.png',
-];
-
-// 画像事前読み込み関数
-const preloadImages = async (imagePaths: string[]): Promise<{ success: number; failed: number }> => {
-  const loadPromises = imagePaths.map((src) => {
-    return new Promise<{ success: boolean; src: string }>((resolve) => {
-      const img = new window.Image();
-      img.onload = () => resolve({ success: true, src });
-      img.onerror = () => resolve({ success: false, src });
-      img.src = src;
-    });
-  });
-
-  const results = await Promise.all(loadPromises);
-  const successCount = results.filter(r => r.success).length;
-  const failedCount = results.filter(r => !r.success).length;
-  
-  if (failedCount > 0) {
-    const failedImages = results.filter(r => !r.success).map(r => r.src);
-    console.warn(`Failed to preload ${failedCount} images:`, failedImages);
-  }
-  
-  console.log(`Image preloading completed: ${successCount} success, ${failedCount} failed`);
-  return { success: successCount, failed: failedCount };
-};
-
 interface DiagnosisResultProps {
   result: DiagnosisResultType | null;
   loading: boolean;
@@ -74,11 +14,6 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   loading,
   onNext,
 }) => {
-  // 画像の事前読み込み
-  React.useEffect(() => {
-    preloadImages(PERSONALITY_IMAGES);
-  }, []);
-
   // CSSアニメーションを動的に追加
   React.useEffect(() => {
     if (result) {
@@ -181,6 +116,209 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           0% { opacity: 1; }
           100% { opacity: 0; }
         }
+        
+        /* 星空背景エフェクト */
+        .starry-night-background {
+          background: radial-gradient(ellipse at center top, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #0a1929 75%, #000814 100%);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .starry-night-background::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: 
+            radial-gradient(3px 3px at 20px 30px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(2.5px 2.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 60px 20px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 80px 50px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 100px 90px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 120px 30px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 140px 80px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 160px 40px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 180px 100px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 200px 20px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 220px 70px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 240px 50px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 260px 110px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 280px 30px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 300px 80px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 320px 60px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 340px 10px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 360px 90px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 380px 40px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 400px 70px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 420px 120px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 440px 20px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 460px 80px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 480px 50px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 500px 100px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 520px 30px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 540px 90px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 560px 60px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 580px 10px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 600px 70px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 620px 40px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 640px 110px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 660px 20px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 680px 80px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 700px 50px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 720px 100px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 740px 30px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 760px 90px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 30px 60px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 50px 110px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 70px 40px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 90px 80px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 110px 25px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 130px 75px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 150px 105px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 170px 35px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 190px 85px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 210px 55px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 230px 115px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 250px 15px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 270px 65px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 290px 95px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 310px 45px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 330px 105px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 350px 15px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 370px 75px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 390px 125px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 410px 5px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 430px 55px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 450px 95px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 470px 35px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 490px 115px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 510px 25px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 530px 85px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 550px 5px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 570px 65px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 590px 135px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 610px 45px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 630px 105px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 650px 15px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 670px 75px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 690px 125px, rgba(255,255,255,0.98), transparent),
+            radial-gradient(1.5px 1.5px at 710px 5px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 730px 85px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 750px 35px, rgba(255,255,255,0.9), transparent);
+          background-repeat: repeat;
+          background-size: 800px 800px;
+          animation: twinkle 8s ease-in-out infinite alternate;
+        }
+        
+        .starry-night-background::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: 
+            radial-gradient(2.5px 2.5px at 50px 150px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(3px 3px at 100px 180px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 130px 160px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 160px 190px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 190px 170px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 220px 200px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 250px 180px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 280px 210px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 310px 190px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 340px 220px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 370px 200px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 400px 230px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 430px 210px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 460px 240px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 490px 220px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 520px 250px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 550px 230px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 580px 260px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 610px 240px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 640px 270px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 670px 250px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 700px 280px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 730px 260px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 760px 290px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 50px 120px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 80px 140px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 110px 130px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 140px 160px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 170px 150px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 200px 180px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 230px 170px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 260px 200px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 290px 220px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 320px 140px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 350px 120px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 380px 190px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 410px 110px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 440px 240px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 470px 160px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 500px 130px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 530px 210px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 560px 90px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 590px 250px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 620px 180px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 650px 100px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 680px 230px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 710px 150px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 740px 120px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 770px 200px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 25px 175px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 55px 135px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 85px 205px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 115px 95px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 145px 225px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 175px 155px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 205px 85px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 235px 245px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 265px 115px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 295px 185px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 325px 75px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 355px 235px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 385px 145px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 415px 105px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 445px 195px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 475px 65px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 505px 255px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 535px 125px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 565px 215px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 595px 35px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 625px 165px, rgba(255,255,255,0.95), transparent),
+            radial-gradient(2px 2px at 655px 275px, rgba(255,255,255,0.85), transparent),
+            radial-gradient(2.5px 2.5px at 685px 45px, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1.5px 1.5px at 715px 185px, rgba(255,255,255,0.8), transparent),
+            radial-gradient(3px 3px at 745px 95px, rgba(255,255,255,0.95), transparent);
+          background-repeat: repeat;
+          background-size: 800px 800px;
+          animation: twinkle 6s ease-in-out infinite alternate-reverse;
+        }
+        
+        @keyframes twinkle {
+          0% { opacity: 0.8; }
+          100% { opacity: 1; }
+        }
+        
+        /* グラデーション効果の強化 */
+        .starry-night-background .gradient-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, 
+            rgba(26, 26, 46, 0.8) 0%, 
+            rgba(22, 33, 62, 0.6) 25%, 
+            rgba(15, 52, 96, 0.4) 50%, 
+            rgba(10, 25, 41, 0.7) 75%, 
+            rgba(0, 8, 20, 0.9) 100%);
+          z-index: 1;
+        }
       `;
       document.head.appendChild(style);
       
@@ -195,7 +333,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl opacity-10 transform rotate-1"></div>
           <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+            {/* <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div> */}
             
             <div className="p-12 text-center">
               <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-8">
@@ -266,13 +404,13 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
       {/* パーソナリティタイプカード */}
       <div className="relative mb-4 md:mb-8">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl opacity-10 transform rotate-1"></div>
-        <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        <div className="absolute inset-0 starry-night-background rounded-3xl opacity-20 transform rotate-1"></div>
+        <div className="relative starry-night-background rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 group">
+          <div className="gradient-overlay"></div>
           
           {/* 背景英語テキスト */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="text-gray-300/40 font-black text-7xl md:text-9xl lg:text-[12rem] xl:text-[14rem] tracking-wider transform -rotate-12 select-none whitespace-nowrap">
+            <div className="text-white/20 font-black text-7xl md:text-9xl lg:text-[12rem] xl:text-[14rem] tracking-wider transform -rotate-12 select-none whitespace-nowrap">
               {result.pattern.id.toUpperCase()}
             </div>
           </div>
@@ -394,10 +532,10 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 </div>
               </div>
               
-              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
                 {result.pattern.name}
               </h2>
-              <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
                 {result.pattern.description}
               </p>
             </div>
