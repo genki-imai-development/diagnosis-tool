@@ -17,8 +17,8 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown }) =>
       // H1 (#) - メインタイトル
       if (line.startsWith('# ')) {
         elements.push(
-          <div key={key++} className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
+          <div key={key++} className="mt-8 mb-8">
+            <h1 className="text-lg md:text-xl font-bold text-slate-900 mb-2">
               {line.substring(2)}
             </h1>
             <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
@@ -58,17 +58,17 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown }) =>
         );
       }
       // 区切り線 (---)
-      else if (line.trim() === '---') {
-        elements.push(
-          <div key={key++} className="my-12 flex items-center justify-center">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
-              <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-              <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
-            </div>
-          </div>
-        );
-      }
+      // else if (line.trim() === '---') {
+      //   elements.push(
+      //     <div key={key++} className="my-12 flex items-center justify-center">
+      //       <div className="flex items-center space-x-2">
+      //         <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
+      //         <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+      //         <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
+      //       </div>
+      //     </div>
+      //   );
+      // }
       // リスト項目 (-)
       else if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
         const indent = line.length - line.trimLeft().length;
@@ -115,12 +115,12 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown }) =>
           );
         }
       }
-      // 通常のテキスト
+      // 通常のテキスト（キャッチコピー的な表示）
       else {
         const content = parseInlineMarkdown(line.trim());
         if (content && content.toString().trim()) {
           elements.push(
-            <p key={key++} className="text-slate-600 mb-4 leading-relaxed text-sm md:text-base">
+            <p key={key++} className="text-slate-600 mb-4 leading-relaxed text-base md:text-lg font-medium underline decoration-slate-400 decoration-2 underline-offset-4">
               {content}
             </p>
           );
@@ -157,4 +157,4 @@ export const RoadmapRenderer: React.FC<RoadmapRendererProps> = ({ markdown }) =>
       </div>
     </div>
   );
-}; 
+};
