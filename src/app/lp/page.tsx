@@ -12,7 +12,7 @@ export default function LandingPage() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.pageYOffset;
-      setIsHeaderScrolled(scrollY > 100);
+      setIsHeaderScrolled(scrollY > 50);
       setIsScrollTopVisible(scrollY > 300);
     };
 
@@ -49,40 +49,72 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900">
       {/* Header */}
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isHeaderScrolled ? 'bg-white/98' : 'bg-white/95'
-      } backdrop-blur-md shadow-sm`}>
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-2 py-2 md:px-8">
-          <div className="flex items-center">
+      <header className={`fixed z-50 top-0 w-full transition-all duration-500 ${
+        isHeaderScrolled 
+          ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' 
+          : 'bg-transparent py-6'
+      }`}>
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8">
+          <div className="flex items-center group cursor-pointer">
             {/* ロゴ */}
-            <Image
-              src="/images/patterns/logo.png"
-              alt="ロゴ"
-              width={64}
-              height={64}
-              className="w-12 h-12 md:w-16 md:h-16 mr-3"
-            />
-            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              Vision  Me（ベータ版）
+            <div className="relative">
+              <div className={`absolute inset-0 blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 rounded-full ${
+                isHeaderScrolled ? 'bg-indigo-500' : 'bg-white'
+              }`}></div>
+              <Image
+                src="/images/patterns/logo.png"
+                alt="Vision Me ロゴ"
+                width={64}
+                height={64}
+                className="w-10 h-10 md:w-12 md:h-12 mr-3 relative z-10 transition-transform duration-300 group-hover:rotate-12"
+              />
+            </div>
+            <span className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-300 ${
+              isHeaderScrolled 
+                ? 'text-slate-900' 
+                : 'text-white'
+            }`}>
+              Vision Me
+              <span className={`text-xs ml-2 align-top font-medium px-2 py-0.5 rounded-full border ${
+                isHeaderScrolled 
+                  ? 'border-indigo-200 text-indigo-600 bg-indigo-50' 
+                  : 'border-white/30 text-indigo-200 bg-white/10'
+              }`}>BETA</span>
             </span>
           </div>
           
           <nav className="hidden md:block">
-            <div className="flex gap-4">
-              <Link
-                href="/"
-                className="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-full hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
-              >
-                診断する
-              </Link>
+            <div className="flex items-center gap-4">
               <Link
                 target="_blank"
                 href="https://mosh.jp/nareru/inquiry"
-                className="px-6 py-2 border-2 border-indigo-500 text-indigo-600 font-medium rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+                className={`text-sm font-medium transition-all duration-300 px-5 py-2.5 rounded-full ${
+                  isHeaderScrolled 
+                    ? 'text-slate-600 hover:bg-slate-100' 
+                    : 'text-white/90 hover:text-white hover:bg-white/10'
+                }`}
               >
                 お問い合わせ
+              </Link>
+              <Link
+                href="/"
+                className={`group relative px-6 py-2.5 text-sm font-bold rounded-full overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 ${
+                  isHeaderScrolled 
+                    ? 'bg-slate-900 text-white hover:shadow-indigo-500/30' 
+                    : 'bg-white text-indigo-950 hover:shadow-white/20'
+                }`}
+              >
+                <div className={`absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                  isHeaderScrolled ? 'bg-gradient-to-r from-indigo-500 to-purple-600' : 'bg-indigo-50'
+                }`}></div>
+                <span className="relative z-10 flex items-center gap-2">
+                  診断する
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </nav>
@@ -90,549 +122,383 @@ export default function LandingPage() {
       </header>
       
       {/* Hero Section */}
-      <section className="hero relative min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center overflow-hidden">
-        {/* メインのアニメーション背景 */}
-        <div className="absolute inset-0 animate-background-shift opacity-20">
-          <div className="absolute inset-0 bg-gradient-radial from-white/10 to-transparent" style={{background: 'radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%)'}} />
-        </div>
-        
-        {/* 浮遊する光の粒子 */}
-        <div className="absolute inset-0 overflow-hidden animate-sparkle opacity-40">
-          <div className="absolute w-2 h-2 bg-white/40 rounded-full" style={{top: '20px', left: '30px'}} />
-          <div className="absolute w-2 h-2 bg-white/30 rounded-full" style={{top: '40px', left: '70px'}} />
-          <div className="absolute w-1 h-1 bg-white/50 rounded-full" style={{top: '90px', left: '40px'}} />
-          <div className="absolute w-1 h-1 bg-white/30 rounded-full" style={{top: '130px', left: '80px'}} />
-          <div className="absolute w-2 h-2 bg-white/40 rounded-full" style={{top: '160px', left: '30px'}} />
-        </div>
-        
-        {/* 動的なオーバーレイ */}
-        <div className="absolute inset-0 animate-sweep opacity-30" style={{background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%)'}} />
-        
-        {/* 波紋エフェクト */}
-        <div className="absolute inset-0">
-          <div className="ripple absolute w-80 h-80 rounded-full bg-gradient-radial from-white/10 to-transparent animate-ripple" style={{top: '20%', left: '10%', animationDelay: '0s'}} />
-          <div className="ripple absolute w-52 h-52 rounded-full bg-gradient-radial from-white/10 to-transparent animate-ripple" style={{top: '60%', right: '15%', animationDelay: '2s'}} />
-          <div className="ripple absolute w-96 h-96 rounded-full bg-gradient-radial from-white/10 to-transparent animate-ripple" style={{bottom: '10%', left: '30%', animationDelay: '1s'}} />
-        </div>
-        
-        <div className="hero-container relative z-10 max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
-          <div className="hero-content text-white">
-            <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-shadow-lg opacity-0 animate-fade-in-up">
-              なりたい自分への道筋<br />5分で見える化。<br />Vision  Meで。
-            </h1>
-            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200 hidden 2xl:block">
-              大切にしている価値観から理想の未来を描き、<br />
-              今いる場所から目標までの具体的な道筋を作成します。
-            </p>
-            <div className="mb-6 text-white/90 opacity-0 animate-fade-in-up animation-delay-300">
-              <div className="flex items-center mb-2">
-                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span>あなたのキャラクターを32パターンから選択</span>
+      <section className="relative w-full h-[100dvh] pt-[88px] bg-[#0B1221] overflow-hidden">
+        <div className="relative w-full h-full rounded-t-[2.5rem] md:rounded-t-[4rem] overflow-hidden border-t border-white/5 shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.5)] bg-[#0B1221]">
+          {/* PC Image */}
+          <div className="hidden md:block absolute inset-0 w-full h-full">
+            <Image
+              src="/images/patterns/lp-pc.png"
+              alt="Vision Me Hero PC"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
+          {/* SP Image */}
+          <div className="block md:hidden absolute inset-0 w-full h-full">
+            <Image
+              src="/images/patterns/lp-sp.png"
+              alt="Vision Me Hero SP"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
+
+          {/* Overlay Content (CTA Button) */}
+          <div className="absolute bottom-0 left-0 w-full z-20 pb-24 md:pb-20 bg-gradient-to-t from-[#0B1221] via-[#0B1221]/60 to-transparent">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
+              <div className="animate-fade-in-up animation-delay-400 w-full md:w-auto text-center">
+                <Link href="/" className="group relative inline-flex items-center justify-center w-full md:w-auto min-w-[300px] px-8 py-4 bg-white text-indigo-950 font-bold rounded-full text-center transition-all duration-300 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.6)] transform hover:-translate-y-1 overflow-hidden">
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-indigo-50 to-transparent -translate-x-full group-hover:animate-shimmer"></span>
+                  <span className="text-lg tracking-wide">無料で診断を始める</span>
+                  <div className="ml-3 bg-indigo-100 rounded-full p-1.5 group-hover:translate-x-1 transition-transform">
+                    <svg className="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </Link>
+                <p className="text-white/80 text-sm mt-4 font-medium tracking-wide text-shadow-sm">
+                  登録不要・約5分で完了
+                </p>
               </div>
-              <div className="flex items-center mb-2">
-                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span>Big5をベースにあなたの性格特性傾向を診断</span>
-              </div>
-              <div className="flex items-center">
-                <svg className="mr-3 w-6 h-6 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-                <span>あなたの強みや才能を活かした目標達成ロードマップを作成</span>
-              </div>
-            </div>
-            <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200">
-              「変わりたい」から「変われる」へ。<br />
-              あなたの人生を動かす第一歩を、今ここから。
-            </p>
-            <div className="hero-buttons flex flex-col sm:flex-row gap-4 mt-8 opacity-0 animate-fade-in-up animation-delay-400">
-              <Link href="/" className="btn btn-primary px-6 md:px-8 py-3 md:py-4 bg-white text-indigo-600 rounded-full font-semibold text-base md:text-lg hover:transform hover:scale-105 transition-all duration-300 shadow-2xl relative overflow-hidden group text-center">
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500" />
-                無料で診断を始める
-              </Link>
             </div>
           </div>
         </div>
         
-        {/* Hero Visual */}
-        <div className="hero-visual absolute left-1/3 top-1/2 transform -translate-y-1/2 z-5 animate-fade-in-right animation-delay-600 hidden md:block">
-          <Image
-            src="/images/patterns/lp.png"
-            alt="特性診断・未来予想システムのイメージ"
-            width={1200}
-            height={720}
-            className="hero-image min-w-[1000px] lg:min-w-[1200px] rounded-3xl hover:scale-105 transition-transform duration-300"
-            priority
-          />
-        </div>
-        
-        {/* スクロールアイコン */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="flex flex-col items-center text-white/80 hover:text-white transition-colors duration-300 cursor-pointer">
-            <span className="text-sm mb-2 font-medium">下にスクロール</span>
-            <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center relative overflow-hidden">
-              <div className="w-1 h-3 bg-white/60 rounded-full animate-scroll-line"></div>
-            </div>
-          </div>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/60 z-20">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </section>
 
       {/* Problem & Solution Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-indigo-50 to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-2xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              こんな悩みはありませんか？
+      <section id="about" className="py-32 bg-slate-50 relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#0B1221] to-transparent opacity-20"></div>
+          <div className="absolute top-40 -left-20 w-96 h-96 bg-indigo-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+          <div className="absolute top-40 -right-20 w-96 h-96 bg-purple-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-200"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+          <div className="text-center mb-20">
+            <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold tracking-widest uppercase mb-4">Current Challenges</span>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                こんな悩み、抱えていませんか？
+              </span>
             </h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+              多くの人が抱える将来への不安や自己認識の課題。<br className="hidden md:block"/>
+              Vision Meがその霧を晴らすお手伝いをします。
+            </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-8 md:mb-16">
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-              <div className="text-4xl mb-4">😔</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">自分の○○な部分が好きになれない</h3>
-              <p className="text-gray-600">自分の性格や行動パターンに満足できず、コンプレックスを感じている</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-              <div className="text-4xl mb-4">🤔</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">強み・才能・適職が分からない</h3>
-              <p className="text-gray-600">自分のポテンシャルや向いていることが分からない</p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-              <div className="text-4xl mb-4">❓</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">漠然と何をしたら良いか分からない</h3>
-              <p className="text-gray-600">変わりたい気持ちはあるけれど、具体的に何をどう改善すれば良いか分からない</p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-8 mb-32">
+            {[
+              { icon: "😔", title: "自己肯定感の低迷", desc: "自分の性格や行動パターンに満足できず、つい他人と比較してコンプレックスを感じてしまう。", color: "bg-red-50 text-red-500" },
+              { icon: "🤔", title: "強みがわからない", desc: "自分にはどんな才能があるのか、どんな仕事が向いているのか、客観的なポテンシャルが見えない。", color: "bg-blue-50 text-blue-500" },
+              { icon: "❓", title: "方針が見えない", desc: "変わりたいという強い思いはあるけれど、具体的に何をどう変えれば良いのか、最初の一歩が踏み出せない。", color: "bg-yellow-50 text-yellow-600" }
+            ].map((item, idx) => (
+              <div key={idx} className="group bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-indigo-100 transition-all duration-300 hover:-translate-y-1">
+                <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 text-3xl`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-slate-800">{item.title}</h3>
+                <p className="text-slate-500 leading-relaxed text-sm">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
           </div>
 
-          <div className="text-center mb-8 md:mb-16">
-            <div className="mb-8 flex justify-center">
-              <svg 
-                width="80" 
-                height="80" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                className="text-indigo-500"
-              >
-                <path 
-                  d="M12 4v16m0 0l-6-6m6 6l6-6" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
-              </svg>
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center justify-center p-1 rounded-full bg-white shadow-sm border border-slate-100 mb-8">
+              <div className="px-6 py-2 bg-slate-50 rounded-full text-sm font-medium text-slate-600 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                Solution
+              </div>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              3つのステップで解決します
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900">
+              3つのステップで<br className="md:hidden"/>解決します
             </h3>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 md:p-8 text-white text-center relative">
-              <div className="absolute top-4 right-4 bg-white text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center font-bold">1</div>
-              <div className="text-4xl mb-4">🔍</div>
-              <h4 className="text-xl font-bold mb-4">自己理解</h4>
-              <p className="mb-4">Big5をベースに性格特性傾向を診断</p>
-              <ul className="text-base text-left">
-                <li>✔︎ あなたを示すキャラクターは？</li>
-                <li>✔︎ あなたの性格特性傾向(5因子)は？</li>
-                <li>✔︎ あなたのやる気スイッチは？</li>
-              </ul>
-            </div>
-            <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-4 md:p-8 text-white text-center relative">
-              <div className="absolute top-4 right-4 bg-white text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-bold">2</div>
-              <div className="text-4xl mb-4">🎯</div>
-              <h4 className="text-xl font-bold mb-4">詳細分析</h4>
-              <p className="mb-4">あなたについてAIが分析</p>
-              <ul className="text-base text-left">
-                <li>✔︎ あなたを象徴するキーワードは？</li>
-                <li>✔︎ あなたの強みや才能は？</li>
-                <li>✔︎ あなたの適職や避けるべき職業は？</li>
-              </ul>
-            </div>
-            <div className="bg-gradient-to-br from-pink-500 to-red-500 rounded-2xl p-4 md:p-8 text-white text-center relative">
-              <div className="absolute top-4 right-4 bg-white text-pink-600 rounded-full w-8 h-8 flex items-center justify-center font-bold">3</div>
-              <div className="text-4xl mb-4">🗺️</div>
-              <h4 className="text-xl font-bold mb-4">行動計画</h4>
-              <p className="mb-4">目標達成までのロードマップ作成</p>
-              <ul className="text-base text-left">
-                <li>✔︎ あなたが目指す理想の未来は？</li>
-                <li>✔︎ あなたの行動を止めるストッパーは？</li>
-                <li>✔︎ あなたの目標達成までのロードマップは？</li>
-              </ul>
-            </div>
+            {[
+              { step: "1", title: "自己理解", subtitle: "Big5に基づく性格診断", items: ["あなたのキャラクター判定", "性格特性5因子の分析", "やる気スイッチの特定"], color: "from-indigo-500 to-purple-600", bg: "bg-indigo-50 text-indigo-600" },
+              { step: "2", title: "詳細分析", subtitle: "AIによる深層分析", items: ["象徴するキーワード抽出", "強みと才能の解説", "適職・避けるべき職業"], color: "from-purple-500 to-pink-500", bg: "bg-purple-50 text-purple-600" },
+              { step: "3", title: "行動計画", subtitle: "目標達成ロードマップ", items: ["理想の未来の具体化", "メンタルブロックの特定", "具体的アクションプラン"], color: "from-pink-500 to-red-500", bg: "bg-pink-50 text-pink-600" }
+            ].map((item, idx) => (
+              <div key={idx} className={`relative group rounded-[2rem] p-[1px] bg-gradient-to-b ${item.color} hover:shadow-2xl transition-shadow duration-300`}>
+                <div className="bg-white h-full rounded-[2rem] p-8 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+                    <span className="text-9xl font-black text-slate-900">{item.step}</span>
+                  </div>
+                  <div className="relative z-10">
+                    <div className={`w-12 h-12 ${item.bg} rounded-2xl flex items-center justify-center font-bold text-xl mb-6`}>
+                      {item.step}
+                    </div>
+                    <h4 className="text-xl font-bold mb-2 text-slate-800">{item.title}</h4>
+                    <p className="text-xs text-slate-400 mb-6 font-bold tracking-wide uppercase">{item.subtitle}</p>
+                    <ul className="space-y-3">
+                      {item.items.map((listItem, listIdx) => (
+                        <li key={listIdx} className="flex items-start text-sm text-slate-600">
+                          <span className={`mr-2 mt-0.5 ${item.bg.split(' ')[1]}`}>✔</span>
+                          {listItem}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      {/* <section id="about" className="py-24 bg-white">
+      {/* Features Detail Section */}
+      <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-800">
-                Big5診断で<br />あなたの強み・才能を<br />科学的に発見
-              </h2>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                「Vision  Me」は、心理学の5因子モデル（Big5）に基づく科学的なアプローチで、あなたの性格特性を正確に分析します。たった5つの質問に答えるだけで、あなたが持つ強みと才能を明確に把握できます。
-              </p>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                Big5診断では、<strong>開放性・誠実性・外向性・協調性・神経症傾向</strong>の5つの軸であなたの性格を多角的に分析。それぞれの特性がどのような場面で活かされるか、どんな環境で力を発揮できるかを具体的にお伝えします。
-              </p>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                単なる診断結果ではなく、あなたの人生で大切にしている価値観と組み合わせることで、現状と理想の未来との間にあるギャップを明確にし、目標達成への道筋を描き出します。
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl p-12 text-white text-center relative overflow-hidden">
-              <div className="absolute top-4 right-4 text-6xl opacity-30">🧠</div>
-              <h3 className="text-2xl font-bold mb-4">Big5診断の特徴</h3>
-              <div className="text-left space-y-3">
-                <div className="flex items-center">
-                  <span className="mr-3">✅</span>
-                  <span>科学的根拠に基づく心理学理論</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-3">✅</span>
-                  <span>わずか5問で正確な分析</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-3">✅</span>
-                  <span>あなた独自の強み・才能を発見</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-3">✅</span>
-                  <span>価値観と組み合わせた総合分析</span>
-                </div>
-              </div>
-            </div>
+          <div className="text-center mb-24">
+            <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold tracking-widest uppercase mb-4">Features</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
+              理想の未来へ導く<br className="md:hidden" />3つの鍵
+            </h2>
           </div>
-        </div>
-      </section> */}
-
-      {/* Features Section */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-16 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            3つのステップで理想の未来へ
-          </h2>
           
-          {/* Feature 1 - 自己理解 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-12 md:mb-24">
-            <div>
-              <div className="flex items-center mb-6">
-                <div className="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">1</div>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                  <div className="hidden md:block">自己理解：</div>Big5をベースに性格特性傾向を診断
-                </h3>
-              </div>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                まずは、自分を知ることから始めましょう。<br />
-                簡単な質問に答えるだけで、あなたの性格特性を診断します。外向性、協調性、勤勉性、情動性、創造性の5つの軸で、あなたの性格を診断。
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <span className="text-indigo-600 mr-3">📊</span>
-                  <span className="text-gray-700">あなたを示すキャラクターを提示</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-indigo-600 mr-3">💎</span>
-                  <span className="text-gray-700">あなたの性格特性傾向(5因子)を診断</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-indigo-600 mr-3">📈</span>
-                  <span className="text-gray-700">あなたのやる気スイッチを解説</span>
-                </div>
+          {/* Feature 1 */}
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 group">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-indigo-100 rounded-[2.5rem] rotate-3 transform transition-transform duration-500 group-hover:rotate-6"></div>
+              <div className="relative rounded-[2rem] overflow-hidden shadow-xl transition-transform duration-500 group-hover:-translate-y-2 border border-slate-100">
+                <Image 
+                  src="/images/patterns/step01.png" 
+                  alt="Big5診断" 
+                  width={600}
+                  height={400}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
-            <div className="rounded-3xl overflow-hidden">
-              <Image 
-                src="/images/patterns/step01.png" 
-                alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
-              />
+            <div className="order-1 md:order-2">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 text-white font-bold text-xl shadow-lg shadow-indigo-200">1</span>
+                <span className="text-indigo-600 font-bold tracking-wider text-sm">SELF AWARENESS</span>
+              </div>
+              <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                科学的根拠に基づく<br />性格特性診断
+              </h3>
+              <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                まずは自分を知ることから。簡単な質問に答えるだけで、外向性・協調性・勤勉性・情動性・創造性の5つの軸からあなたの性格を精緻に分析します。
+              </p>
+              <ul className="space-y-4">
+                {["あなたを示すキャラクター判定", "5因子分析による特性チャート", "モチベーション源泉の解説"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700">
+                    <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <span className="font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Feature 2 - 詳細分析 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-12 md:mb-24">
-            <div className="md:order-2">
-              <div className="flex items-center mb-6">
-                <div className="bg-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">2</div>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                <div className="hidden md:block">詳細分析：</div>AIがあなたについて分析
-                </h3>
+          {/* Feature 2 */}
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 group">
+            <div className="md:pl-10">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-600 text-white font-bold text-xl shadow-lg shadow-purple-200">2</span>
+                <span className="text-purple-600 font-bold tracking-wider text-sm">DEEP ANALYSIS</span>
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                さらに自分自身について深く理解しましょう。<br />
-                あなたの強みや才能を解説。さらにあなたの適職や避けるべき職業を明確にします。
+              <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                AIによる<br />深層ポテンシャル分析
+              </h3>
+              <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                あなたの回答をAIが深く分析。表面的な性格だけでなく、隠れた才能や、本当に向いている環境・避けるべき環境を明確にします。
               </p>
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <span className="text-purple-600 mr-3">💝</span>
-                  <span className="text-gray-700">あなたを象徴するキーワードを提示</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-purple-600 mr-3">📏</span>
-                  <span className="text-gray-700">あなたの強みや才能を解説</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-purple-600 mr-3">🎯</span>
-                  <span className="text-gray-700">あなたの適職や避けるべき職業が判明</span>
-                </div>
-              </div>
+              <ul className="space-y-4">
+                {["象徴するキーワードの抽出", "隠れた強み・才能の発見", "適職・キャリアパスの提案"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700">
+                    <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <span className="font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="rounded-3xl overflow-hidden">
-              <Image 
-                src="/images/patterns/step02.png" 
-                alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
-              />
+            <div className="relative">
+              <div className="absolute inset-0 bg-purple-100 rounded-[2.5rem] -rotate-3 transform transition-transform duration-500 group-hover:-rotate-6"></div>
+              <div className="relative rounded-[2rem] overflow-hidden shadow-xl transition-transform duration-500 group-hover:-translate-y-2 border border-slate-100">
+                <Image 
+                  src="/images/patterns/step02.png" 
+                  alt="詳細分析" 
+                  width={600}
+                  height={400}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Feature 3 - 行動計画 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
-            <div>
-              <div className="flex items-center mb-6">
-                <div className="bg-pink-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl mr-4">3</div>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
-                <div className="hidden md:block">行動計画：</div>目標達成までのロードマップ作成
-                </h3>
-              </div>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                やるべきことを整理しましょう。<br />
-                性格特性傾向と詳細分析の結果をもとに、あなたの目標達成までのロードマップを作成します。
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <span className="text-pink-600 mr-3">🗺️</span>
-                  <span className="text-gray-700">あなたが目指す理想の未来を整理</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-pink-600 mr-3">📋</span>
-                  <span className="text-gray-700">あなたの行動を止めるストッパーを解説</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-pink-600 mr-3">🚀</span>
-                  <span className="text-gray-700">目標達成ロードマップ作成</span>
-                </div>
+          {/* Feature 3 */}
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center group">
+            <div className="order-2 md:order-1 relative">
+              <div className="absolute inset-0 bg-pink-100 rounded-[2.5rem] rotate-3 transform transition-transform duration-500 group-hover:rotate-6"></div>
+              <div className="relative rounded-[2rem] overflow-hidden shadow-xl transition-transform duration-500 group-hover:-translate-y-2 border border-slate-100">
+                <Image 
+                  src="/images/patterns/step03.png" 
+                  alt="行動計画" 
+                  width={600}
+                  height={400}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
-            <div className="rounded-3xl overflow-hidden">
-              <Image 
-                src="/images/patterns/step03.png" 
-                alt="Big5診断 - 科学的根拠に基づく性格特性分析" 
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
-              />
+            <div className="order-1 md:order-2">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-pink-600 text-white font-bold text-xl shadow-lg shadow-pink-200">3</span>
+                <span className="text-pink-600 font-bold tracking-wider text-sm">ROADMAP</span>
+              </div>
+              <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
+                目標達成までの<br />具体的ロードマップ
+              </h3>
+              <p className="text-slate-500 text-lg leading-relaxed mb-8">
+                分析結果をもとに、あなたの理想の未来を実現するための具体的な行動計画を自動生成。心理的なブロックへの対処法も提示します。
+              </p>
+              <ul className="space-y-4">
+                {["理想の未来の言語化", "行動ストッパーの特定と対策", "実践的アクションプラン"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700">
+                    <div className="w-6 h-6 rounded-full bg-pink-50 flex items-center justify-center text-pink-600">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <span className="font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Process Detail Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-2xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+      <section className="py-32 bg-slate-50 relative">
+        <div className="max-w-4xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-24">
+            <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold tracking-widest uppercase mb-4">Flow</span>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900">
               診断の流れ
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              シンプルな5つのステップで、あなたの理想の未来への道筋を明確にします。
+            <p className="text-slate-500 text-lg">
+              わずか5分。シンプルな5つのステップで完了します。
             </p>
           </div>
 
-          <div className="space-y-12">
-            {/* Step 1 */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-4 md:p-8">
-              <div className="flex-shrink-0">
-                <div className="bg-indigo-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">1</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">性格特性傾向に関する質問に回答</h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  まず、性格特性傾向を診断するために<strong>YES or NO</strong>の質問にお答えください。<br />
-                  所要時間は約1-2分です。
-                </p>
-              </div>
-              <div className="text-6xl opacity-60">📝</div>
-            </div>
+          <div className="relative space-y-12">
+            {/* Connecting Line */}
+            <div className="absolute left-6 md:left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-indigo-200 via-purple-200 to-transparent hidden sm:block"></div>
 
-            {/* Step 2 */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-4 md:p-8">
-              <div className="flex-shrink-0">
-                <div className="bg-purple-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">2</div>
+            {[
+              { num: "1", title: "質問に回答", desc: "性格特性傾向を診断するためにYES/NOの質問にお答えください。", detail: "直感で答えるのがポイントです。（所要時間：約1-2分）", icon: "📝", color: "text-indigo-600", border: "border-indigo-100" },
+              { num: "2", title: "価値観を選択", desc: "仕事・健康・お金など、人生で大切にしている価値観を選択。", detail: "あなたの判断基準の核となる部分を明確にします。", icon: "💎", color: "text-purple-600", border: "border-purple-100" },
+              { num: "3", title: "詳細入力", desc: "選択した価値観について、より具体的な質問にお答えください。", detail: "AIがあなた独自の思考パターンを深く理解します。", icon: "✍️", color: "text-pink-600", border: "border-pink-100" },
+              { num: "4", title: "AI分析", desc: "AIが回答内容を瞬時に分析。性格特性診断を実行。", detail: "あなたの「強み・才能」を言語化します。", icon: "🤖", color: "text-indigo-600", border: "border-indigo-100" },
+              { num: "5", title: "ロードマップ完成", desc: "「理想の未来」「行動ストッパー」「ロードマップ」を完全生成。", detail: "あなただけの成長戦略レポートをお届けします。", icon: "🎯", color: "text-white", border: "border-transparent", bg: "bg-gradient-to-br from-indigo-600 to-purple-600 text-white" }
+            ].map((step, idx) => (
+              <div key={idx} className="relative flex items-start gap-8 group">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl ${step.bg ? 'bg-slate-900 text-white' : 'bg-white'} shadow-lg ${step.border} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <span className={`text-2xl font-bold ${!step.bg && step.color}`}>{step.num}</span>
+                  </div>
+                </div>
+                <div className={`flex-1 rounded-[2rem] p-8 shadow-sm border transition-all duration-300 hover:shadow-xl ${step.bg ? step.bg : 'bg-white border-slate-100'}`}>
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className={`text-xl font-bold ${step.bg ? 'text-white' : 'text-slate-900'}`}>{step.title}</h3>
+                    <span className="text-3xl opacity-80">{step.icon}</span>
+                  </div>
+                  <p className={`leading-relaxed mb-2 font-medium ${step.bg ? 'text-indigo-100' : 'text-slate-800'}`}>
+                    {step.desc}
+                  </p>
+                  <p className={`text-sm ${step.bg ? 'text-indigo-200' : 'text-slate-500'}`}>
+                    {step.detail}
+                  </p>
+                </div>
               </div>
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">最も重要だと考える価値観を選択</h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  人生で大切にしている価値観を<strong>6個の選択肢から1個</strong>選んでください。<br />
-                  仕事・健康・お金など、あなたが最も重視する価値観を明確にします。
-                </p>
-              </div>
-              <div className="text-6xl opacity-60">💎</div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-gradient-to-r from-pink-50 to-red-50 rounded-3xl p-4 md:p-8">
-              <div className="flex-shrink-0">
-                <div className="bg-pink-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">3</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">選択した価値について詳細入力</h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  選択した価値観について、<strong>より具体的な</strong>の質問にお答えください。<br />
-                  AIがあなたについて深く理解するために必要な情報です。
-                </p>
-              </div>
-              <div className="text-6xl opacity-60">✍️</div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-gradient-to-r from-green-50 to-blue-50 rounded-3xl p-4 md:p-8">
-              <div className="flex-shrink-0">
-                <div className="bg-green-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">4</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">AIがあなたの性格特性傾向を分析</h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  AIが回答内容を分析し、<strong>性格特性診断</strong>を実行。<br />
-                  あなたの「強み・才能」を生成し、自己理解に役立つ情報を提供します。
-                </p>
-              </div>
-              <div className="text-6xl opacity-60">🤖</div>
-            </div>
-
-            {/* Step 5 */}
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-4 md:p-8">
-              <div className="flex-shrink-0">
-                <div className="bg-blue-600 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center font-bold text-2xl">5</div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">目標達成ロードマップを作成</h3>
-                <p className="text-gray-600 text-base md:text-lg">
-                  性格特性傾向と詳細分析の結果をもとに、<strong>「あなたが目指す理想の未来」「あなたの行動を止めるストッパー」「目標達成までのロードマップ」</strong>を生成。あなた専用の成長戦略をお届けします。
-                </p>
-              </div>
-              <div className="text-6xl opacity-60">🎯</div>
-            </div>
+            ))}
           </div>
 
-          <div className="text-center mt-16">
-            <Link href="/" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-              <span className="mr-2">🚀</span>
-              今すぐ診断を始める
+          <div className="text-center mt-24">
+            <Link href="/" className="group inline-flex items-center px-12 py-6 bg-slate-900 text-white font-bold rounded-full hover:bg-indigo-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-indigo-900/20 transform hover:-translate-y-1">
+              <span className="mr-3 text-2xl group-hover:rotate-12 transition-transform duration-300">🚀</span>
+              <span className="text-lg">今すぐ診断を始める</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Next Action Section */}
-      {/* <section className="py-24 bg-gradient-to-br from-indigo-50 to-purple-50">
-        <div className="max-w-4xl mx-auto px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            診断後のネクストアクション
-          </h2>
-          <p className="text-xl text-gray-600 mb-12">
-            診断結果を活用して、更なる成長を目指しませんか？
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="text-4xl mb-4">👥</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">目標達成の専門家にアドバイスを聞く</h3>
-              <p className="text-gray-600 mb-6">
-                診断結果をもとに、目標達成の専門家から具体的なアドバイスを受けることで、より効果的な成長戦略を描けます。
-              </p>
-              <div className="text-sm text-gray-500">※ 別途料金が発生します</div>
-            </div>
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="text-4xl mb-4">🤝</div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">ライフコーチに伴走してもらう</h3>
-              <p className="text-gray-600 mb-6">
-                プロのライフコーチが継続的にサポートすることで、迷いが減り、目標達成まで確実に歩み続けることができます。
-              </p>
-              <div className="text-sm text-gray-500">※ 別途料金が発生します</div>
-            </div>
-          </div>
-          
-          <div className="mt-12 p-6 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl">
-            <p className="text-lg text-gray-700">
-              <strong>プロの視点が入ることで、迷いが減り、継続もしやすくなります。</strong><br />
-              まずは無料診断で、あなたの現状と目標を明確にしてみましょう。
-            </p>
-          </div>
-        </div>
-      </section> */}
-
       {/* Organization Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-indigo-50 to-purple-50">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-          <h2 className="text-2xl md:text-4xl font-bold mb-8 md:mb-16 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            運営組織
-          </h2>
-          <div className="text-2xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            Vision  Me
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-xl font-bold text-slate-900 tracking-wide">運営組織</h2>
           </div>
-          <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-            <table className="w-full">
-              <tbody>
-                <tr className="border-b border-gray-100">
-                  <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 w-24 md:w-36 text-sm md:text-base">組織名</th>
-                  <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">Vision  Me</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 text-sm md:text-base">事業内容</th>
-                  <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">
-                    ・ナリタイ自分になれる『目標達成コーチング』<br/>
-                    ・Vision  Meのシステム開発、運営</td>
-                </tr>
-                <tr>
-                  <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 text-sm md:text-base">URL</th>
-                  <td className="px-4 md:px-6 py-4 md:py-6">
-                    <a href="https://mosh.jp/647525/home" target="_blank" className="text-indigo-600 hover:text-indigo-800 hover:underline text-sm md:text-base break-all">
-                      https://mosh.jp/647525/home
-                    </a>
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 w-24 md:w-36 text-sm md:text-base">開発者</th>
-                  <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">
-                    <a href="https://nicky241103.com/" target="_blank" className="text-indigo-600 hover:text-indigo-800 hover:underline text-sm md:text-base break-all">
-                      https://nicky241103.com/
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          
+          <div className="bg-slate-50/50 rounded-3xl overflow-hidden border border-slate-100">
+            <div className="divide-y divide-slate-100">
+              <div className="flex flex-col md:flex-row p-8 items-baseline">
+                <div className="w-full md:w-48 font-bold text-slate-400 text-sm mb-2 md:mb-0 uppercase tracking-wider">Organization</div>
+                <div className="flex-1 font-medium text-slate-900">Vision Me</div>
+              </div>
+              <div className="flex flex-col md:flex-row p-8 items-baseline">
+                <div className="w-full md:w-48 font-bold text-slate-400 text-sm mb-2 md:mb-0 uppercase tracking-wider">Service</div>
+                <div className="flex-1 font-medium text-slate-900">
+                  <ul className="space-y-2 text-slate-600">
+                    <li>・ナリタイ自分になれる『目標達成コーチング』</li>
+                    <li>・Vision Meのシステム開発、運営</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row p-8 items-baseline">
+                <div className="w-full md:w-48 font-bold text-slate-400 text-sm mb-2 md:mb-0 uppercase tracking-wider">URL</div>
+                <div className="flex-1">
+                  <a href="https://mosh.jp/647525/home" target="_blank" className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors break-all font-medium">
+                    https://mosh.jp/647525/home
+                  </a>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row p-8 items-baseline">
+                <div className="w-full md:w-48 font-bold text-slate-400 text-sm mb-2 md:mb-0 uppercase tracking-wider">Developer</div>
+                <div className="flex-1">
+                  <a href="https://nicky241103.com/" target="_blank" className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors break-all font-medium">
+                    https://nicky241103.com/
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12 px-8 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-xl font-bold mb-4">
-            Vision  Me
+      <footer className="bg-[#0B1221] text-white py-16 px-4 md:px-8 border-t border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div>
+            <div className="text-2xl font-bold tracking-tight mb-2">
+              Vision Me
+            </div>
+            <p className="text-slate-400 text-sm">
+              あなたの可能性を最大化するパートナー
+            </p>
           </div>
-          {/* <div className="mb-8">
-            <Link
-              href="#"
-              className="text-white/80 hover:text-white transition-colors duration-300 mx-4"
-            >
-              個人情報保護方針
-            </Link>
-          </div> */}
-          <div className="text-sm text-white/60 border-t border-white/10 pt-4">
-            Copyright(c) Vision  Me all rights reserved.
+          <div className="text-sm text-slate-500">
+            &copy; {new Date().getFullYear()} Vision Me All rights reserved.
           </div>
         </div>
       </footer>
@@ -640,15 +506,15 @@ export default function LandingPage() {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 z-50 ${
-          isScrollTopVisible ? 'opacity-100 visible' : 'opacity-0 invisible'
+        className={`fixed bottom-8 right-8 w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-indigo-500/50 hover:bg-indigo-900 hover:scale-110 transition-all duration-300 z-50 border border-white/10 ${
+          isScrollTopVisible ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-10'
         }`}
         aria-label="ページトップへ戻る"
       >
-        ↑
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
       </button>
     </div>
   );
 }
-
- 
