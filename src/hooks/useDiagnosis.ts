@@ -8,7 +8,7 @@ import { runPersonalityDiagnosis, runFuturePrediction } from '@/lib/api';
  */
 export const useDiagnosis = () => {
   // === 基本的な状態 ===
-  const [step, setStep] = useState<DiagnosisStep>('start');
+  const [step, setStep] = useState<DiagnosisStep>('questions');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   
   // === データ保存用の状態 ===
@@ -140,7 +140,7 @@ export const useDiagnosis = () => {
    * ・「診断を終了して最初に戻る」ボタン押下時
    */
   const resetToStart = () => {
-    setStep('start');
+    setStep('questions');
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setSelectedValues([]);

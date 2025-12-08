@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 export default function LandingPage() {
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
   const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +29,7 @@ export default function LandingPage() {
               behavior: 'smooth',
               block: 'start'
             });
+            setIsMenuOpen(false);
           }
         });
       });
@@ -57,7 +59,7 @@ export default function LandingPage() {
           : 'bg-transparent py-6'
       }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8">
-          <div className="flex items-center group cursor-pointer">
+          <div className="flex items-center group cursor-pointer relative z-50">
             {/* ロゴ */}
             <div className="relative">
               <div className={`absolute inset-0 blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 rounded-full ${
@@ -72,21 +74,32 @@ export default function LandingPage() {
               />
             </div>
             <span className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-300 ${
-              isHeaderScrolled 
+              isHeaderScrolled || isMenuOpen
                 ? 'text-slate-900' 
                 : 'text-white'
             }`}>
               Vision Me
               <span className={`text-xs ml-2 align-top font-medium px-2 py-0.5 rounded-full border ${
-                isHeaderScrolled 
+                isHeaderScrolled || isMenuOpen
                   ? 'border-indigo-200 text-indigo-600 bg-indigo-50' 
                   : 'border-white/30 text-indigo-200 bg-white/10'
               }`}>BETA</span>
             </span>
           </div>
           
+          {/* Desktop Nav */}
           <nav className="hidden md:block">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/lp/type"
+                className={`text-sm font-medium transition-all duration-300 px-5 py-2.5 rounded-full ${
+                  isHeaderScrolled 
+                    ? 'text-slate-600 hover:bg-slate-100' 
+                    : 'text-white/90 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                性格タイプ一覧
+              </Link>
               <Link
                 target="_blank"
                 href="https://mosh.jp/nareru/inquiry"
@@ -118,12 +131,53 @@ export default function LandingPage() {
               </Link>
             </div>
           </nav>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="relative z-50 block md:hidden p-2 focus:outline-none"
+            aria-label="メニュー"
+          >
+            <div className="w-6 h-5 flex flex-col justify-between">
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2 bg-slate-900' : (isHeaderScrolled ? 'bg-slate-900' : 'bg-white')}`}></span>
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : (isHeaderScrolled ? 'bg-slate-900' : 'bg-white')}`}></span>
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2.5 bg-slate-900' : (isHeaderScrolled ? 'bg-slate-900' : 'bg-white')}`}></span>
+            </div>
+          </button>
+
+          {/* Mobile Menu Overlay */}
+          <div className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-40 transition-all duration-300 md:hidden flex flex-col justify-center items-center ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+            <nav className="flex flex-col items-center gap-8 p-8">
+              <Link
+                href="/lp/type"
+                className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                性格タイプ一覧
+              </Link>
+              <Link
+                target="_blank"
+                href="https://mosh.jp/nareru/inquiry"
+                className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                お問い合わせ
+              </Link>
+              <Link
+                href="/"
+                className="px-8 py-4 bg-slate-900 text-white font-bold rounded-full shadow-lg hover:shadow-indigo-500/30 transition-all"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                診断する
+              </Link>
+            </nav>
+          </div>
         </div>
       </header>
       
       {/* Hero Section */}
       <section className="relative w-full h-[100dvh] pt-[88px] bg-[#0B1221] overflow-hidden">
-        <div className="relative w-full h-full rounded-t-[2.5rem] md:rounded-t-[4rem] overflow-hidden border-t border-white/5 shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.5)] bg-[#0B1221]">
+        <div className="relative w-full h-full overflow-hidden border-t border-white/5 shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.5)] bg-[#0B1221]">
           {/* PC Image */}
           <div className="hidden md:block absolute inset-0 w-full h-full">
             <Image
@@ -292,7 +346,7 @@ export default function LandingPage() {
                 <span className="text-indigo-600 font-bold tracking-wider text-sm">SELF AWARENESS</span>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                科学的根拠に基づく<br />性格特性診断
+                Q&Aに基づく<br />性格特性診断
               </h3>
               <p className="text-slate-500 text-lg leading-relaxed mb-8">
                 まずは自分を知ることから。簡単な質問に答えるだけで、外向性・協調性・勤勉性・情動性・創造性の5つの軸からあなたの性格を精緻に分析します。
