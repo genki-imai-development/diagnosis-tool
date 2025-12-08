@@ -23,7 +23,7 @@ export const UI_CONSTANTS = {
 
 // 外部リンク定数
 export const EXTERNAL_LINKS = {
-  LINE_OFFICIAL: 'https://line.me/R/ti/p/@example', // 実際のLINE公式アカウントURLに変更してください
+  LINE_OFFICIAL: 'https://lin.ee/OAwMCkb',
   TWITTER: 'https://twitter.com/example',
   INSTAGRAM: 'https://instagram.com/example',
 } as const;
