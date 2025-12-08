@@ -124,8 +124,12 @@ export default function LandingPage() {
           </button>
 
           {/* Mobile Menu Overlay */}
-          <div className={`fixed inset-0 bg-white/98 backdrop-blur-xl z-40 transition-all duration-300 md:hidden flex flex-col justify-start pt-32 items-center ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-            <nav className="flex flex-col items-center gap-8 p-8 w-full">
+          <div className={`fixed inset-0 bg-white z-40 transition-opacity duration-300 ease-in-out md:hidden flex flex-col justify-start pt-32 items-center ${
+            isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}>
+            <nav className={`flex flex-col items-center gap-8 p-8 w-full transition-transform duration-300 ease-out ${
+              isMenuOpen ? 'translate-y-0' : '-translate-y-5'
+            }`}>
               <Link
                 href="/lp/type"
                 className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors w-full text-center py-4 border-b border-slate-100"
@@ -154,7 +158,7 @@ export default function LandingPage() {
       </header>
       
       {/* Hero Section */}
-      <section className="relative w-full h-[100dvh] pt-[72px] md:pt-[88px] bg-white overflow-hidden">
+      <section className="relative w-full h-[100svh] pt-[72px] md:pt-[88px] bg-white overflow-hidden">
         <div className="relative w-full h-full">
           {/* PC Image */}
           <div className="hidden md:block absolute inset-0 w-full h-full">
