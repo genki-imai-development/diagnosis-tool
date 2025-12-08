@@ -58,14 +58,14 @@ export default function LandingPage() {
           <div className="flex items-center">
             {/* ロゴ */}
             <Image
-              src="/images/patterns/logo.svg"
+              src="/images/patterns/logo.png"
               alt="ロゴ"
               width={64}
               height={64}
               className="w-12 h-12 md:w-16 md:h-16 mr-3"
             />
             <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              ライフコーチAI（ベータ版）
+              Vision  Me（ベータ版）
             </span>
           </div>
           
@@ -118,7 +118,7 @@ export default function LandingPage() {
         <div className="hero-container relative z-10 max-w-7xl mx-auto px-4 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
           <div className="hero-content text-white">
             <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-shadow-lg opacity-0 animate-fade-in-up">
-              なりたい自分への道筋<br />5分で見える化。<br />ライフコーチAIで。
+              なりたい自分への道筋<br />5分で見える化。<br />Vision  Meで。
             </h1>
             <p className="hero-subtitle text-lg md:text-xl mb-8 opacity-0 animate-fade-in-up animation-delay-200 hidden 2xl:block">
               大切にしている価値観から理想の未来を描き、<br />
@@ -277,7 +277,7 @@ export default function LandingPage() {
                 Big5診断で<br />あなたの強み・才能を<br />科学的に発見
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                「ライフコーチAI」は、心理学の5因子モデル（Big5）に基づく科学的なアプローチで、あなたの性格特性を正確に分析します。たった5つの質問に答えるだけで、あなたが持つ強みと才能を明確に把握できます。
+                「Vision  Me」は、心理学の5因子モデル（Big5）に基づく科学的なアプローチで、あなたの性格特性を正確に分析します。たった5つの質問に答えるだけで、あなたが持つ強みと才能を明確に把握できます。
               </p>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Big5診断では、<strong>開放性・誠実性・外向性・協調性・神経症傾向</strong>の5つの軸であなたの性格を多角的に分析。それぞれの特性がどのような場面で活かされるか、どんな環境で力を発揮できるかを具体的にお伝えします。
@@ -580,20 +580,20 @@ export default function LandingPage() {
             運営組織
           </h2>
           <div className="text-2xl font-bold mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-            LIFE UP by YUKI IMAI
+            Vision  Me
           </div>
           <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
             <table className="w-full">
               <tbody>
                 <tr className="border-b border-gray-100">
                   <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 w-24 md:w-36 text-sm md:text-base">組織名</th>
-                  <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">LIFE UP by YUKI IMAI</td>
+                  <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">Vision  Me</td>
                 </tr>
                 <tr className="border-b border-gray-100">
                   <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 text-sm md:text-base">事業内容</th>
                   <td className="px-4 md:px-6 py-4 md:py-6 text-gray-600 text-sm md:text-base">
                     ・ナリタイ自分になれる『目標達成コーチング』<br/>
-                    ・ライフコーチAIのシステム開発、運営</td>
+                    ・Vision  Meのシステム開発、運営</td>
                 </tr>
                 <tr>
                   <th className="bg-gray-50 px-4 md:px-6 py-4 md:py-6 text-left font-semibold text-gray-800 text-sm md:text-base">URL</th>
@@ -621,7 +621,7 @@ export default function LandingPage() {
       <footer className="bg-gray-800 text-white py-12 px-8 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="text-xl font-bold mb-4">
-            LIFE UP by YUKI IMAI
+            Vision  Me
           </div>
           {/* <div className="mb-8">
             <Link
@@ -632,7 +632,7 @@ export default function LandingPage() {
             </Link>
           </div> */}
           <div className="text-sm text-white/60 border-t border-white/10 pt-4">
-            Copyright(c) LIFE UP by YUKI IMAI all rights reserved.
+            Copyright(c) Vision  Me all rights reserved.
           </div>
         </div>
       </footer>

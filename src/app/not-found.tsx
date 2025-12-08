@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'ページが見つかりません - ライフコーチAI',
+  title: 'ページが見つかりません - Vision  Me',
   description: 'お探しのページが見つかりませんでした。',
   robots: 'noindex, nofollow',
 };

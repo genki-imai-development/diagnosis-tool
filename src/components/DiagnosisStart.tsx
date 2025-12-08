@@ -24,7 +24,7 @@ export const DiagnosisStart: React.FC<DiagnosisStartProps> = ({
             </div>
           </div>
           <h1 className="text-xl md:text-2xl font-bold mb-4 leading-tight">
-            ライフコーチAIを使ってみましょう！
+            Vision  Meを使ってみましょう！
           </h1>
           <p className="text-base font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
             AI×Big5で性格を分析し、あなたの強みと才能を発見します。<br />
