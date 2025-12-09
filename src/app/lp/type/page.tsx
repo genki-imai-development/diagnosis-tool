@@ -76,23 +76,23 @@ export default function TypeListPage() {
         <div className="mx-auto max-w-7xl">
           {/* Hero Area */}
           <div className="mb-8 text-center relative">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm mb-6 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
               <span className="text-xs font-medium text-slate-500 tracking-wider uppercase">Personality Types</span>
             </div>
-            <h1 className="mb-6 text-2xl md:text-4xl font-bold text-slate-900 tracking-tight animate-fade-in-up animation-delay-200">
+            <h1 className="mb-6 text-2xl md:text-4xl font-bold text-slate-900 tracking-tight">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900">
                 性格タイプ一覧
               </span>
             </h1>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-500 animate-fade-in-up animation-delay-400">
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-500">
               Vision Meは、あなたの性格特性を32種類のキャラクターで表現します。<br className="hidden md:block" />
               それぞれのタイプが持つ独自の強みと可能性を発見しましょう。
             </p>
           </div>
 
           {/* Grid Layout */}
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 animate-fade-in-up animation-delay-600">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {DIAGNOSIS_PATTERNS.map((pattern) => (
               <div
                 key={pattern.id}

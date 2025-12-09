@@ -158,7 +158,7 @@ export default function LandingPage() {
       </header>
       
       {/* Hero Section */}
-      <section className="relative w-full h-[100svh] pt-[72px] md:pt-[88px] bg-white overflow-hidden">
+      <section className="relative w-full h-[100svh] pt-[72px] md:pt-[80px] bg-white overflow-hidden">
         <div className="relative w-full h-full">
           {/* PC Image */}
           <div className="hidden md:block absolute inset-0 w-full h-full">
@@ -200,13 +200,6 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-400 z-20">
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
       </section>
 
       {/* Features Detail Section */}
@@ -215,12 +208,12 @@ export default function LandingPage() {
           <div className="text-center mb-20 md:mb-24">
             <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold tracking-widest uppercase mb-4">Features</span>
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
-              理想の未来へ導く<br className="md:hidden" />3つの鍵
+              Vision Meの<br className="md:hidden" />3ステップ
             </h2>
           </div>
           
           {/* Feature 1 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center mb-24 md:mb-32 group">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-0 items-center mb-24 md:mb-32 group">
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-indigo-100 rounded-[2.5rem] rotate-3 transform transition-transform duration-500 group-hover:rotate-6"></div>
               <div className="relative rounded-[2rem] overflow-hidden shadow-xl transition-transform duration-500 group-hover:-translate-y-2 border border-slate-100">
@@ -233,19 +226,20 @@ export default function LandingPage() {
                 />
               </div>
             </div>
-            <div className="order-1 md:order-2">
+            <div className="order-1 md:order-2 md:ml-16">
               <div className="flex items-center gap-4 mb-6">
                 <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 text-white font-bold text-xl shadow-lg shadow-indigo-200">1</span>
                 <span className="text-indigo-600 font-bold tracking-wider text-sm">SELF AWARENESS</span>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                科学的根拠に基づく<br />性格特性診断
+                Big5に基づく<br />性格特性診断
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                まずは自分を知ることから。簡単な質問に答えるだけで、外向性・協調性・勤勉性・情動性・創造性の5つの軸からあなたの性格を精緻に分析します。
+                まずは自分を知ることから。<br/>
+                簡単な質問に答えるだけで、外向性・協調性・勤勉性・情動性・創造性の5つの軸からあなたの性格を精緻に分析します。
               </p>
               <ul className="space-y-4">
-                {["あなたを示すキャラクター判定", "5因子分析による特性チャート", "モチベーション源泉の解説"].map((item, i) => (
+                {["あなたを示すキャラクター判定", "5因子分析による特性チャート"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700">
                     <div className="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
@@ -258,20 +252,20 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 2 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center mb-24 md:mb-32 group">
-            <div className="md:pl-10">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-0 items-center mb-24 md:mb-32 group">
+            <div className="md:pl-10 md:mr-14">
               <div className="flex items-center gap-4 mb-6">
                 <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-600 text-white font-bold text-xl shadow-lg shadow-purple-200">2</span>
                 <span className="text-purple-600 font-bold tracking-wider text-sm">DEEP ANALYSIS</span>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                AIによる<br />深層ポテンシャル分析
+                AIによる<br />ポテンシャル分析
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                あなたの回答をAIが深く分析。表面的な性格だけでなく、隠れた才能や、本当に向いている環境・避けるべき環境を明確にします。
+                あなたの回答をAIが分析。表面的な性格だけでなく、隠れた才能や、本当に向いている環境・避けるべき環境を明確にします。
               </p>
               <ul className="space-y-4">
-                {["象徴するキーワードの抽出", "隠れた強み・才能の発見", "適職・キャリアパスの提案"].map((item, i) => (
+                {["あなたを象徴するキーワード", "あなたの強み（才能）", "適職・避けるべき職業"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700">
                     <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
@@ -296,7 +290,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center group">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-0 items-center group">
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-pink-100 rounded-[2.5rem] rotate-3 transform transition-transform duration-500 group-hover:rotate-6"></div>
               <div className="relative rounded-[2rem] overflow-hidden shadow-xl transition-transform duration-500 group-hover:-translate-y-2 border border-slate-100">
@@ -309,19 +303,19 @@ export default function LandingPage() {
                 />
               </div>
             </div>
-            <div className="order-1 md:order-2">
+            <div className="order-1 md:order-2 md:ml-16">
               <div className="flex items-center gap-4 mb-6">
                 <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-pink-600 text-white font-bold text-xl shadow-lg shadow-pink-200">3</span>
                 <span className="text-pink-600 font-bold tracking-wider text-sm">ROADMAP</span>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                目標達成までの<br />具体的ロードマップ
+                目標達成までの<br />ロードマップ作成
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                分析結果をもとに、あなたの理想の未来を実現するための具体的な行動計画を自動生成。心理的なブロックへの対処法も提示します。
+                分析結果をもとに、あなたの理想の未来を実現するための具体的な行動計画を自動生成。
               </p>
               <ul className="space-y-4">
-                {["理想の未来の言語化", "行動ストッパーの特定と対策", "実践的アクションプラン"].map((item, i) => (
+                {["あなたの現在地を整理", "あなたの目的地を整理", "実践的アクションプラン"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700">
                     <div className="w-6 h-6 rounded-full bg-pink-50 flex items-center justify-center text-pink-600">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
@@ -353,10 +347,10 @@ export default function LandingPage() {
             <div className="absolute left-6 md:left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-indigo-200 via-purple-200 to-transparent hidden sm:block"></div>
 
             {[
-              { num: "1", title: "質問に回答", desc: "性格特性傾向を診断するためにYES/NOの質問にお答えください。", detail: "直感で答えるのがポイントです。（所要時間：約1-2分）", icon: "📝", color: "text-indigo-600", border: "border-indigo-100" },
-              { num: "2", title: "価値観を選択", desc: "仕事・健康・お金など、人生で大切にしている価値観を選択。", detail: "あなたの判断基準の核となる部分を明確にします。", icon: "💎", color: "text-purple-600", border: "border-purple-100" },
-              { num: "3", title: "詳細入力", desc: "選択した価値観について、より具体的な質問にお答えください。", detail: "AIがあなた独自の思考パターンを深く理解します。", icon: "✍️", color: "text-pink-600", border: "border-pink-100" },
-              { num: "4", title: "AI分析", desc: "AIが回答内容を瞬時に分析。性格特性診断を実行。", detail: "あなたの「強み・才能」を言語化します。", icon: "🤖", color: "text-indigo-600", border: "border-indigo-100" },
+              { num: "1", title: "20問の質問に回答", desc: "性格特性傾向を診断するためにYES/NOの質問にお答えください。", detail: "直感で答えるのがポイントです。（所要時間：約1-2分）", icon: "📝", color: "text-indigo-600", border: "border-indigo-100" },
+              { num: "2", title: "あなたが重視する価値観を選択", desc: "仕事・健康・お金など、人生で大切にしている価値観を選択。", detail: "あなたの判断基準の核となる部分を明確にします。", icon: "💎", color: "text-purple-600", border: "border-purple-100" },
+              { num: "3", title: "5問の具体的な質問に回答", desc: "選択した価値観について、より具体的な質問にお答えください。", detail: "AIがあなた独自の思考パターンを深く理解します。", icon: "✍️", color: "text-pink-600", border: "border-pink-100" },
+              { num: "4", title: "AIポテンシャル分析", desc: "AIが回答内容を瞬時に分析。性格特性診断を実行。", detail: "あなたの「強み・才能」を言語化します。", icon: "🤖", color: "text-indigo-600", border: "border-indigo-100" },
               { num: "5", title: "ロードマップ完成", desc: "「理想の未来」「行動ストッパー」「ロードマップ」を完全生成。", detail: "あなただけの成長戦略レポートをお届けします。", icon: "🎯", color: "text-white", border: "border-transparent", bg: "bg-gradient-to-br from-indigo-600 to-purple-600 text-white" }
             ].map((step, idx) => (
               <div key={idx} className="relative flex items-start gap-6 md:gap-8 group">
