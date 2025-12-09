@@ -75,18 +75,18 @@ export default function TypeListPage() {
       <main className="relative z-10 pt-32 pb-24 px-4 md:px-8">
         <div className="mx-auto max-w-7xl">
           {/* Hero Area */}
-          <div className="mb-24 text-center relative">
+          <div className="mb-8 text-center relative">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 shadow-sm mb-6 animate-fade-in-up">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
               <span className="text-xs font-medium text-slate-500 tracking-wider uppercase">Personality Types</span>
             </div>
-            <h1 className="mb-6 text-4xl md:text-6xl font-bold text-slate-900 tracking-tight animate-fade-in-up animation-delay-200">
+            <h1 className="mb-6 text-2xl md:text-4xl font-bold text-slate-900 tracking-tight animate-fade-in-up animation-delay-200">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900">
                 性格タイプ一覧
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-500 animate-fade-in-up animation-delay-400">
-              Vision Meでは、あなたの性格特性を32種類のユニークなキャラクターで表現します。<br className="hidden md:block" />
+              Vision Meは、あなたの性格特性を32種類のキャラクターで表現します。<br className="hidden md:block" />
               それぞれのタイプが持つ独自の強みと可能性を発見しましょう。
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function TypeListPage() {
                     src={pattern.image}
                     alt={pattern.name}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-contain transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* English Name Overlay */}
                   <div className="absolute bottom-3 right-4 z-20 opacity-0 transform translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
