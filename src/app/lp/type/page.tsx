@@ -127,8 +127,8 @@ export default function TypeListPage() {
                     <p className="text-sm font-medium text-indigo-500 mb-3">
                       {pattern.description}
                     </p>
-                    <p className="text-sm leading-relaxed text-slate-500 line-clamp-3 mb-4 group-hover:text-slate-600 transition-colors">
-                      {pattern.keywords_summary}
+                    <p className="text-sm leading-relaxed text-slate-600 mb-4 group-hover:text-slate-700 transition-colors">
+                      {pattern.short_description}
                     </p>
 
                     {/* Compatibility Info */}

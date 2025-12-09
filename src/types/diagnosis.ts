@@ -78,6 +78,7 @@ export interface DiagnosisPattern {
   scores: PersonalityScores;
   image: string; // 画像ファイルのパス
   keywords: string; // カンマ区切りの3つのキーワード
+  short_description: string; // 50文字以下の短い紹介文
   keywords_summary: string; // 3つのキーワード全体の総評
   bestCompatibility?: Compatibility; // 最高の相性
   worstCompatibility?: Compatibility; // 最悪の相性
