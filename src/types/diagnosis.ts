@@ -64,6 +64,12 @@ export interface PersonalityScores {
   conscientiousness: number;
 }
 
+// 相性情報の型定義
+export interface Compatibility {
+  id: string;
+  name: string;
+}
+
 // 診断パターンの型定義
 export interface DiagnosisPattern {
   id: string;
@@ -73,6 +79,8 @@ export interface DiagnosisPattern {
   image: string; // 画像ファイルのパス
   keywords: string; // カンマ区切りの3つのキーワード
   keywords_summary: string; // 3つのキーワード全体の総評
+  bestCompatibility?: Compatibility; // 最高の相性
+  worstCompatibility?: Compatibility; // 最悪の相性
 }
 
 // 診断結果の型定義

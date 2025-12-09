@@ -96,7 +96,8 @@ export default function TypeListPage() {
             {DIAGNOSIS_PATTERNS.map((pattern) => (
               <div
                 key={pattern.id}
-                className="group relative flex flex-col h-full bg-white rounded-[2rem] p-4 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100/50 hover:-translate-y-2 border border-slate-100"
+                id={pattern.id}
+                className="group relative flex flex-col h-full bg-white rounded-[2rem] p-4 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-100/50 hover:-translate-y-2 border border-slate-100 scroll-mt-32"
               >
                 {/* Image Container */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.5rem] bg-slate-50 mb-5">
@@ -129,6 +130,48 @@ export default function TypeListPage() {
                     <p className="text-sm leading-relaxed text-slate-500 line-clamp-3 mb-4 group-hover:text-slate-600 transition-colors">
                       {pattern.keywords_summary}
                     </p>
+
+                    {/* Compatibility Info */}
+                    {(pattern.bestCompatibility || pattern.worstCompatibility) && (
+                      <div className="space-y-2 mb-3">
+                        {pattern.bestCompatibility && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-green-600">◎最高の相性:</span>
+                            <a
+                              href={`#${pattern.bestCompatibility.id}`}
+                              className="text-xs text-slate-700 font-medium underline hover:text-indigo-600 transition-colors cursor-pointer"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                document.getElementById(pattern.bestCompatibility!.id)?.scrollIntoView({
+                                  behavior: 'smooth',
+                                  block: 'center'
+                                });
+                              }}
+                            >
+                              {pattern.bestCompatibility.name}
+                            </a>
+                          </div>
+                        )}
+                        {pattern.worstCompatibility && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-red-600">×最悪の相性:</span>
+                            <a
+                              href={`#${pattern.worstCompatibility.id}`}
+                              className="text-xs text-slate-700 font-medium underline hover:text-indigo-600 transition-colors cursor-pointer"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                document.getElementById(pattern.worstCompatibility!.id)?.scrollIntoView({
+                                  behavior: 'smooth',
+                                  block: 'center'
+                                });
+                              }}
+                            >
+                              {pattern.worstCompatibility.name}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Keywords Tags */}
