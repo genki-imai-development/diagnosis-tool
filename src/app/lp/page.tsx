@@ -53,15 +53,15 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900">
       {/* Header */}
-      <header className={`fixed z-50 top-0 py-4 w-full transition-all duration-300 ${
-        isMenuOpen 
-          ? 'bg-transparent'
+      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isMenuOpen
+          ? 'bg-white/95 backdrop-blur-md shadow-sm py-3'
           : isHeaderScrolled
             ? 'bg-white/95 backdrop-blur-md shadow-sm py-3'
             : 'bg-white/90 backdrop-blur-sm py-4'
       }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8">
-          <div className="flex items-center group cursor-pointer relative z-50">
+          <div className="flex items-center group cursor-pointer relative z-[80]">
             {/* ロゴ */}
             <div className="relative">
               <div className={`absolute inset-0 blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300 rounded-full bg-indigo-500`}></div>
@@ -113,49 +113,89 @@ export default function LandingPage() {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="relative z-50 block md:hidden p-2 focus:outline-none"
+            className="relative z-[80] block md:hidden p-2 focus:outline-none"
             aria-label="メニュー"
           >
             <div className="w-6 h-5 flex flex-col justify-between">
-              <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-slate-900 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-              <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-slate-900 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`w-full h-0.5 rounded-full transition-all duration-300 bg-slate-900 ${isMenuOpen ? '-rotate-45 -translate-y-2.5' : ''}`}></span>
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ease-in-out bg-slate-900 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ease-in-out bg-slate-900 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+              <span className={`w-full h-0.5 rounded-full transition-all duration-300 ease-in-out bg-slate-900 ${isMenuOpen ? '-rotate-45 -translate-y-2.5' : ''}`}></span>
             </div>
           </button>
-
-          {/* Mobile Menu Overlay */}
-          <div className={`fixed inset-0 bg-white z-40 transition-opacity duration-300 ease-in-out md:hidden flex flex-col justify-start pt-32 items-center ${
-            isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}>
-            <nav className={`flex flex-col items-center gap-8 p-8 w-full transition-transform duration-300 ease-out ${
-              isMenuOpen ? 'translate-y-0' : '-translate-y-5'
-            }`}>
-              <Link
-                href="/lp/type"
-                className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors w-full text-center py-4 border-b border-slate-100"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                性格タイプ一覧
-              </Link>
-              <Link
-                target="_blank"
-                href="https://mosh.jp/nareru/inquiry"
-                className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors w-full text-center py-4 border-b border-slate-100"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                お問い合わせ
-              </Link>
-              <Link
-                href="/"
-                className="mt-8 px-12 py-4 bg-slate-900 text-white font-bold rounded-full shadow-xl hover:shadow-indigo-500/30 transition-all transform hover:scale-105 active:scale-95"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                診断する
-              </Link>
-            </nav>
-          </div>
         </div>
       </header>
+
+      {/* Mobile Menu - Background Overlay */}
+      <div
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] transition-all duration-400 ease-in-out md:hidden ${
+          isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      {/* Mobile Menu - Slide Panel */}
+      <div className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl z-[70] transition-all duration-400 ease-in-out md:hidden ${
+        isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+      }`}>
+        {/* Close Button */}
+        <button
+          onClick={() => setIsMenuOpen(false)}
+          className="absolute top-6 left-6 p-2 rounded-full hover:bg-slate-100 transition-all duration-300 group"
+          aria-label="メニューを閉じる"
+        >
+          <svg
+            className="w-6 h-6 text-slate-600 group-hover:text-slate-900 transition-colors duration-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <nav className="flex flex-col h-full pt-24 pb-8 px-6">
+          <div className="flex-1 flex flex-col gap-2">
+            <Link
+              href="/lp/type"
+              className={`text-lg font-bold text-slate-900 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 px-6 py-4 rounded-xl transform ${
+                isMenuOpen
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-8 opacity-0'
+              }`}
+              style={{ transitionDelay: isMenuOpen ? '100ms' : '0ms' }}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              性格タイプ一覧
+            </Link>
+            <Link
+              target="_blank"
+              href="https://mosh.jp/nareru/inquiry"
+              className={`text-lg font-bold text-slate-900 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 px-6 py-4 rounded-xl transform ${
+                isMenuOpen
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-8 opacity-0'
+              }`}
+              style={{ transitionDelay: isMenuOpen ? '200ms' : '0ms' }}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              お問い合わせ
+            </Link>
+          </div>
+
+          <Link
+            href="/"
+            className={`w-full px-8 py-4 bg-slate-900 text-white font-bold rounded-full shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95 text-center ${
+              isMenuOpen
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            }`}
+            style={{ transitionDelay: isMenuOpen ? '300ms' : '0ms' }}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            診断する
+          </Link>
+        </nav>
+      </div>
       
       {/* Hero Section */}
       <section className="relative w-full h-[100svh] pt-[72px] md:pt-[80px] bg-white overflow-hidden">
