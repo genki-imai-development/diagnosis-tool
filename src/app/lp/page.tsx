@@ -206,7 +206,7 @@ export default function LandingPage() {
               src="/images/patterns/lp-pc.png"
               alt="Vision Me Hero PC"
               fill
-              className="object-cover object-center"
+              className="object-cover object-top"
               priority
               quality={100}
             />
