@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { DiagnosisLayout } from '@/components/layout/DiagnosisLayout';
 import { DiagnosisStart } from '@/components/DiagnosisStart';
 import { QuestionForm } from '@/components/forms/QuestionForm';
@@ -16,6 +17,7 @@ import { DIAGNOSIS_QUESTIONS } from '@/lib/constants';
  * 診断フロー全体を管理し、各ステップのコンポーネントを表示
  */
 export default function HomePage() {
+  const router = useRouter();
   // 診断フローの状態とアクションを取得
   const {
     // 現在の状態
@@ -43,9 +45,14 @@ export default function HomePage() {
 
   // 現在の質問を取得
   const currentQuestion = DIAGNOSIS_QUESTIONS[currentQuestionIndex];
-  
+
   // 現在の回答を取得（以前までの回答を保持するため初期値として利用）
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id);
+
+  // 診断終了時にLPページへ遷移
+  const handleDiagnosisComplete = () => {
+    router.push('/lp');
+  };
 
   return (
     <DiagnosisLayout>
@@ -124,7 +131,7 @@ export default function HomePage() {
         <FuturePrediction
           predictions={futurePredictions}
           loading={isFuturePredictionRunning}
-          onComplete={resetToStart}
+          onComplete={handleDiagnosisComplete}
         />
       )}
     </DiagnosisLayout>
